@@ -1,0 +1,22 @@
+{
+  "name": "milad bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@top-gg/sdk": "^3.0.2",
+    "dblapi.js": "^2.4.1",
+    "discord-emoji-convert": "^1.6.0",
+    "discord.js": "^12.4.1",
+    "express": "^4.17.1",
+    "got": "^11.8.0",
+    "ms": "^2.1.2",
+    "quick.db": "^7.1.3"
+  }
+}
