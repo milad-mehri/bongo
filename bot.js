@@ -5,6 +5,7 @@ const webhook = new Topgg.Webhook('test');
 const db = require('./db.js');
 const fs = require('fs');
 const canvacord = require("canvacord")
+const embeds = require('./functions/embeds')
 
 
 const Discord = require('discord.js');
@@ -109,7 +110,7 @@ client.on('message', async message => {
 
 		// Send the embed to the same channel as the message
 		message.channel.send(embed);
-	} 
+	}
 	const args = message.content
 		.slice(prefix.length)
 		.trim()
@@ -154,6 +155,19 @@ client.on('message', async message => {
 	if (!commandToExecute) return;
 
 	try {
+		console.log(result.cooldowns)
+
+		//cooldowns
+		if (commandToExecute.cooldown) {
+
+			if ((commandToExecute.cooldown * 1000) - (Date.now() - result.cooldowns[commandToExecute.name]) > 1) {
+				return embeds.cooldownEmbed(message, (commandToExecute.cooldown * 1000) - (Date.now() - lastbeg));
+			} else {
+				result.cooldowns[commandToExecute.name] = Date.now()
+				await db.set(message.author.id, 'cooldowns', result.cooldowns)
+			}
+		}
+		//snipes
 		var snipes = client.snipes
 		commandToExecute.execute(message, args, snipes, client);
 	} catch (error) {

@@ -154,6 +154,11 @@ const userSchema = mongoose.Schema({
 	fishcd: {
 		type: Number,
 	},
+	cooldowns: {
+		type: Object,
+		required: true,
+		default: {}
+	}
 
 })
 

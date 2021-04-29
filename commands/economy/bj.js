@@ -11,25 +11,10 @@ module.exports = {
 	aliases: ['blackjack'],
 	usage: 'a.blackjack <amount>',
   category: 'economy',
+  cooldown: 5,
 
 	async execute(message, args) {
 		
-		var result = await db.fetch(message.author.id)
-
-		let cooldown = 5 * 1000;; // 12 hours in ms
-
-		let lastbj = parseInt(result.bjcd + '000')
-
-		if (lastbj !== null && cooldown - (Date.now() - lastbj) > 1) {
-			// If user still has a cooldown
-			let timeObj = cooldown - (Date.now() - lastbj);
-			return embeds.cooldownEmbed(message, timeObj);
-		} else {
-			var time = Date.now().toString().slice(0, -3)
-			db.set(message.author.id, 'bjcd', time)
-
-		}
-
 		var result = await db.fetch(message.author.id)
 		var bal = result.bal
 

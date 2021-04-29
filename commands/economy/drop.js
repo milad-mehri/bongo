@@ -7,34 +7,17 @@ module.exports = {
 	name: 'drop',
 	description: 'Drop coins into the chat!',
 	usage: '`a.drop <amount>`',
-  category: 'economy',
+	category: 'economy',
+	cooldown: 15,
 
 	async execute(message, args) {
 
 		var host = message.author.id
 		var amount;
 		var grabbers = [];
-		/*	if(message.gulid.id !== '763669299889831936'){
-				return
-		}*/
+
 		var result = await db.fetch(message.author.id)
 
-		var kabob = result.bal
-
-
-		let cooldown = 15000;
-
-
-		let lastdrop = parseInt(result.dropcooldown + '000')
-
-		if (lastdrop !== null && cooldown - (Date.now() - lastdrop) > 1) {
-			// If user still has a cooldown
-			let timeObj = cooldown - (Date.now() - lastdrop);
-			return embeds.cooldownEmbed(message,  timeObj);
-		} else {
-			var time = Date.now().toString().slice(0, -3)
-			var result = await db.set(message.author.id, 'dropcooldown', time)
-		}
 
 
 

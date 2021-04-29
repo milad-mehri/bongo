@@ -7,6 +7,7 @@ module.exports = {
 	description: 'Sign up to be automatically entered in the lottery!',
 	usage: '`a.autolottery`',
 	category: 'economy',
+	
 
 
 	async execute(message) {
