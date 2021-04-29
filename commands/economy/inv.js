@@ -46,22 +46,22 @@ module.exports = {
 
 			const result = await db.fetch(message.author.id)
 			var items = []
-			var allItems = await itemSchema.find({}).lean().exec(function(err, docs) {
+			var allItems = itemSchema.find({}).lean().exec(function (err, docs) {
 				docs.forEach((item, index) => {
 					//   if (result[item.shopid]) {
 					if (parseInt(result[item.shopid]) > 0) {
-						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `)
+						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `);
 						//     }
 					}
-				})
+				});
 
 				if (items.length === 0) {
-					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.')
+					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.');
 				} else {
 					if (chunkArray(items, 7)[page - 1]) {
-						return embeds.defaultEmbed(message,'Inventory', chunkArray(items, 7)[page - 1], `\nPage ${page} out of ${chunkArray(items, 7).length}`)
+						return embeds.defaultEmbed(message, 'Inventory', chunkArray(items, 7)[page - 1], `\nPage ${page} out of ${chunkArray(items, 7).length}`);
 					} else {
-						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**')
+						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**');
 					}
 
 				}
@@ -72,24 +72,24 @@ module.exports = {
 			const result = await db.fetch(member.id)
 
 			var items = []
-			var allItems = await itemSchema.find({}).lean().exec(function(err, docs) {
+			var allItems = itemSchema.find({}).lean().exec(function (err, docs) {
 				docs.forEach((item, index) => {
 					/// if (result.item) {
 					if (parseInt(result[item.shopid]) > 0) {
-						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `)
+						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `);
 					}
 					//  }
-				})
+				});
 
 
 
 				if (items.length === 0) {
-					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.')
+					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.');
 				} else {
 					if (chunkArray(items, 7)[page - 1]) {
-						return embeds.defaultEmbed(message, 'Inventory', chunkArray(items, 7)[page - 1], `Page ${page} out of ${chunkArray(items, 7).length}`)
+						return embeds.defaultEmbed(message, 'Inventory', chunkArray(items, 7)[page - 1], `Page ${page} out of ${chunkArray(items, 7).length}`);
 					} else {
-						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**')
+						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**');
 					}
 
 				}

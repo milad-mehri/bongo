@@ -94,8 +94,22 @@ fs.readdirSync('./commands/').forEach(dir => {
 });
 
 
+client.items = new Discord.Collection();
+
+fs.readdirSync('./items/').forEach(dir => {
+	const items = fs.readdirSync(`./items/`).filter(file => file.endsWith('.js'));
+	for (let file of items) {
+		let pull = require(`./items/${file}`);
+
+			client.items.set(pull.name, pull);
+	
+	}
+});
+
+
 // STARTING CMD HANDLING
 client.on('message', async message => {
+	client.items.forEach(a => console.log(a))
 	if (message.webhookID) return;
 
 	if (message.content.replace(/ /gi, '').replace(/!/gi, '') === '<@780943575394942987>') return re(':wave: Hi, Im bongo!', 'My prefix is `a.`!. Type `a.help` to get started!')

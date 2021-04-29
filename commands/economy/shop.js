@@ -3,6 +3,7 @@ const itemSchema = require('../../schemas/item-schema')
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 
 module.exports = {
@@ -13,28 +14,7 @@ module.exports = {
 	category: 'economy',
 
 	async execute(message, args) {
-		function comma(number) {
-			var i = number.toString();
-			i = i.split("").reverse();
-			i.forEach((item, index) => {
-				if (index % 3 == 0) i[index] = i[index] + ",";
-			});
-			i[0] = i[0][0];
-			return i.reverse().join("");
-		}
-		function chunkArray(myArray, chunk_size) {
-			var index = 0;
-			var arrayLength = myArray.length;
-			var tempArray = [];
 
-			for (index = 0; index < arrayLength; index += chunk_size) {
-				myChunk = myArray.slice(index, index + chunk_size);
-				// Do something if you want with the group
-				tempArray.push(myChunk);
-			}
-
-			return tempArray;
-		}
 		var over = false
 		const result = await db.fetch(message.author.id)
 		if (isNaN(args[0]) && args[0]) {
@@ -44,10 +24,10 @@ module.exports = {
 
 				var itemobject = docs[0]
 				over = true
-				return embeds.defaultEmbed(itemobject.itemname + ' (' + result[args[0]] + ')',
+				return embeds.defaultEmbed(message, itemobject.itemname + ' (' + result[args[0]] + ')',
 					`${itemobject.description}\n\nIcon : ${itemobject.emoji}\nValue : `
-					+ '`' + `${comma(itemobject.price)}` + '`' + `\nSell price : ` +
-					'`' + `${comma(itemobject.price * 0.10)}` + '`' + `\nShop ID : ` +
+					+ '`' + `${functions.comma(itemobject.price)}` + '`' + `\nSell price : ` +
+					'`' + `${functions.comma(itemobject.price * 0.10)}` + '`' + `\nShop ID : ` +
 					'`' + `${itemobject.shopid}` + '`' + `\nIn shop? : ` + '`'
 					+ `${itemobject.inshop}` + '`', 'Bongo bot')
 
@@ -59,18 +39,6 @@ module.exports = {
 			} else {
 				var page = parseInt(args[0])
 			}
-
-			//::four_leaf_clover:  **Clover**- 15,000 - Tool\nIncrease gambling luck - ID `clover`', `Your balance: ${result.bal}`)
-			/*
-			var item = await db.shop('Ball', 'ball','Generate 1-750 coins per ball',75000, ':crystal_ball:')
-			var itemb = await db.shop('Shield', 'shield','Decrease the chances of getting robbed',7000, ':shield:')
-			var itemc = await db.shop('Medal', 'medal','Increase your hourly, daily and monthly coins (dont stack)',1000000, ':medal:')
-			var itemd = await db.shop('Donut', 'donut','Get 50-115 coins per each donut you eat',100, ':doughnut:')
-			var iteme = await db.shop('Small Diamond', 'diamond','Flex on the slightly poorer people',10000000, ':small_blue_diamond:')
-			var itemf = await db.shop('Bleach', 'bleach','Risk your life for some money?',10000, ':baby_bottle:')
-			var itemg = await db.shop('Clover', 'clover','Increase gambling luck',15000, ':four_leaf_clover:')
-			*/
-
 
 			var pagea = []
 
@@ -87,7 +55,7 @@ module.exports = {
 
 						} else {
 
-							pagea.push(docs[i].emoji + ' **' + docs[i].itemname + '** - ' + comma(parseInt(docs[i].price) - docs[i].sale) + '\n' + docs[i].description + ' - ID `' + docs[i].shopid + '`')
+							pagea.push(docs[i].emoji + ' **' + docs[i].itemname + '** - ' + functions.comma(parseInt(docs[i].price) - docs[i].sale) + '\n' + docs[i].description + ' - ID `' + docs[i].shopid + '`')
 
 						}
 
@@ -95,23 +63,17 @@ module.exports = {
 
 				}
 
-
-
-
 				if (page === 1) {
-					embeds.defaultEmbed('**SALE** ' + docs[0].emoji + ' **' + docs[0].itemname + '** - ' + comma(parseInt(docs[0].price) - docs[0].sale) + ' ~~' + comma(parseInt(docs[0].price)) + '~~', chunkArray(pagea, 7)[0].join('\n\n'), `Your balance: ${comma(result.bal)}\n\nPage ${page} of ${chunkArray(pagea, 7).length}`)
+					embeds.defaultEmbed(message, '**SALE** ' + docs[0].emoji + ' **' + docs[0].itemname + '** - ' + functions.comma(parseInt(docs[0].price) - docs[0].sale) + ' ~~' + functions.comma(parseInt(docs[0].price)) + '~~', functions.chunkArray(pagea, 7)[0].join('\n\n'),'blue',  `Your balance: ${functions.comma(result.bal)}\n\nPage ${page} of ${functions.chunkArray(pagea, 7).length}`)
 				} else {
-					if (chunkArray(pagea, 7)[page - 1]) {
-						var newpage = chunkArray(pagea, 7)[page - 1].join('\n\n')
+					if (functions.chunkArray(pagea, 7)[page - 1]) {
+						var newpage = functions.chunkArray(pagea, 7)[page - 1].join('\n\n')
 
-						embeds.defaultEmbed('Bongo Shop', newpage, `Your balance: ${comma(result.bal)}\nPage ${page} of ${chunkArray(pagea, 7).length}`)
+						embeds.defaultEmbed(message, 'Bongo Shop', newpage, 'blue', `Your balance: ${functions.comma(result.bal)}\nPage ${page} of ${functions.chunkArray(pagea, 7).length}`)
 					} else {
 						return message.reply('this page doesnt exist breh')
 					}
 				}
-
-
-
 
 			})
 

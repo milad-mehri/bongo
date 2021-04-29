@@ -10,23 +10,33 @@ module.exports = {
 	category: 'economy',
 	cooldown: 5,
 
-	async execute(message, args, premiumusers) {
-
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
+	async execute(message, args) {
 		var result = await db.fetch(message.author.id)
 
+		var item = args[0]
+		var ammount = args[1]
+		if (args[1] === undefined) {
 
+			ammount = 1
+			item = args[0]
+		}
+		if (isNaN(parseInt(ammount))) {
+			item = args[1]
+			ammount = args[0]
+
+		}
+
+		var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
+		if (item.cooldown) {
+
+			if ((item.cooldown * 1000) - (Date.now() - result.cooldowns[item.name]) > 1) {
+				return embeds.cooldownEmbed(message, (item.cooldown * 1000) - (Date.now() - result.cooldowns[item.name]));
+			} else {
+				result.cooldowns[item.name] = Date.now()
+				await db.set(message.author.id, 'cooldowns', result.cooldowns)
+			}
+		}
+		return item.execute(message, args, result);
 
 
 
@@ -53,56 +63,6 @@ module.exports = {
 		}
 
 		if (item === 'ball' || item === 'balls') {
-
-
-			let balls = result.ball
-
-			if (balls === null || balls < 1) { //new user
-
-				return message.reply('you have no balls to bounce.')
-
-
-
-
-
-
-
-
-
-			} else {
-				bal = result.bal
-				balls = result.ball
-
-				var random;
-
-
-
-				var i;
-				var v = 0;
-				for (i = 0; i < parseInt(balls); i++) {
-					random = Math.floor(Math.random() * 500 + 1)
-					v += random
-
-
-				}
-
-				var newbal = parseInt(bal) + parseInt(v);
-				var result = await db.set(message.author.id, 'bal', newbal)
-				var whattosend = ['you bounced your ' + balls + ' ball(s) and made $' + v + ' coins :person_bouncing_ball: ']
-				if (Math.floor(Math.random() * (100) + 1) < Math.floor(balls / 10)) {
-					await db.set(message.author.id, 'ball', balls - 1)
-					whattosend.push(('\n:anguished: One of your balls rolled down the street and you now have ' + (balls - 1).toString()))
-
-				}
-
-				message.reply(whattosend.join(''))
-
-
-
-
-
-			}
-
 
 
 
@@ -324,9 +284,6 @@ module.exports = {
 
 
 
-
-		} else if (item === 'fishing' || item === 'rod') {
-			return message.reply('do `a.fish`')
 
 		} else if (item === 'box' || item === 'common') {
 

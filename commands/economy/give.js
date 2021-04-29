@@ -3,6 +3,7 @@
 
 const db = require('../../db.js');
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 const Discord = require('discord.js');
 
@@ -18,19 +19,6 @@ module.exports = {
 	category: 'economy',
 
 	async execute(message, args) {
-
-
-
-		function comma(number) {
-			var i = number.toString();
-			i = i.split("").reverse();
-			i.forEach((item, index) => {
-				if (index % 3 == 0) i[index] = i[index] + ",";
-			});
-			i[0] = i[0][0];
-			return i.reverse().join("");
-		}
-
 
 		var giver = message.author;
 		var reciever = message.mentions.users.first();
@@ -101,7 +89,7 @@ module.exports = {
 					await db.set(reciever.id, 'bal', parseInt(bal) + parseInt(b))
 
 					message.channel.send(
-						`You gave **${reciever.username} **${b}** coins. Now you have **$${sendbal}** and they have **$${bal + parseInt(b)}**.`
+						`You gave **${reciever.username} **${functions.comma(b)}** coins. Now you have **$${functions.comma(sendbal)}** and they have **$${functions.comma(bal + parseInt(b))}**.`
 					);
 				} else {
 					embeds.errorEmbed(message, 'You dont have enough money!');
@@ -122,7 +110,7 @@ module.exports = {
 				var bal = result.bal
 				await db.set(reciever.id, 'bal', parseInt(bal) + parseInt(a))
 				return message.channel.send(
-					`You gave **${reciever.username} **${b}** coins. Now you have **$${sendbal}** and they have **$${bal + parseInt(b)}**.`
+					`You gave **${reciever.username} **${functions.comma(b)}** coins. Now you have **$${functions.comma(sendbal)}** and they have **$${functions.comma(bal + parseInt(b))}**.`
 				);
 			} else {
 				embeds.errorEmbed(message,'You dont have enough money!');
