@@ -25,7 +25,6 @@ module.exports = {
 			amount = args[0]
 
 		}
-
 		var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
 		if(!item) return embeds.errorEmbed('Item not found!')
 		if (item.cooldown) {
