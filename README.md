@@ -3,6 +3,7 @@
 - Setup up aliases for items in shop, buy, sell, gift
 - Finalise all economy commands
 - Remake give and rob
+- Fix `a.buy` and `a.sell` formatting
 - Move all items from DB into items folder (?)
 
 # Changelog

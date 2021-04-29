@@ -1,7 +1,7 @@
 
 const db = require('../../db.js');
 const Discord = require('discord.js');
-
+const embeds = require('../../functions/embeds')
 
 module.exports = {
 	name: 'use',
@@ -14,51 +14,52 @@ module.exports = {
 		var result = await db.fetch(message.author.id)
 
 		var item = args[0]
-		var ammount = args[1]
+		var amount = args[1]
 		if (args[1] === undefined) {
 
-			ammount = 1
+			amount = 1
 			item = args[0]
 		}
-		if (isNaN(parseInt(ammount))) {
+		if (isNaN(parseInt(amount))) {
 			item = args[1]
-			ammount = args[0]
+			amount = args[0]
 
 		}
 
 		var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
+		if(!item) return embeds.errorEmbed('Item not found!')
 		if (item.cooldown) {
 
 			if ((item.cooldown * 1000) - (Date.now() - result.cooldowns[item.name]) > 1) {
-				return embeds.cooldownEmbed(message, (item.cooldown * 1000) - (Date.now() - result.cooldowns[item.name]));
+				return embeds.cooldownEmbed(message, (item.cooldown * 1000) - (Date.now() - result.itemCooldowns[item.name]));
 			} else {
-				result.cooldowns[item.name] = Date.now()
-				await db.set(message.author.id, 'cooldowns', result.cooldowns)
+				result.itemCooldowns[item.name] = Date.now()
+				await db.set(message.author.id, 'itemCooldowns', result.itemCooldowns)
 			}
 		}
-		return item.execute(message, args, result);
+		return item.execute(message, args, result, amount);
 
 
 
 
 
 		var item = args[0]
-		var ammount = args[1]
+		var amount = args[1]
 		if (args[1] === undefined) {
 
-			ammount = 1
+			amount = 1
 			item = args[0]
 		}
-		if (isNaN(parseInt(ammount))) {
+		if (isNaN(parseInt(amount))) {
 			item = args[1]
-			ammount = args[0]
+			amount = args[0]
 
 		}
-		if (parseInt(ammount) < 1) {
+		if (parseInt(amount) < 1) {
 			return message.reply(' you cant use negative items -_-')
 		}
 
-		if (isNaN(parseInt(ammount))) {
+		if (isNaN(parseInt(amount))) {
 			return message.reply(' this doesnt work, make sure to use the ID mentioned in shop')
 		}
 
@@ -154,7 +155,7 @@ module.exports = {
 
 			} else {
 
-				if (ammount > donuts) {
+				if (amount > donuts) {
 					return message.reply('you dont have that many donuts!')
 				}
 
@@ -166,7 +167,7 @@ module.exports = {
 
 				donuts = result.donut
 
-				var news = parseInt(donuts) - parseInt(ammount)
+				var news = parseInt(donuts) - parseInt(amount)
 				result = await db.set(message.author.id, 'donut', news);
 
 
@@ -176,7 +177,7 @@ module.exports = {
 
 				var i;
 				var v = 0;
-				for (i = 0; i < ammount; i++) {
+				for (i = 0; i < amount; i++) {
 					random = Math.floor(Math.random() * (115 - 25 + 1) + 25);
 					v += random
 
@@ -186,7 +187,7 @@ module.exports = {
 
 				var newbal = parseInt(bal) + parseInt(v);
 				db.set(message.author.id, 'bal', newbal);
-				message.reply('you ate your ' + ammount + ' donut(s) and made $' + v + ' coins :doughnut:  ')
+				message.reply('you ate your ' + amount + ' donut(s) and made $' + v + ' coins :doughnut:  ')
 
 
 
@@ -231,7 +232,7 @@ module.exports = {
 
 			} else {
 
-				if (ammount > 1) {
+				if (amount > 1) {
 					return message.reply('You can only use 1 clover at a time!')
 				}
 
@@ -305,7 +306,7 @@ module.exports = {
 
 			} else {
 
-				if (ammount > boxs) {
+				if (amount > boxs) {
 					return message.reply('you dont have that many boxes!')
 				}
 
@@ -317,7 +318,7 @@ module.exports = {
 
 				boxs = result.box
 
-				var news = parseInt(boxs) - parseInt(ammount)
+				var news = parseInt(boxs) - parseInt(amount)
 				result = await db.set(message.author.id, 'box', news);
 
 
@@ -325,8 +326,8 @@ module.exports = {
 
 
 
-				var v = Math.floor(Math.random() * (10000) + 1) * parseInt(ammount)
-				var a = Math.floor(Math.random() * (10) + 1) * parseInt(ammount)
+				var v = Math.floor(Math.random() * (10000) + 1) * parseInt(amount)
+				var a = Math.floor(Math.random() * (10) + 1) * parseInt(amount)
 
 				var donuts = result.donut
 
@@ -340,7 +341,7 @@ module.exports = {
 				var newdonut = parseInt(donuts) + parseInt(a);
 				await db.set(message.author.id, 'donut', newdonut);
 
-				message.reply('you opened ' + ammount + ' common box(s) and made `$' + v + ' coins` and `' + a + ' donuts` :doughnut:  ')
+				message.reply('you opened ' + amount + ' common box(s) and made `$' + v + ' coins` and `' + a + ' donuts` :doughnut:  ')
 
 			}
 

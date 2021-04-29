@@ -111,6 +111,11 @@ const userSchema = mongoose.Schema({
 		type: Object,
 		required: true,
 		default: {}
+	},
+	itemCooldowns: {
+		type: Object,
+		required: true,
+		default: {}
 	}
 
 })

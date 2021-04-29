@@ -24,25 +24,22 @@ module.exports = {
 
         if (random === 1) {
             console.log()
-            var finalAmount = Math.round((parseInt(`${winAmountPercentage}`) * parseInt(bal)) / 100)
+            var finalAmount = Math.round(((`${winAmountPercentage}`) * (bal)) / 100)
 
-            var newbal = parseInt(bal) + finalAmount
+            var newbal = (bal) + finalAmount
             result = db.set(message.author.id, 'bal', newbal)
 
             return message.channel.send('Your video of drinking bleach **went viral** and you made **$' + finalAmount + '** from ads!')
 
 
         } else if (random === 2) {
-            var finalAmount = Math.round((parseInt(`${loseAmountPercentage}`) * parseInt(bal)) / 100)
-            var newbal = parseInt(bal) - finalAmount
+            var finalAmount = Math.round(((`${loseAmountPercentage}`) * (bal)) / 100)
+            var newbal = (bal) - finalAmount
             result = db.set(message.author.id, 'bal', newbal)
             return message.channel.send('You almost **died** and had to spend **$' + finalAmount + '** on hospital treatments!')
 
 
         }
-
-
-
 
     }
 }
