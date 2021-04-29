@@ -9,20 +9,12 @@ module.exports = {
 	aliases: ['scount', 'explore'],
 	usage: '`a.search`',
 	category: 'economy',
+	cooldown: 7,
 
 	async execute(message, premiumusers) {
 
 		var result = await db.fetch(message.author.id)
-		let cooldown = 7000;
-
-		let lastsearch = parseInt(result.searchcd + '000')
-
-		if (lastsearch !== null && cooldown - (Date.now() - lastsearch) > 0) {
-			// If user still has a cooldown
-			let timeObj = cooldown - (Date.now() - lastsearch);
-			return embeds.cooldownEmbed(message, timeObj)
-		} else {
-
+		
 			// Otherwise they'll get their daily
 
 			let bal = result.bal
@@ -47,56 +39,6 @@ module.exports = {
 			var newbal = parseInt(bal) + parseInt(outputs[random]);
 
 			await db.set(message.author.id, 'bal', newbal);
-
-
-			if (random === 0) {
-				var time = parseInt(Date.now().toString().slice(0, -3)) + 5
-				await db.set(message.author.id, 'searchcd', time);
-
-			} else {
-				var time = parseInt(Date.now().toString().slice(0, -3))
-				await db.set(message.author.id, 'searchcd', time);
-
-			}
-
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	},
 };

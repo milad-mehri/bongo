@@ -11,22 +11,12 @@ module.exports = {
 	cooldown: 10,
 
 	async execute(message) {
-
-
 		var result = await db.fetch(message.author.id)
-
-
-		var time = Date.now().toString().slice(0, -3)
-		await db.set(message.author.id, 'begcd', time)
 
 		var response = responses[Math.floor(Math.random() * responses.length)]
 		var newbal = parseInt(result.bal) + response.amount;
 		db.set(message.author.id, 'bal', newbal)
 
-
-
 		embeds.blankEmbed(message, `<@${message.author.id}>, ${response.message}`);
-
-
 	},
 };

@@ -1,5 +1,3 @@
-
-
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
@@ -10,20 +8,16 @@ module.exports = {
 	description: 'kick command',
 	aliases: ['blackjack'],
 	usage: 'a.blackjack <amount>',
-  category: 'economy',
-  cooldown: 5,
+	category: 'economy',
+	cooldown: 5,
 
 	async execute(message, args) {
-		
+
+
 		var result = await db.fetch(message.author.id)
 		var bal = result.bal
-
-		if (parseInt(bal) > 10000000) return embeds.errorEmbed(message, 'You are** too rich **to blackjack, go do something **useful!**')
-
 		var amount = args[0]
-		if (!amount) {
-			return embeds.errorEmbed(message, 'You have to **say the amount** you wanna blackjack');
-		}
+
 
 		if (amount === 'all' || amount === 'max') {
 			if (parseInt(bal) > 500000) {
@@ -32,6 +26,12 @@ module.exports = {
 				amount = parseInt(bal)
 			}
 		}
+
+		//errors
+		if (bal > 10000000) return embeds.errorEmbed(message, 'You are** too rich **to blackjack, go do something **useful!**')
+		if (!amount) return embeds.errorEmbed(message, 'You have to **say the amount** you wanna blackjack');
+
+
 
 		if (amount === 'half') {
 			var mowney = parseInt(bal) / 2
@@ -104,7 +104,7 @@ module.exports = {
 		amount = parseInt(amount)
 
 		var av = message.author.displayAvatarURL
-	
+
 		var bustcards = 0;
 		var bongosum = bongocards.reduce((a, b) => {
 			return a + b;
