@@ -30,14 +30,16 @@ function convertMiliseconds(miliseconds, format) {
     }
 };
 
-function defaultEmbed(message, title, description) {
+function defaultEmbed(message, title, description, color, footer) {
+    var embedColor;
+    (colors[color]) ? embedColor = colors[color] : embedColor = colors.blue
 
-    return message.reply(
-        new MessageEmbed()
-            .setTitle(title)
-            .setDescription(description)
-            .setColor(colors.blue)
-    ).catch(() => null);
+    var defembed = new MessageEmbed()
+        .setTitle(title)
+        .setDescription(description)
+        .setColor(embedColor)
+    if(footer) defembed.setFooter(footer)
+    return message.reply(defembed).catch(() => null);
 }
 
 function successEmbed(message, description) {

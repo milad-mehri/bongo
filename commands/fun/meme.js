@@ -2,15 +2,14 @@ const Discord = require('discord.js');
 
 const got = require('got');
 
-const db = require('../../db.js');
-
 
 
 module.exports = {
 	name: 'meme',
 	description: 'Get a meme from r/dankmemes',
 	usage: '`a.meme`',
-  category: 'fun',
+	category: 'fun',
+	cooldown: 3,
 
 	async execute(message) {
 
@@ -28,20 +27,6 @@ module.exports = {
 		}
 
 
-		var result = await db.fetch(message.author.id);
-
-		let cooldown = 3 * 1000;; // 12 hours in ms
-
-		let lastmeme = parseInt(result.meme + '000')
-
-		if (lastmeme !== null && cooldown - (Date.now() - lastmeme) > 0) {
-			// If user still has a cooldown
-			let timeObj = cooldown - (Date.now() - lastmeme);
-			re(
-				'Woah slow down',
-				`You have to wait` + '`' + timeObj / 1000 + '`s before meming again.'
-			);
-		} else {
 			var url = `https://www.reddit.com/r/dankmemes/random/.json`;
 
 			got(url).then(response => {
@@ -67,9 +52,7 @@ module.exports = {
 					message.channel.send("Reddit machine goes brrr. Sorry, could not fetch posts from this subreddit :(");
 				}
 			})
-			var time = Date.now().toString().slice(0, -3)
-			db.set(message.author.id, 'meme', time)
-		}
+		
 	},
 
 };

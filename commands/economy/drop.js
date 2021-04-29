@@ -2,7 +2,7 @@ const db = require('../../db.js');
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
 const functions = require('../../functions/functions')
-
+const emojis = require('../../design/emojis.json')
 
 module.exports = {
 	name: 'drop',
@@ -19,7 +19,7 @@ module.exports = {
 
 		var result = await db.fetch(message.author.id)
 
-
+		var userbal = result.bal
 
 
 		if (parseInt(args[0])) {
@@ -28,16 +28,12 @@ module.exports = {
 			return embeds.errorEmbed(message, '**Invalid input.**')
 		}
 
-		if (amount < 5000) {
-			return embeds.errorEmbed(message, '**Minimum drop** is **5,000**')
-		}
+		if (amount < 5000) return embeds.errorEmbed(message, '**Minimum drop** is **5,000**')
+		if (amount > userbal) return embeds.errorEmbed(message, 'You **don\'t have this much** money bro.')
 
-		if (amount > kabob) {
-			return embeds.errorEmbed(message, 'You **don\'t have this much** money bro.')
-		}
-	
-		await db.set(message.author.id, 'bal',  result.bal - amount)
-		message.channel.send(`${message.author} dropped ${functions.comma(amount)} coins in the chat\nSay ` + '`GRAB` to take some! (you have 15 seconds)')
+
+		await db.set(message.author.id, 'bal', result.bal - amount)
+		message.channel.send(`${message.author} dropped **${functions.comma(amount)}** coins in the chat\nSay ` + '`GRAB` to take some! (you have 15 seconds)')
 
 
 		var messages = await message.channel.awaitMessages(() => true, { time: 15000 })
@@ -48,31 +44,22 @@ module.exports = {
 				grabbers.push(message.author)
 			}
 		})
-		if (grabbers.length === 0) {
-			return message.reply('you dropped your money and it fell into the ocean <:Sad_Vibes:793084542763139073>')
-		}
+		if (grabbers.length === 0) return message.reply('you dropped your money and it fell into the ocean. ' + emojis.sadvibes)
 
-		console.log(grabbers)
-		var balfetch;
-		var bal;
+
 		var text = []
 		var each = Math.floor(amount / grabbers.length)
 
 		for (let i = 0; i < grabbers.length; i++) {
-			balfetch = await db.fetch(grabbers[i].id)
-			bal = balfetch.bal
+			var bal = (await db.fetch(grabbers[i].id)).bal
 			await db.set(grabbers[i].id, 'bal', bal + each)
 			text.push(grabbers[i].username + ' grabbed ' + functions.comma(each) + ' coins.\n')
 		}
-
 
 		var string = "";
 		var i;
 		console.log(text.length)
 		if (text.length > 30) {
-
-
-
 			var string = "";
 			var i;
 			for (i = 0; i < text.length; i++) {
@@ -85,10 +72,7 @@ module.exports = {
 			}
 			if ((i) % 30 !== 0) {
 				message.channel.send('```css\n' + string + '```')
-
 			}
-
-
 		} else {
 			message.channel.send('```css\n' + text.join('') + '```')
 

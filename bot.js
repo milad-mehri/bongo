@@ -161,7 +161,7 @@ client.on('message', async message => {
 		if (commandToExecute.cooldown) {
 
 			if ((commandToExecute.cooldown * 1000) - (Date.now() - result.cooldowns[commandToExecute.name]) > 1) {
-				return embeds.cooldownEmbed(message, (commandToExecute.cooldown * 1000) - (Date.now() - lastbeg));
+				return embeds.cooldownEmbed(message, (commandToExecute.cooldown * 1000) - (Date.now() - result.cooldowns[commandToExecute.name]));
 			} else {
 				result.cooldowns[commandToExecute.name] = Date.now()
 				await db.set(message.author.id, 'cooldowns', result.cooldowns)

@@ -96,54 +96,9 @@ const userSchema = mongoose.Schema({
 		type: Number,
 		default: 0,
 	},
-	dropcooldown: {
-		type: Number,
-	},
-	daily: {
-		type: Number,
-	},
-	monthly: {
-		type: Number,
-	},
-	weekly: {
-		type: Number,
-	},
-	hourly: {
-		type: Number,
-	},
-	begcd: {
-		type: Number,
-	},
-	typecd: {
-		type: Number,
-	},
+
 	infight: {
 		type: Boolean,
-	},
-	meme: {
-		type: Number,
-	},
-	usecd: {
-		type: Number,
-	},
-	searchcd: {
-		type: Number,
-	},
-	gamblecd: {
-		type: Number,
-	},
-
-	bjcd: {
-		type: Number,
-	},
-	overallcd: {
-		type: Number,
-	},
-	robcd: {
-		type: Number,
-	},
-	gamblingmulti: {
-		type: Number,
 	},
 	clovercooldown: {
 		type: Number,
@@ -151,9 +106,7 @@ const userSchema = mongoose.Schema({
 	clovercd: {
 		type: Number,
 	},
-	fishcd: {
-		type: Number,
-	},
+
 	cooldowns: {
 		type: Object,
 		required: true,

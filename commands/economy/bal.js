@@ -14,7 +14,6 @@ module.exports = {
 
 	async execute(message, args) {
 
-
 		//Check if user is mentioned
 		if (!message.mentions.users.size) {
 
@@ -60,11 +59,6 @@ module.exports = {
 			})
 
 		}
-
-
-
-
-
 
 
 	},
