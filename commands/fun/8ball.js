@@ -13,7 +13,7 @@ module.exports = {
 
 	execute(message, args) {
 
-		if (!args[0]) return message.reply('whats the question?')
+		if (!args[0]) return message.reply('You have to ask a question.')
 		responses = ["It is certain.",
 			"It is decidedly so.",
 			"Without a doubt.",
