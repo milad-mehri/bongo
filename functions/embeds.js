@@ -3,6 +3,8 @@ const {
 } = require('discord.js');
 const emojis = require('../design/emojis.json');
 const colors = require('../design/colors.json');
+const {responses, cooldownResponses} = require('../helpers/cooldownResponses.json')
+
 
 function convertMiliseconds(miliseconds, format) {
     var days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
@@ -38,7 +40,7 @@ function defaultEmbed(message, title, description, color, footer) {
         .setTitle(title)
         .setDescription(description)
         .setColor(embedColor)
-    if(footer) defembed.setFooter(footer)
+    if (footer) defembed.setFooter(footer)
     return message.reply(defembed).catch(() => null);
 }
 
@@ -66,11 +68,9 @@ function cooldownEmbed(message, description) {
     if (result.h > 0) time += `${result.h} hours, `
     if (result.m > 0) time += `${result.m} minutes and `
     time += `${result.s} seconds`
-    var responses = ['Woah!', 'Chill out!', 'Take a break!', 'Too fast!', 'Slow down!']
-    var cooldownResponses = [`This command is still on cool down for **${time}**!`, `You still got **${time}** left.`, `Can\'t you wait just **${time}** more?`, `Try again in **${time}**.`]
-    return message.reply(
+   return message.reply(
         new MessageEmbed()
-            .setDescription(emojis.loading + `   **${responses[Math.floor(Math.random() * responses.length)]}**  ${cooldownResponses[Math.floor(Math.random() * cooldownResponses.length)]}`)
+            .setDescription(emojis.loading + `   **${responses[Math.floor(Math.random() * responses.length)]}**  ${cooldownResponses[Math.floor(Math.random() * cooldownResponses.length)].replace("${time}", time)}`)
             .setColor(colors.yellow)
     ).catch(() => null)
 }

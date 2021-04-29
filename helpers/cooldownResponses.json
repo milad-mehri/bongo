@@ -1,0 +1,26 @@
+{
+    "responses": [
+        "Woah!",
+        "Chill out!",
+        "Take a break!",
+        "Too fast!",
+        "Slow down!",
+        "Calm down!",
+        "STOP!",
+        "Chill!",
+        ":hand_splayed: STOP!",
+        "What's the rush bro?"
+    ],
+    "cooldownResponses": [
+        "This command is still on cool down for **${time}**!",
+        "You still got **${time}** left.",
+        "Can't you wait just **${time}** more?",
+        "Try again in **${time}**.",
+        "Come again in **${time}**.",
+        "Give it a go in **${time}**.",
+        "Just wait **${time}** more.",
+        "Wait a minute, you got **${time}** left.",
+        "You got **${time}** left. While you wait, go get some food or something.",
+        "You shall not pass! Well, you shall pass in **${time}**."
+    ]
+}

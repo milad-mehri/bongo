@@ -32,7 +32,7 @@ module.exports = {
 			}
 
 
-			embeds.defaultEmbed(message.author.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
+			embeds.defaultEmbed(message, message.author.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
 
 		} else {
 			var member = message.mentions.users.first();
@@ -52,7 +52,7 @@ module.exports = {
 			}
 
 
-			embeds.defaultEmbed(member.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
+			embeds.defaultEmbed(message, member.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
 
 
 		}
