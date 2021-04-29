@@ -6,14 +6,10 @@
   "dependencies": {
     "canvacord": "^5.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.12.6",
-    "node": "12.x"
-
+    "mongoose": "^5.12.6"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "test"
-  },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bongo-bot/bongo.git"
@@ -23,5 +19,14 @@
   "bugs": {
     "url": "https://github.com/bongo-bot/bongo/issues"
   },
-  "homepage": "https://github.com/bongo-bot/bongo#readme"
+  "homepage": "https://github.com/bongo-bot/bongo#readme",
+  "keywords": [],
+  "engines": {
+    "node": "12.x",
+    "npm": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  }
 }
