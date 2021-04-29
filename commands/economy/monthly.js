@@ -1,6 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
-
+const embeds = require('../../functions/embeds')
+const emojis = require('../../design/emojis.json')
 
 module.exports = {
 	name: 'monthly',
@@ -8,7 +9,9 @@ module.exports = {
 	usage: '`a.monthly`',
   category: 'economy',
 
-	async execute(message, premiumusers) {
+	async execute(message) {
+
+
 		function comma(number) {
 			var i = number.toString();
 			i = i.split("").reverse();
@@ -18,45 +21,25 @@ module.exports = {
 			i[0] = i[0][0];
 			return i.reverse().join("");
 		}
-
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
-
-
 		var result = await db.fetch(message.author.id);
 
-		let cooldown = 2628000 * 1000; // 12 hours in ms
+		let cooldown = 2592000000; // 12 hours in ms
 
 		let lastmonthly = parseInt(result.monthly + '000')
 
-		if (lastmonthly !== null && cooldown - (Date.now() - lastmonthly) > 0) {
+		if (lastmonthly !== null && cooldown - (Date.now() - lastmonthly) > 1) {
 			// If user still has a cooldown
 			let timeObj = cooldown - (Date.now() - lastmonthly);
-			re(
-				'Woah slow down',
-				`You have to wait` + '`' + timeObj / 1000 + '`s before claiming your monthly coins.'
-			);
+			embeds.cooldownEmbed(message,timeObj)
 		} else {
+
 
 			var medal = result.medal
 			if (parseInt(medal) > 0) {
-				var monthly = 200000
+				var monthly = 150000
 			} else {
 				var monthly = 100000
 			}
-			// Otherwise they'll get their daily
-
-
 
 			let bal = result.bal
 
@@ -67,47 +50,14 @@ module.exports = {
 			await db.set(message.author.id, 'bal', newbal)
 
 			result = await db.fetch(message.author.id);
-
 			bal = result.bal
 
 
-
-
-			re(
-				'Here are your monthly coins',
-				`**${monthly}** coins were added to your balance\n\nYou now have **$` + comma(bal) + '**');
-
+			embeds.successEmbed( message,	' Successfully **claimed $' + comma(monthly) + '** coins!\n\n You can get **more rewards** by voting for the bot [here.](https://top.gg/bot/780943575394942987/vote)\nor you can vote for the [support server](https://discord.gg/yt6PMTZNQh) [here](https://top.gg/servers/781393539451977769/vote)\n\nYou can do your next monthly in **30 Days**.');
 			var time = Date.now().toString().slice(0, -3)
 			await db.set(message.author.id, 'monthly', time)
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	},
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 

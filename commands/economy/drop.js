@@ -1,5 +1,6 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
+const embeds = require('../../functions/embeds')
 
 
 module.exports = {
@@ -9,18 +10,7 @@ module.exports = {
   category: 'economy',
 
 	async execute(message, args) {
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
 
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 		var host = message.author.id
 		var amount;
 		var grabbers = [];
@@ -37,13 +27,10 @@ module.exports = {
 
 		let lastdrop = parseInt(result.dropcooldown + '000')
 
-		if (lastdrop !== null && cooldown - (Date.now() - lastdrop) > 0) {
+		if (lastdrop !== null && cooldown - (Date.now() - lastdrop) > 1) {
 			// If user still has a cooldown
 			let timeObj = cooldown - (Date.now() - lastdrop);
-			return re(
-				'Woah slow down',
-				`You have to wait` + '`' + timeObj / 1000 + '`s before dropping coins again'
-			);
+			return embeds.cooldownEmbed(message,  timeObj);
 		} else {
 			var time = Date.now().toString().slice(0, -3)
 			var result = await db.set(message.author.id, 'dropcooldown', time)
@@ -54,15 +41,15 @@ module.exports = {
 		if (parseInt(args[0])) {
 			amount = args[0]
 		} else {
-			return message.reply('invalid input.')
+			return embeds.errorEmbed(message, '**Invalid input.**')
 		}
 
 		if (amount < 5000) {
-			return message.reply('minimum drop is 5000')
+			return embeds.errorEmbed(message, '**Minimum drop** is **5,000**')
 		}
 
 		if (amount > kabob) {
-			return message.reply('you dont have this much money bro')
+			return embeds.errorEmbed(message, 'You **don\'t have this much** money bro.')
 		}
 		var newnine = result.bal - amount
 		await db.set(message.author.id, 'bal', newnine)

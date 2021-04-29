@@ -1,5 +1,6 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
+const embeds = require('../../functions/embeds')
 
 
 module.exports = {
@@ -10,20 +11,6 @@ module.exports = {
 
 
 	async execute(message, args) {
-
-
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 
 
 
@@ -45,7 +32,7 @@ module.exports = {
 			}
 
 
-			re(message.author.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
+			embeds.defaultEmbed(message.author.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
 
 		} else {
 			var member = message.mentions.users.first();
@@ -65,7 +52,7 @@ module.exports = {
 			}
 
 
-			re(member.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
+			embeds.defaultEmbed(member.username + "'s gambling stats", `**Wins** :  ${win}\n**Losses** :  ${loss}\n\n**Total gambles** : ${total}\n**Win %** : ${per}`)
 
 
 		}

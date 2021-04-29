@@ -1,6 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const itemSchema = require('../../schemas/item-schema')
+const embeds = require('../../functions/embeds')
 
 
 module.exports = {
@@ -25,21 +26,6 @@ module.exports = {
 			return tempArray;
 		}
 
-		function re(a, b, c) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b)
-				.setFooter(c);
-
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
-
 		if (!message.mentions.users.size) {
 
 			if (!args[0] || isNaN((args[0])) || parseInt(args[0]) === 1) {
@@ -62,7 +48,6 @@ module.exports = {
 			var items = []
 			var allItems = await itemSchema.find({}).lean().exec(function(err, docs) {
 				docs.forEach((item, index) => {
-					console.log(result[item.shopid])
 					//   if (result[item.shopid]) {
 					if (parseInt(result[item.shopid]) > 0) {
 						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `)
@@ -71,12 +56,12 @@ module.exports = {
 				})
 
 				if (items.length === 0) {
-					re('Inventory', 'Nothing to see here.')
+					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.')
 				} else {
 					if (chunkArray(items, 7)[page - 1]) {
-						return re('Inventory', chunkArray(items, 7)[page - 1], `\nPage ${page} out of ${chunkArray(items, 7).length}`)
+						return embeds.defaultEmbed(message,'Inventory', chunkArray(items, 7)[page - 1], `\nPage ${page} out of ${chunkArray(items, 7).length}`)
 					} else {
-						return message.reply('this page doesnt exist...')
+						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**')
 					}
 
 				}
@@ -99,12 +84,12 @@ module.exports = {
 
 
 				if (items.length === 0) {
-					re('Inventory', 'Nothing to see here.')
+					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.')
 				} else {
 					if (chunkArray(items, 7)[page - 1]) {
-						return re('Inventory', chunkArray(items, 7)[page - 1], `Page ${page} out of ${chunkArray(items, 7).length}`)
+						return embeds.defaultEmbed(message, 'Inventory', chunkArray(items, 7)[page - 1], `Page ${page} out of ${chunkArray(items, 7).length}`)
 					} else {
-						return message.reply('this page doesnt exist...')
+						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**')
 					}
 
 				}

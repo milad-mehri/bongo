@@ -1,7 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
-const userSchema = require('../../schemas/user-schema')
-
+const embeds = require('../../functions/embeds')
+const emojis = require('../../design/emojis.json')
 
 module.exports = {
 	name: 'hourly',
@@ -10,18 +10,6 @@ module.exports = {
   category: 'economy',
 
 	async execute(message) {
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 
 
 		function comma(number) {
@@ -35,64 +23,41 @@ module.exports = {
 		}
 		var result = await db.fetch(message.author.id);
 
-
 		let cooldown = 3600000; // 12 hours in ms
-
-
-
 
 		let lasthourly = parseInt(result.hourly + '000')
 
-		if (lasthourly !== null && cooldown - (Date.now() - lasthourly) > 0) {
+		if (lasthourly !== null && cooldown - (Date.now() - lasthourly) > 1) {
 			// If user still has a cooldown
 			let timeObj = cooldown - (Date.now() - lasthourly);
-			re(
-				'Woah slow down',
-				`You have to wait` + '`' + timeObj / 1000 + '`s before claiming your hourly coins.'
-			);
+			embeds.cooldownEmbed(message,timeObj)
 		} else {
-			// Otherwise they'll get their daily
+
+
 			var medal = result.medal
 			if (parseInt(medal) > 0) {
-				var hourly = 5000
+				var hourly = 300
 			} else {
-				var hourly = 1000
+				var hourly = 100
 			}
-			// Otherwise they'll get their daily
-
-
 
 			let bal = result.bal
 
 
 			var newbal = parseInt(bal) + hourly;
 
+
 			await db.set(message.author.id, 'bal', newbal)
 
 			result = await db.fetch(message.author.id);
-
 			bal = result.bal
 
-			re(
-				'Here are your hourly coins',
-				`**${hourly}** coins were added to your balance\n\nYou now have **$` + comma(bal) + '**');
 
+			embeds.successEmbed( message,	' Successfully **claimed $' + comma(hourly) + '** coins!\n\n You can get **more rewards** by voting for the bot [here.](https://top.gg/bot/780943575394942987/vote)\nor you can vote for the [support server](https://discord.gg/yt6PMTZNQh) [here](https://top.gg/servers/781393539451977769/vote)\n\nYou can do your next hourly in **1 hour**.');
 			var time = Date.now().toString().slice(0, -3)
 			await db.set(message.author.id, 'hourly', time)
-
 		}
 
-
-
-
-
-
-	}
-
-
-
-
-
-
-
+	},
 };
+

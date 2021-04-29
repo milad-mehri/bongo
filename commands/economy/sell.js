@@ -1,6 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const itemSchema = require('../../schemas/item-schema')
+const embeds = require('../../functions/embeds')
 
 module.exports = {
 	name: 'sell',
@@ -9,22 +10,10 @@ module.exports = {
 category: 'economy',
 	async execute(message, args) {
 
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 
 		var result = await db.fetch(message.author.id)
 		if (args[0] === undefined && args[1] === undefined) {
-			return message.reply('what are you gonna sell??')
+			return embeds.errorEmbed(message, 'You have to **say** what you **want to sell.**')
 		}
 
 		let bal = result.bal
@@ -48,7 +37,7 @@ category: 'economy',
 
 
 		if (parseInt(ammount) < 1) {
-			return message.reply(' you cant sell negative items')
+			return embeds.errorEmbed(message, 'You have to sell something.')
 		}
 		if (item === 'fishing') {
 			item = 'rod'
@@ -69,26 +58,21 @@ category: 'economy',
 			// remove s from string
 		}
 
-		if (result[item] < ammount) return message.reply('you dont have enough of this item')
+		if (result[item] < ammount) return embeds.errorEmbed('You **don\'t have enough** of this item')
 		var allItems = await itemSchema.find({ 'shopid': item }).lean().exec(async function(err, docs) {
-			if (err) return message.channel.send('this item isnt in the shop!')
+			if (err) return embeds.blankEmbed(message,'This item isnt in the shop!')
 
 
 			let bal = result.bal
 			let invitem = result[item]
 			var itemobject = docs[0]
-			console.log(docs[0])
 			var price = ((itemobject.price - itemobject.sale) * ammount)
-			console.log(result[item] + ':' + ammount)
-
-
-			console.log(item)
-
+	
 
 			var newbal = bal + price * 0.10
 			await db.set(message.author.id, 'bal', newbal)
 			await db.set(message.author.id, [item], result[item] - parseInt(ammount))
-			re('Package returned', `You sold ${ammount} ${itemobject.itemname}s for ${price * 0.10} and you now have ${parseInt(result[item]) - parseInt(ammount)} ${itemobject.itemname}s and $${newbal} coins.`)
+			embeds.defaultEmbed('Package returned', `You sold ${ammount} ${itemobject.itemname}s for ${price * 0.10} and you now have ${parseInt(result[item]) - parseInt(ammount)} ${itemobject.itemname}s and $${newbal} coins.`)
 
 
 		})

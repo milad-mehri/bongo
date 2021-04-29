@@ -1,5 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
+const embeds = require('../../functions/embeds')
+const emojis = require('../../design/emojis.json')
 
 module.exports = {
 	name: 'daily',
@@ -8,18 +10,7 @@ module.exports = {
   category: 'economy',
 
 	async execute(message) {
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
 
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 
 		function comma(number) {
 			var i = number.toString();
@@ -36,23 +27,19 @@ module.exports = {
 
 		let lastDaily = parseInt(result.daily + '000')
 
-		if (lastDaily !== null && cooldown - (Date.now() - lastDaily) > 0) {
+		if (lastDaily !== null && cooldown - (Date.now() - lastDaily) > 1) {
 			// If user still has a cooldown
 			let timeObj = cooldown - (Date.now() - lastDaily);
-			re(
-				'Woah slow down',
-				`You have to wait` + '`' + timeObj / 1000 + '`s before claiming your daily coins.'
-			);
+			embeds.cooldownEmbed(message,timeObj)
 		} else {
 
 
 			var medal = result.medal
 			if (parseInt(medal) > 0) {
-				var daily = 30000
+				var daily = 3000
 			} else {
-				var daily = 10000
+				var daily = 1000
 			}
-			// Otherwise they'll get their daily
 
 			let bal = result.bal
 
@@ -66,30 +53,10 @@ module.exports = {
 			bal = result.bal
 
 
-			re(
-				'Here are your daily coins',
-				`**${daily}** coins were added to your balance\n\nYou now have **$` +
-				comma(bal) +
-				'**'
-			);
+			embeds.successEmbed( message,	' Successfully **claimed $' + comma(daily) + '** coins!\n\n You can get **more rewards** by voting for the bot [here.](https://top.gg/bot/780943575394942987/vote)\nor you can vote for the [support server](https://discord.gg/yt6PMTZNQh) [here](https://top.gg/servers/781393539451977769/vote)\n\nYou can do your next daily in **12 hours**.');
 			var time = Date.now().toString().slice(0, -3)
 			await db.set(message.author.id, 'daily', time)
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	},
 };

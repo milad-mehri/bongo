@@ -1,24 +1,24 @@
 const Discord = require('discord.js');
 const db = require('../../db.js');
+const colors = require('../../design/colors.json');
+const {botAdmins} = require('../../config/config.json')
+const embeds = require('../../functions/embeds')
 
 module.exports = {
 	name: 'botban',
 	description: 'Admin only',
 
 	async execute(message, args) {
-		if(message.author.id !== '248692731163967498') return
+		if(!botAdmins.includes(message.author.id)) return
 		const embed = new Discord.MessageEmbed()
-			// Set the title of the field
 			.setTitle('Blacklisted')
-			// Set the color of the embed
-			.setColor('6FA8DC')
-			.setDescription('You have been blacklisted for:\n`' + args.join(' ') + '`');
+			.setColor(colors.red)
+			.setDescription('You have been blacklisted for ' + args.slice(1).join(' ') );
 
-		// Send the embed to the same channel as the message
+		if(!message.mentions.users.first()) return embeds.errorEmbed(message , 'You need to mention someone.')
+		if(!args[2]) return embeds.errorEmbed(message, 'You need to provide a reason.')
+
 		message.channel.send(embed);
-		if (message.author.id !== '248692731163967498') {
-			return;
-		}
 		var result = await db.fetch(message.mentions.users.first().id)
 		await db.set(message.mentions.users.first().id, 'banned', true)
 		message.mentions.users.first().send(embed)

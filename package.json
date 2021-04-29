@@ -10,12 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@top-gg/sdk": "^3.0.2",
+    "@top-gg/sdk": "^3.1.1",
+    "canvacord": "^5.2.0",
     "dblapi.js": "^2.4.1",
     "discord-emoji-convert": "^1.6.0",
     "discord.js": "^12.4.1",
     "express": "^4.17.1",
     "got": "^11.8.0",
+    "mongoose": "^5.12.6",
     "ms": "^2.1.2",
     "quick.db": "^7.1.3"
   }

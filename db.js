@@ -26,36 +26,6 @@ module.exports.shop = async (shopid) => {
 	})
 }
 
-/*
-module.exports.invworth = async (id) =>{
-	return await mongo().then(asy nc mongoose => {
-
-		const user = { userid: id, bal: 1000, box: 1 }
-    const result = cache.get(id) || await userSchema.findOne({ "userid": id }) || await new userSchema(user).save();
-    if (!cache.has(id)) cache.set(id, result);
-	var invworth = 0
-  var allItems = await itemSchema.find({}).lean().exec(function (err, docs) {
-		var i;
-		for(i = 0; i < docs.length ; i ++){
-			invworth+= result[docs[i].shopid] * docs[i].price
-			console.log(invworth)
-			console.log(docs[i].shopid)
-			
-			if(i === docs.length-1) return invworth
-
-		}
-	})
-
-	})
-}
-
-*/
-
-
-
-
-
-
 module.exports.setsale = async (shopid, thingToUpdate, value) => {
 	result = await itemSchema.findOneAndUpdate({ "shopid": shopid }, { [thingToUpdate]: value })
 

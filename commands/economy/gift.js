@@ -2,6 +2,7 @@
 
 
 const db = require('../../db.js');
+const embeds = require('../../functions/embeds')
 
 const Discord = require('discord.js');
 
@@ -15,26 +16,11 @@ module.exports = {
 	async execute(message, args) {
 
 
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
-
-
-
 		var giver = message.author;
 		var reciever = message.mentions.users.first();
 
 		if (giver === reciever) {
-			return message.reply(' you cant gift items to yourself..')
+			return embeds.errorEmbed(message,'You cant gift items to yourself..')
 		}
 
 		var a = args[0]
@@ -42,12 +28,12 @@ module.exports = {
 		var c = args[2]
 
 		if (undefined === c || b === undefined || a === undefined) {
-			return message.reply('You are missing an argument!! Use this command like : `a.gift (number) (item) (@)`')
+			return embeds.errorEmbed(message, 'You are missing an argument!! Use this command like : ```a.gift (number) (item) (@)```')
 		}
 
 
 		if (isNaN(parseInt(a)) && isNaN(parseInt(b)) && isNaN(parseInt(c))) {
-			return message.reply('You are missing an argument!! Use this command like : `a.gift (number) (item) (@)`')
+			return embeds.errorEmbed(message,'You are missing an argument!! Use this command like : `a.gift (number) (item) (@)`')
 		}
 
 
@@ -85,7 +71,7 @@ module.exports = {
 			}
 
 		} else {
-			return message.reply('You are missing an argument!! Use this command like : `a.gift (number) (item) (@)`')
+			return membeds.errorEmbed(message,'You are missing an argument!! Use this command like : ```a.gift (number) (item) (@)```')
 
 		}
 
@@ -101,41 +87,36 @@ module.exports = {
 		}
 
 
-		console.log('item: ' + item + '\namount : ' + number)
 
 
 		var result = await db.fetchitem(giver.id, item)
-		console.log(result)
 		var itema = result
-		console.log(result)
 		if (parseInt(number) < 0) {
-			return message.reply('you cant do this')
+			return embeds.errorEmbed(message,'You **can\'t do this**')
 		}
 
 		if (isNaN(parseInt(itema))) {
-			return message.reply('you dont have any of this item, or it doesnt exist!')
+			return embeds.errorEmbed(message,'You **don\'t have any of this item**, or it **doesnt exist!**')
 		} else if (parseInt(itema) < parseInt(number)) {
-			return message.reply(`you dont have enough ${item}s!`)
+			return embeds.errorEmbed(message,`You **don\'t have enough** ${item}s!`)
 		} else {
 			result = await db.fetch(reciever.id)
 			var recieverinv = result[item]
 			var giverinv = await db.fetchitem(giver.id, item)
 
 
-			console.log(`${reciever.id} inv + number: ${number}`)
 			var newrecieverinv = parseInt(recieverinv) + parseInt(number)
 			var newgiverinv = parseInt(giverinv) - parseInt(number)
-			console.log(newrecieverinv)
 
 			if (item === 'ball' && newrecieverinv > 50) {
-				return message.reply('they already maxed out this item!')
+				return embeds.errorEmbed(message,'They already** maxed out** this item!')
 			}
 
 			db.set(reciever.id, item, newrecieverinv);
 
 			db.set(giver.id, item, newgiverinv);
 
-			return re('Package shipped!', 'You gave `' + number + ' ' + item + '` to ' + reciever.username + `\nNow you have : ${newgiverinv} and they have : ${newrecieverinv}`)
+			return embeds.defaultEmbed(message,'Package shipped!', 'You gave `' + number + ' ' + item + '` to ' + reciever.username + `\nNow you have : ${newgiverinv} and they have : ${newrecieverinv}`)
 
 
 		}

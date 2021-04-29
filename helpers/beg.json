@@ -1,0 +1,23 @@
+{
+    
+		"responses" : [
+			{"message" : "**milad** blessed you with **$1000** don't waste it!", "amount": 1000},
+			{"message" : "**bongo** gave you ** $200** coins after you **danced for him.** :dancer:", "amount": 200},
+			{"message" : "the **local cop** gave you  **$250** coins after you **danced** for him. :dancer:", "amount": 250},
+			{"message" : "**Lebron James** gave you **$500** after you told him you were **sick**.", "amount": 500},
+			{"message" : "**Donald Trump** gave you **ten coins** and a get out of jail** free** card. :nauseated_face:", "amount": 10},
+			{"message" : "**Lil Nas X** gave you **$666** and his **custom shoes**. :japanese_ogre:", "amount": 666},
+			{"message" : "you **endorsed bongo** in a Discord server and **earned $500**.", "amount": 500},
+			{"message" : "the **restaurant waiter** let you take **extra mints**, and you sold them for **$50**.", "amount": 50},
+			{"message" : "you sold a **forged painting **for** $5000**.", "amount": 500},
+			{"message" : "you convinced someone to** buy a \"magic rock\"** from you for **$100.**", "amount": 100},
+			{"message" : "you secretly **popped someones tire**, then offered to fix it for them for **$500**.", "amount": 500},
+			{"message" : "you did a** silly magic trick **for some gullible kids and** earned $2.**", "amount": 2},
+			{"message" : "you won an** anti-beauty contest **with a **$500 **prize and a fake medal you sold for $10.", "amount": 510},
+			{"message" : "your** pet monkey** gave you **$60 **after he saw the letter from the bank.", "amount": 60},
+			{"message" : "your **mom **felt bad for you and gave you her **entire life savings, $69**.", "amount": 69},
+			{"message" : "**Elon Musk** was feeling generous so he gave you **$6969 **on March 20. <:elon:836845729339277312>", "amount": 6969},
+			{"message" : "local **drug addict** wrote** $420 on a check instead of his forhead**. smh.. kids these days.", "amount": 420}
+			
+		]
+}

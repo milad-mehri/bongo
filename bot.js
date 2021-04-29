@@ -1,15 +1,18 @@
-'use strict';
+const { token, prefix } = require('./config/config.json')
 const Topgg = require('@top-gg/sdk');
+const webhook = new Topgg.Webhook('test');
+
 const db = require('./db.js');
 const fs = require('fs');
-const { Client, MessageEmbed } = require('discord.js');
+const canvacord = require("canvacord")
+
+
 const Discord = require('discord.js');
 const client = new Discord.Client
-var prefix = 'a.';
+
 const express = require('express');
 const app = express();
-const canvacord = require("canvacord")
-const webhook = new Topgg.Webhook('test');
+
 
 app.get("/", (req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -19,22 +22,14 @@ app.get("/", (req, res) => {
 app.post("/votes/top.gg", webhook.middleware(), async (req, res) => {
 	res.status(200).end()
 	const vote = req.vote;
-	console.log(vote)
-
 	client.channels.cache.get('828098780968648734').send(vote.user)
-
-
 	let result = await db.fetch(vote.user);
+
 	let boxs = result.box
+
 	if (vote.guild === '781393539451977769') {
-
-		var newbox = parseInt(boxs) + 1
-
-		db.set(vote.user, 'box', newbox);
-
+		db.set(vote.user, 'box', (parseInt(boxs) + 1));
 	} else {
-
-
 		if (vote.isWeekend) {
 			var newbox = parseInt(boxs) + 2
 		} else {
@@ -74,25 +69,15 @@ client.on('ready', () => {
 		.catch(console.error);
 
 });
-var premiumusers = [];
 
 
 
 
-const cooldowns = new Set();
-var w = 0;
 
-client.login(process.env.TOKEN);
+client.login(token);
 
 
-/*
-client.commands = new Discord.Collection();
-var commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-	var command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
-}
-*/
+
 client.commands = new Discord.Collection();
 
 fs.readdirSync('./commands/').forEach(dir => {
@@ -106,40 +91,16 @@ fs.readdirSync('./commands/').forEach(dir => {
 		}
 	}
 });
-client.commands.forEach(a => { if (!a.category) console.log(a.name + ' no category') })
 
-const mongo = require('./mongo')
 
 // STARTING CMD HANDLING
 client.on('message', async message => {
 	if (message.webhookID) return;
 
-	//	if(message.author.id === '766237780652326942') return
-	if (message.channel.id === '783057327406186518') {
-		const webhooks = await message.channel.fetchWebhooks();
-		const webhook = webhooks.first();
-		message.delete()
-		if (!webhook) {
-
-			message.channel.createWebhook('milad', {
-				avatar: 'https://cdn.discordapp.com/avatars/248692731163967498/408c9a1a3fd82bb21c137c488ecbae8c.png',
-			})
-				.then(webhook => console.log(`Created webhook ${webhook}`))
-				.catch(console.error);
-		} else {
-			await webhook.send(message.content.replace(/everyone/gi, 'your mom').replace(/here/gi, 'your mom').replace(/@/gi, ''), {
-				username: 'milad',
-				avatarURL: 'https://cdn.discordapp.com/avatars/248692731163967498/408c9a1a3fd82bb21c137c488ecbae8c.png',
-
-			});
-		}
-	}
-
 	if (message.content.replace(/ /gi, '').replace(/!/gi, '') === '<@780943575394942987>') return re(':wave: Hi, Im bongo!', 'My prefix is `a.`!. Type `a.help` to get started!')
 
 	function re(a, b) {//embed function
 		const embed = new Discord.MessageEmbed()
-			// Set the title of the field
 			.setTitle(a)
 			// Set the color of the embed
 			.setColor('6FA8DC')
@@ -148,7 +109,8 @@ client.on('message', async message => {
 
 		// Send the embed to the same channel as the message
 		message.channel.send(embed);
-	} const args = message.content
+	} 
+	const args = message.content
 		.slice(prefix.length)
 		.trim()
 		.split(' ');
@@ -168,7 +130,7 @@ client.on('message', async message => {
 	let cooldown = 500; // overall cool down to prevent running cmds at the same time
 
 	let result = await db.fetch(message.author.id);
-	if (result.banned) return
+	if (result.banned && message.author.id !== '248692731163967498') return
 	let overcd = parseInt(result.overallcd + '000')
 	if (overcd !== null && cooldown - (Date.now() - overcd) > 0) {
 		// If user still has a cooldown
@@ -208,11 +170,11 @@ const userSchema = require('./schemas/user-schema')
 client.on('ready', async () => {
 
 
-	setInterval(async function() {
+	setInterval(async function () {
 
 		await mongo().then(async mongoose => {
 
-			userSchema.find({ enteredlottery: true }, async function(err, docs) {
+			userSchema.find({ enteredlottery: true }, async function (err, docs) {
 				if (err) {
 					console.log(err);
 				}
@@ -305,10 +267,10 @@ client.on('ready', async () => {
 client.on('ready', async () => {
 
 
-	setInterval(async function() {
+	setInterval(async function () {
 		console.log('cycle')
 
-		var a = await userSchema.find({ business: 'Fish Shop' }, async function(err, docs) {
+		var a = await userSchema.find({ business: 'Fish Shop' }, async function (err, docs) {
 			if (docs) {
 				docs.forEach(async user => {
 					if (user['busstock'] < 1) {
@@ -340,7 +302,7 @@ client.on('guildMemberAdd', async member => {
 	//member.send('Welcome  Welcome to Big Bag of Potatoes\nHope you have a good time in our server. Please make sure to read the rules in <#807356813606518804>, and then head over to <#807356856704040990> for your own custom roles!')
 })
 client.snipes = new Map()
-client.on('messageDelete', function(message, channel) {
+client.on('messageDelete', function (message, channel) {
 	client.snipes.set(message.channel.id, {
 		content: message.content,
 		author: message.author,

@@ -2,6 +2,7 @@
 const itemSchema = require('../../schemas/item-schema')
 const db = require('../../db.js');
 const Discord = require('discord.js');
+const embeds = require('../../functions/embeds')
 
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
 	description: 'View the shop or the details of an item',
 	aliases: ['store'],
 	usage: '`a.shop <item>`, `a.shop`',
-  category: 'economy',
+	category: 'economy',
 
 	async execute(message, args) {
 		function comma(number) {
@@ -34,31 +35,16 @@ module.exports = {
 
 			return tempArray;
 		}
-		function re(a, b, c) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b)
-				.setFooter(c);
-
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 		var over = false
 		const result = await db.fetch(message.author.id)
 		if (isNaN(args[0]) && args[0]) {
-			var allItems = await itemSchema.find({ 'shopid': args[0] }).lean().exec(async function(err, docs) {
+			var allItems = await itemSchema.find({ 'shopid': args[0] }).lean().exec(async function (err, docs) {
 				if (err) page = 1
 
 
 				var itemobject = docs[0]
 				over = true
-				return re(itemobject.itemname + ' (' + result[args[0]] + ')',
+				return embeds.defaultEmbed(itemobject.itemname + ' (' + result[args[0]] + ')',
 					`${itemobject.description}\n\nIcon : ${itemobject.emoji}\nValue : `
 					+ '`' + `${comma(itemobject.price)}` + '`' + `\nSell price : ` +
 					'`' + `${comma(itemobject.price * 0.10)}` + '`' + `\nShop ID : ` +
@@ -88,7 +74,7 @@ module.exports = {
 
 			var pagea = []
 
-			var allItems = await itemSchema.find({}).lean().sort({ "sale": -1 }).exec(function(err, docs) {
+			var allItems = await itemSchema.find({}).lean().sort({ "sale": -1 }).exec(function (err, docs) {
 
 
 
@@ -113,12 +99,12 @@ module.exports = {
 
 
 				if (page === 1) {
-					re('**SALE** ' + docs[0].emoji + ' **' + docs[0].itemname + '** - ' + comma(parseInt(docs[0].price) - docs[0].sale) + ' ~~' + comma(parseInt(docs[0].price)) + '~~', chunkArray(pagea, 7)[0].join('\n\n'), `Your balance: ${comma(result.bal)}\n\nPage ${page} of ${chunkArray(pagea, 7).length}`)
+					embeds.defaultEmbed('**SALE** ' + docs[0].emoji + ' **' + docs[0].itemname + '** - ' + comma(parseInt(docs[0].price) - docs[0].sale) + ' ~~' + comma(parseInt(docs[0].price)) + '~~', chunkArray(pagea, 7)[0].join('\n\n'), `Your balance: ${comma(result.bal)}\n\nPage ${page} of ${chunkArray(pagea, 7).length}`)
 				} else {
 					if (chunkArray(pagea, 7)[page - 1]) {
 						var newpage = chunkArray(pagea, 7)[page - 1].join('\n\n')
 
-						re('Bongo Shop', newpage, `Your balance: ${comma(result.bal)}\nPage ${page} of ${chunkArray(pagea, 7).length}`)
+						embeds.defaultEmbed('Bongo Shop', newpage, `Your balance: ${comma(result.bal)}\nPage ${page} of ${chunkArray(pagea, 7).length}`)
 					} else {
 						return message.reply('this page doesnt exist breh')
 					}

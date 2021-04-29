@@ -1,6 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const itemSchema = require('../../schemas/item-schema')
+const embeds = require('../../functions/embeds')
 
 module.exports = {
 	name: 'buy',
@@ -11,18 +12,6 @@ module.exports = {
 
 	async execute(message, args) {
 
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 
 		var result = await db.fetch(message.author.id)
 		if (args[0] === undefined && args[1] === undefined) {
@@ -50,22 +39,14 @@ module.exports = {
 
 
 		if (parseInt(ammount) < 1) {
-			return message.reply(' you cant buy negative items')
+			return embeds.errorEmbed(message, 'What are you trying to buy?')
 		}
-		if (item === 'fishing') {
-			item = 'rod'
-		}
-		if (item === 'commonfish') {
-			item = 'common'
-		}
-		if (item === 'fish') {
-			item = 'common'
-		}
-
-		if (item === 'commonfish') {
-			item = 'common'
-		}
+		if (item === 'fishing') item = 'rod'
+		if (item === 'commonfish') item = 'common'
+		if (item === 'fish') item = 'common'
+		if (item === 'commonfish') item = 'common'
 		if (isNaN(ammount)) ammount = 1
+		
 		if (!item[item.length] == "s") {
 			item = item.slice(0, -1)
 			// remove s from string
@@ -73,7 +54,8 @@ module.exports = {
 
 
 		var allItems = await itemSchema.find({ 'shopid': item }).lean().exec(async function(err, docs) {
-			if (err || !(docs[0].inshop)) return message.channel.send('this item isnt in the shop!')
+			if(!docs[0]) return embeds.errorEmbed(message, 'This item isn\'t in the shop!')
+			if (err || !(docs[0].inshop)) return embed.errorEmbed(message, 'This item isn\'t in the shop!')
 
 
 			let bal = result.bal
@@ -84,22 +66,19 @@ module.exports = {
 			console.log(result[item] + ':' + ammount)
 			if (item === 'ball') {
 				if ((parseInt(result[item]) + parseInt(ammount)) > 50) {
-					return message.reply('you cant have more than 50 balls!')
+					return embeds.errorEmbed(message, 'You cant have more than 50 balls!')
 				}
 			}
 
-			if (price > bal) return message.reply('you are to broke to buy this, try begging.');
+			if (price > bal) return embeds.errorEmbed(message,'you are to broke to buy this, try begging.');
 
 
 			console.log(item)
 
-			if (item === 'stock') {
-				await db.setsale(itemobject.shopid, 'price', itemobject.price + 1000)
-			}
 			var newbal = bal - price
 			await db.set(message.author.id, 'bal', newbal)
 			await db.set(message.author.id, [item], result[item] + parseInt(ammount))
-			re('Order purchased', `You bought ${ammount} ${itemobject.itemname}s for ${price} and you now have ${parseInt(result[item]) + parseInt(ammount)} ${itemobject.itemname}s and $${newbal} coins.`)
+			embeds.defaultEmbed(message,'Order purchased', `You bought ${ammount} ${itemobject.itemname}s for ${price} and you now have ${parseInt(result[item]) + parseInt(ammount)} ${itemobject.itemname}s and $${newbal} coins.`)
 
 
 		})

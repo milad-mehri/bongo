@@ -2,6 +2,7 @@
 
 const db = require('../../db.js');
 const Discord = require('discord.js');
+const embeds = require('../../functions/embeds')
 
 
 module.exports = {
@@ -12,32 +13,17 @@ module.exports = {
   category: 'economy',
 
 	async execute(message, args) {
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
-
+		
 		var result = await db.fetch(message.author.id)
 
 		let cooldown = 5 * 1000;; // 12 hours in ms
 
 		let lastbj = parseInt(result.bjcd + '000')
 
-		if (lastbj !== null && cooldown - (Date.now() - lastbj) > 0) {
+		if (lastbj !== null && cooldown - (Date.now() - lastbj) > 1) {
 			// If user still has a cooldown
 			let timeObj = cooldown - (Date.now() - lastbj);
-			return re(
-				'Woah slow down',
-				`You have to wait` + '`' + timeObj / 1000 + '`s before blackjacking again.'
-			);
+			return embeds.cooldownEmbed(message, timeObj);
 		} else {
 			var time = Date.now().toString().slice(0, -3)
 			db.set(message.author.id, 'bjcd', time)
@@ -47,15 +33,11 @@ module.exports = {
 		var result = await db.fetch(message.author.id)
 		var bal = result.bal
 
-		if (parseInt(bal) > 10000000) {
-
-			return message.reply('you are too rich to blackjack, go do something useful!')
-			return;
-		}
+		if (parseInt(bal) > 10000000) return embeds.errorEmbed(message, 'You are** too rich **to blackjack, go do something **useful!**')
 
 		var amount = args[0]
 		if (!amount) {
-			return message.reply(' You have to say the amount you wanna blackjack');
+			return embeds.errorEmbed(message, 'You have to **say the amount** you wanna blackjack');
 		}
 
 		if (amount === 'all' || amount === 'max') {
@@ -69,10 +51,10 @@ module.exports = {
 		if (amount === 'half') {
 			var mowney = parseInt(bal) / 2
 			if (50 > parseInt(mowney)) {
-				return message.channel.send('You cant blackjack less than 50 poor kid.');
+				return embeds.errorEmbed(message, 'You **can\'t blackjack less than 50 **poor kid.');
 			}
 			if (500000 < parseInt(mowney)) {
-				return message.channel.send('You cant blackjack more than 500k.');
+				return embeds.errorEmbed(message, 'You** can\'t blackjack more than 500k**.');
 			}
 
 			amount = mowney
@@ -80,7 +62,7 @@ module.exports = {
 
 		}
 		if (isNaN(parseInt(amount))) {
-			return message.reply('you have to say the amount you wanna blackjack');
+			return embeds.errorEmbed(message, 'You have to **say the amount **you wanna blackjack');
 		}
 
 
@@ -90,17 +72,15 @@ module.exports = {
 
 
 		if (50 > parseInt(amount)) {
-			return message.channel.send('You cant blackjack less than 50 poor kid.');
+			return embeds.errorEmbed(message, 'You **can\'t blackjack** less than **50** poor kid.');
 		}
 		if (500000 < parseInt(amount)) {
-			return message.channel.send('You cant blackjack more than 500k.');
+			return embeds.errorEmbed(message, 'You **can\'t blackjack** more than **500k**.');
 
 		}
 
 		if (parseInt(bal) < parseInt(amount)) {
-			return message.channel.send(
-				'You only have ' + bal + ' coins, dont try and lie to me bro.'
-			);
+			return embeds.errorEmbed(message, 'You **only have ' + bal + ' coins**, dont try and **lie** to me bro.');
 		}
 
 		var over = false
@@ -139,15 +119,7 @@ module.exports = {
 		amount = parseInt(amount)
 
 		var av = message.author.displayAvatarURL
-		/*
-						const embed = new MessageEmbed()
-							.setDescription(`**${message.author.username}‏‏‎** \bB‎‎‎‎‎**Bongo**\nCards - ‎‎‎‎‎${displaycards}\b\bCards - ${bongodisplaycards}`)
-		
-							
-							.setAuthor(message.author.username +`s Blackjack Game	`, av)
-							.setColor(`GREY`)
-						message.channel.send(embed)
-		*/
+	
 		var bustcards = 0;
 		var bongosum = bongocards.reduce((a, b) => {
 			return a + b;
@@ -221,7 +193,6 @@ module.exports = {
 					},
 					description: '',
 					footer: {
-						icon_url: 'https://cdn.discordapp.com/avatars/780943575394942987/b079e07a200264fc1e721bed6f74cc32.png?size=128',
 						text: mmewsage
 					},
 					fields: [

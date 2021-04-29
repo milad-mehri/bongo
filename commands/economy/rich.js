@@ -53,11 +53,13 @@ console.log(abbbb)
 				} else {
 					vw = ':small_blue_diamond:'
 				}
-				names.push(/*vw + ' **' + comma(newlist[i].bal) + '** - ' +*/vw+ ' **' + message.guild.member(newlist[i].userid).user.tag+ '**')
-				bals.push('$' + comma(newlist[i].bal))
+				names.push(vw + ' **' + comma(newlist[i].bal) + '** - ' + message.guild.member(newlist[i].userid).user.tag)
+			//	bals.push('$' + comma(newlist[i].bal))
 
 			}
-				names.push('\n' + (abbbb+1)+'. **YOU** ('+ message.author.tag + ')')
+
+
+				names.push('\n' + (abbbb+1)+'. **' +   comma(userbal.bal) + '** - **YOU** ('+ message.author.tag + ')')
 				bals.push('\n**$' + comma(userbal.bal) + '**')
 
 			message.channel.send({
@@ -73,22 +75,10 @@ console.log(abbbb)
 					},
 					fields: [
 						{
-							name: `**Names**`,
 							value: names,
 							inline: true,
 						},
-						{
-							name: '\u200B',
-							value: '\u200B',
-							inline: true,
-						},
-
-						
-						{
-							name: '‎‎‎‎‎**Balances**',
-							value: bals,
-							inline: true,
-						}
+				
 					]
 				}
 			})
