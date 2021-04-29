@@ -1,3 +1,9 @@
+# Todo
+- Finish making a file for each item
+- Setup up aliases for items in shop, buy, sell, gift
+- Finalise all economy commands
+- Remake give and rob
+
 # Changelog
 **2021-04-24**
 - Removed globalrich command 
@@ -13,3 +19,13 @@
 - Added more emojis and fixed error messages
 - Added more error messages to help new users
 - Decreased daily amount
+- Re-formatted all commands in alphabetical order up to `gift`
+***
+**2021-04-28**
+- Improved formatting more
+- Fixed error messages
+- Removed ping from `a.give` and `a.gift`
+- Added aliases to items
+- Allowed fishing through `a.use`
+
+
