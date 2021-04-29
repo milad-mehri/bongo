@@ -9,4 +9,4 @@ module.exports = {
         if(!result.diamond) return message.channel.send('You have no diamonds. :laughing:')
         message.channel.send('You can\'t use diamonds.')
     }
-}
+} 
