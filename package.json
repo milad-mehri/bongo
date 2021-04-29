@@ -7,7 +7,7 @@
     "canvacord": "^5.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.6",
-    "node": "14.x"
+    "node": "12.x"
 
   },
   "devDependencies": {},
