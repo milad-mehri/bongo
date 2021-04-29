@@ -1,7 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
-const colors = require('../design/colors.json');
+const colors = require('../../design/colors.json');
 
 
 module.exports = {

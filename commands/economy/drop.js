@@ -1,6 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 
 module.exports = {
@@ -34,13 +35,13 @@ module.exports = {
 		if (amount > kabob) {
 			return embeds.errorEmbed(message, 'You **don\'t have this much** money bro.')
 		}
-		var newnine = result.bal - amount
-		await db.set(message.author.id, 'bal', newnine)
-		message.channel.send(`${message.author} dropped ${amount} coins in the chat\nSay ` + '`GRAB` to take some! (you have 15 seconds)')
+	
+		await db.set(message.author.id, 'bal',  result.bal - amount)
+		message.channel.send(`${message.author} dropped ${functions.comma(amount)} coins in the chat\nSay ` + '`GRAB` to take some! (you have 15 seconds)')
 
 
 		var messages = await message.channel.awaitMessages(() => true, { time: 15000 })
-		var i;
+
 
 		await messages.forEach((message) => {
 			if (message.content.toLowerCase() == "grab" && !message.author.bot && message.author.id !== host && grabbers.includes(message.author) === false) {
@@ -54,16 +55,14 @@ module.exports = {
 		console.log(grabbers)
 		var balfetch;
 		var bal;
-		var newbal;
 		var text = []
 		var each = Math.floor(amount / grabbers.length)
 
-		for (i = 0; i < grabbers.length; i++) {
+		for (let i = 0; i < grabbers.length; i++) {
 			balfetch = await db.fetch(grabbers[i].id)
 			bal = balfetch.bal
-			newbal = bal + each
-			await db.set(grabbers[i].id, 'bal', newbal)
-			text.push(grabbers[i].username + ' grabbed ' + each + ' coins.\n')
+			await db.set(grabbers[i].id, 'bal', bal + each)
+			text.push(grabbers[i].username + ' grabbed ' + functions.comma(each) + ' coins.\n')
 		}
 
 

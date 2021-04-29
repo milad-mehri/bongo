@@ -2,6 +2,7 @@ const db = require('../../db.js');
 const Discord = require('discord.js');
 const itemSchema = require('../../schemas/item-schema')
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 module.exports = {
 	name: 'buy',
@@ -78,7 +79,7 @@ module.exports = {
 			var newbal = bal - price
 			await db.set(message.author.id, 'bal', newbal)
 			await db.set(message.author.id, [item], result[item] + parseInt(ammount))
-			embeds.defaultEmbed(message,'Order purchased', `You bought ${ammount} ${itemobject.itemname}s for ${price} and you now have ${parseInt(result[item]) + parseInt(ammount)} ${itemobject.itemname}s and $${newbal} coins.`)
+			embeds.defaultEmbed(message,'Order purchased', `You bought ${functions.comma(ammount)} ${itemobject.itemname}s for ${functions.comma(price)} and you now have ${functions.comma(parseInt(result[item]) + parseInt(ammount))} ${itemobject.itemname}s and $${functions.comma(newbal)} coins.`)
 
 
 		})

@@ -2,6 +2,7 @@ const db = require('../../db.js');
 const Discord = require('discord.js');
 const itemSchema = require('../../schemas/item-schema')
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 
 module.exports = {
@@ -70,23 +71,8 @@ module.exports = {
 		} else {
 			if (!result.business) return message.reply('You **don\'t have a business**, do `a.business list` to get one')
 			var a = '■'.repeat(stock) + '□'.repeat(10 - stock)
-			embeds.defaultEmbed(message, message.author.username + '\'s ' + result.business, `:convenience_store:  Fish shop\n\nStock: [${a}](https://top.gg/bot/780943575394942987)\nBusiness Balance: $${busbal}`, 'a.business refill | a.business claim')
+			embeds.defaultEmbed(message, message.author.username + '\'s ' + result.business, `:convenience_store:  Fish shop\n\nStock: [${a}](https://top.gg/bot/780943575394942987)\nBusiness Balance: $${functions.comma(busbal)}`, 'a.business refill | a.business claim')
 
-		}
-
-
-
-
-
-
-		function comma(number) {
-			var i = number.toString();
-			i = i.split("").reverse();
-			i.forEach((item, index) => {
-				if (index % 3 == 0) i[index] = i[index] + ",";
-			});
-			i[0] = i[0][0];
-			return i.reverse().join("");
 		}
 
 
