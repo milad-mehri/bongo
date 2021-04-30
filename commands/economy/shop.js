@@ -26,6 +26,8 @@ module.exports = {
 				**Item**: ${item.displayName}
 				**Price**: ${item.price}`
 			)
+		}else{
+			shop(args[0])
 		}
 
 		function shop(page) {
@@ -40,8 +42,11 @@ module.exports = {
 				} 
 			})
 			var pages = functions.chunkArray(shop, 6)
-			embeds.defaultEmbed(message, 'Shop', pages[page - 1].join("\n\n") , "blue", `Page ${args[0]} of ${pages.length}.` )
-
+			if(pages[page-1]){
+			embeds.defaultEmbed(message, 'Shop', pages[page - 1].join("\n\n") , "blue", `Page ${page} of ${pages.length}.` )
+			}else{
+				return embeds.errorEmbed(message, 'This page doesn\'t exist.')
+			}
 						
 		}
 
