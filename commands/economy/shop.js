@@ -33,7 +33,6 @@ module.exports = {
 			message.client.items.forEach( item => {
 			
 				if(item.inshop){
-					console.log(item.name)
 					shop.push(
 						`${item.emoji}  ${item.displayName}  -  $${functions.comma(item.price)}
 						${item.description}`
@@ -41,7 +40,7 @@ module.exports = {
 				} 
 			})
 			var pages = functions.chunkArray(shop, 6)
-			embeds.defaultEmbed(message, 'Shop', pages[page - 1].join("\n\n") , blue, `Page ${args[0]} of ${pages.length}.` )
+			embeds.defaultEmbed(message, 'Shop', pages[page - 1].join("\n\n") , "blue", `Page ${args[0]} of ${pages.length}.` )
 
 						
 		}
