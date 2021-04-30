@@ -72,6 +72,11 @@ client.on('ready', () => {
 	
 })
 
+client.login(token)
+
+client.commands = new Discord.Collection();
+
+
 fs.readdirSync('./commands/').forEach(dir => {
 	const commands = fs.readdirSync(`./commands/${dir}/`).filter(file => file.endsWith('.js'));
 	for (let file of commands) {
