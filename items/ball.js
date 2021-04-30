@@ -1,16 +1,21 @@
 
 const db = require('../db.js');
 const Discord = require('discord.js');
+const embeds = require('../functions/embeds')
 
 module.exports = {
     name: 'ball',
     aliases: ['b', 'balls'],
     cooldown: 5,
+    inshop: true,
+    emoji: ':crystal_ball:',
+    price: 100000,
+    description: 'Get 1-500 coins everytime you use your balls.',
 
     async execute(message, args, result) {
         let balls = result.ball
 
-        if (balls === null || balls < 1) return message.reply('you have no balls to bounce.')
+        if (balls === null || balls < 1) return embeds.errorEmbed(message, 'You have no balls to bounce.')
 
         bal = result.bal
         balls = result.ball

@@ -1,3 +1,4 @@
+
 const { token, prefix } = require('./config/config.json')
 const Topgg = require('@top-gg/sdk');
 const webhook = new Topgg.Webhook('test');
@@ -194,6 +195,7 @@ client.on('message', async message => {
 
 const mongoose = require('mongoose')
 const userSchema = require('./schemas/user-schema')
+const mongo = require('./mongo')
 
 client.on('ready', async () => {
 

@@ -1,18 +1,23 @@
 
 const db = require('../db.js');
 const Discord = require('discord.js');
+const embeds = require('../functions/embeds')
 
 module.exports = {
     name: 'donut',
     aliases: ['donuts', 'donutes', 'doughnut', 'doughnuts', 'doughnutes'],
     cooldown: 3,
+    inshop: true,
+    emoji: ':doughnut:',
+    price: 100,
+    description: 'Get 1-150 coins per donut!',
 
     async execute(message, args, result,amount) {
         
         let bal = result.bal
         let donuts = result.donut
-        if (donuts === null || donuts < 1) return message.reply('you have no donuts to eat.')
-        if (amount > donuts) return message.reply('you dont have that many donuts!')
+        if (donuts === null || donuts < 1) return embeds.errorEmbed(message,'You have no donuts to eat.')
+        if (amount > donuts) return embeds.errorEmbed(message,'You dont have that many donuts!')
         
 
         

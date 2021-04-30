@@ -22,7 +22,7 @@
   "homepage": "https://github.com/bongo-bot/bongo#readme",
   "keywords": [],
   "engines": {
-    "node": "12.x",
+    "node": "14.x",
     "npm": "*"
   },
   "scripts": {

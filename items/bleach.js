@@ -1,18 +1,23 @@
 
 const db = require('../db.js');
 const Discord = require('discord.js');
+const embeds = require('../functions/embeds')
 
 module.exports = {
     name: 'bleach',
     aliases: ['bleachs', 'bleaches'],
     cooldown: 3,
+    inshop : true,
+    emoji: ':baby_bottle:',
+    price: 10000,
+    description: "Risk up to 80% of your money to gain up to 50%?",
 
     async execute(message, args, result) {
         let bal = result.bal
 
 
         var bleachs = result.bleach
-        if (bleachs === null || bleachs < 1) return message.reply('you have no bleach to drink.')
+        if (bleachs === null || bleachs < 1) return embeds.errorEmbed(message, 'You have no bleach to drink.')
 
         result = await db.set(message.author.id, 'bleach', (bleachs) - 1)
 
