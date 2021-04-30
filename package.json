@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/bongo-bot/bongo/issues"
   },
-  "homepage": "https://github.com/bongo-bot/bongo#readme",
+  "homepage": "https://github.com/bongo-bot/bongo#readme", 
   "keywords": [],
   "engines": {
     "node": "12.x"
