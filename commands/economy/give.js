@@ -35,12 +35,12 @@ module.exports = {
 
 		var giver = message.author;
 		var reciever = message.mentions.users.first();
-		if(giver.id === reciever.id) return message.errorEmbed(message, 'You can\'t send money to your self!')
+		if(giver.id === reciever.id) return embeds.errorEmbed(message, 'You can\'t send money to your self!')
 		var recieverResults = await db.fetch(reciever.id)
 
 		var giverResults = await db.fetch(giver.id)
-		if(giverResults.bal < amount) return message.errorEmbed(message, "You don't have enough money!")
-		if(amount < 1) return message.errorEmbed(message, "What money are you trying to give? lmao.")
+		if(giverResults.bal < amount) return embeds.errorEmbed(message, "You don't have enough money!")
+		if(amount < 1) return embeds.errorEmbed(message, "What money are you trying to give? lmao.")
 
 		await db.set(giver.id, "bal", giverResults.bal - amount)
 		await db.set(reciever.id, "bal", recieverResults.bal + amount)
