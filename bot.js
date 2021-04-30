@@ -6,7 +6,6 @@ const webhook = new Topgg.Webhook('test');
 const db = require('./db.js');
 const fs = require('fs');
 const canvacord = require("canvacord")
-const embeds = require('./functions/embeds')
 
 const embeds = require("./functions/embeds")
 const Discord = require('discord.js');
