@@ -53,7 +53,7 @@ app.listen(5000);
 
 
 client.on('ready', () => {
-/*
+
 	const promises = [
 		client.shard.fetchClientValues('guilds.cache.size'),
 		client.shard.broadcastEval('this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)'),
@@ -68,8 +68,7 @@ client.on('ready', () => {
 			})
 			return console.log('fetched member count')
 		})
-		.catch(console.error);*/
-		console.log('reday')
+		.catch(console.error);
 
 });
 
