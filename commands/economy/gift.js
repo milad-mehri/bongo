@@ -93,7 +93,7 @@ module.exports = {
 		} else {
 			result = await db.fetch(reciever.id)
 			var recieverinv = result[item]
-			var giverinv = (await db.fetchitem(giver.id))[item]
+			var giverinv = (await db.fetch(giver.id))[item]
 
 
 			var newrecieverinv = parseInt(recieverinv) + parseInt(number)
