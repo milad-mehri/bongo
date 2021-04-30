@@ -13,7 +13,7 @@ module.exports = {
 	async execute(message, args) {
 		await message.guild.members.fetch()
 
-		var mc = client.guilds.cache.get(message.guild.id).memberCount;
+		var mc = message.client.guilds.cache.get(message.guild.id).memberCount;
 		re('Server Member count', `All members: ${mc}
 		Members: ${message.guild.members.cache.filter(member => !member.user.bot).size}
 		Bots: ${message.guild.members.cache.filter(member => member.user.bot).size}`);
