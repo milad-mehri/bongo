@@ -256,11 +256,6 @@ client.on('ready', async () => {
 
 					}).catch();
 
-
-
-
-
-
 				}
 			});
 		})
