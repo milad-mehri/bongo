@@ -14,11 +14,22 @@ module.exports = {
 
 	async execute(message, args) {
 
-		var over = false
 		const result = await db.fetch(message.author.id)
+		if (!parseInt(args[0]) && args[0]) {
+			var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
+			if (!item) return shop(0)
+			embeds.defaultEmbed(
+				message,
+				item.displayName + ` (${result[name]})`,
+				`${item.description}
+				Item: ${item.name}
+				Price: ${item.price}`
+			)
+		}
 
-		
+		function shop(page) {
 
+		}
 
 	},
 };

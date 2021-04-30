@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'diamond',
     aliases: ['diamonds', 'diamondes'],
+    displayName: "Diamond",
     inshop: false,
     emoji: ':small_blue_diamond:',
     price: 10000000,

@@ -4,6 +4,7 @@ const embeds = require('../functions/embeds')
 
 module.exports = {
     name: 'box',
+    displayName: "Box",
     aliases: ['boxes', 'boxs'],
     cooldown: 1,
     inshop: false,

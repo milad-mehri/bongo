@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'shield',
+    displayName: "Shield",
     aliases: ['shields', 'shieldes'],
     inshop: false,
     emoji: ':shield:',

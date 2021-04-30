@@ -6,6 +6,7 @@ const embeds = require('../functions/embeds')
 module.exports = {
     name: 'donut',
     aliases: ['donuts', 'donutes', 'doughnut', 'doughnuts', 'doughnutes'],
+    displayName: "Donut",
     cooldown: 3,
     inshop: true,
     emoji: ':doughnut:',

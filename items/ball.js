@@ -5,6 +5,7 @@ const embeds = require('../functions/embeds')
 
 module.exports = {
     name: 'ball',
+    displayName: 'Ball',
     aliases: ['b', 'balls'],
     cooldown: 5,
     inshop: true,

@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'common',
     aliases: ['fish', 'fishes', 'fishs'],
+    displayName: "Common Fish",
     inshop: false,
     emoji: ':fish:',
     price: 100,

@@ -5,6 +5,7 @@ const embeds = require('../functions/embeds')
 
 module.exports = {
     name: 'bleach',
+    displayName: "Bleach",
     aliases: ['bleachs', 'bleaches'],
     cooldown: 3,
     inshop : true,

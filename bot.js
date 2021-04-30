@@ -110,7 +110,6 @@ fs.readdirSync('./items/').forEach(dir => {
 
 // STARTING CMD HANDLING
 client.on('message', async message => {
-	client.items.forEach(a => console.log(a))
 	if (message.webhookID) return;
 
 	if (message.content.replace(/ /gi, '').replace(/!/gi, '') === '<@780943575394942987>') return re(':wave: Hi, Im bongo!', 'My prefix is `a.`!. Type `a.help` to get started!')
@@ -170,7 +169,6 @@ client.on('message', async message => {
 	if (!commandToExecute) return;
 
 	try {
-		console.log(result.cooldowns)
 
 		//cooldowns
 		if (commandToExecute.cooldown) {
@@ -209,13 +207,11 @@ client.on('ready', async () => {
 					console.log(err);
 				}
 				else {
-					console.log("Entrees : ", docs);
 
 
 					var prize = Math.floor(Math.random() * 100000 + 50000);
 					var random = Math.floor(Math.random() * docs.length);
 					var winnerid = docs[random].userid
-					console.log(winnerid)
 					var winner = await db.fetch(winnerid)
 
 					var newbal = winner.bal + prize
@@ -272,22 +268,7 @@ client.on('ready', async () => {
 
 
 
-		var items = ['rod', 'shield', 'bleach', 'clover']
-		var random = Math.floor(Math.random() * items.length)
-		var i;
-		var percent = Math.floor((Math.random() * 50) + 1);
-		for (i = 0; i < items.length; i++) {
 
-			await db.setsale(items[i], 'sale', 0)
-			console.log(i + ':' + random)
-
-
-		}
-		var item = await db.shop(items[random])
-
-		var saleamount = (item.price / 100) * (percent)
-		console.log(saleamount + '+' + random + '+' + percent)
-		await db.setsale(items[random], 'sale', saleamount)
 
 	}, 2 * 3600000)
 

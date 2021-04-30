@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'clover',
+    displayName : "Clover",
     aliases: ['clovers', 'cloveres'],
     cooldown: 3,
     inshop: true,

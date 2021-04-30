@@ -26,7 +26,7 @@ module.exports = {
 
 		}
 		var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
-		if(!item) return embeds.errorEmbed('Item not found!')
+		if(!item) return embeds.errorEmbed(message, 'Item not found!')
 		if (item.cooldown) {
 
 			if ((item.cooldown * 1000) - (Date.now() - result.cooldowns[item.name]) > 1) {

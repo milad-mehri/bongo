@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'rare',
+    displayName: "Rare Fish",
     inshop: false,
     emoji: ':tropical_fish:',
     price: 100,
