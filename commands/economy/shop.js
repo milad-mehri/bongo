@@ -36,7 +36,7 @@ module.exports = {
 			
 				if(item.inshop){
 					shop.push(
-						`${item.emoji}  ${item.displayName}  -  $${functions.comma(item.price)}
+						`${item.emoji}  ${item.displayName}  -  **$${functions.comma(item.price)}**
 						${item.description}`
 					)
 				} 
