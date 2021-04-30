@@ -14,8 +14,8 @@ module.exports = {
 
 	async execute(message, args) {
 		const result = await db.fetch(message.author.id)
-		if (!parseInt(args[0])) {
-			var item = message.client.items.get(args[0]) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
+		if (!parseInt(args[0].toLowerCase())) {
+			var item = message.client.items.get(args[0].toLowerCase()) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(args[0].toLowerCase()));
 			if (!item) return shop(1)
 			embeds.defaultEmbed(
 				message,
@@ -27,7 +27,7 @@ module.exports = {
 				**Price**: ${item.price}`
 			)
 		}else{
-			shop(args[0])
+			shop(args[0].toLowerCase())
 		}
 
 		function shop(page) {

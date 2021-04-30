@@ -45,8 +45,7 @@ module.exports = {
 		if (isNaN(amount)) amount = 1
 
 
-		item = (message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item)) || null
-		)
+		item = (message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item)) || null)
 		if (!item) return embeds.errorEmbed(message, 'This item isn\'t in the shop!')
 		if (!(item.inshop)) return embed.errorEmbed(message, 'This item isn\'t in the shop!')
 
