@@ -1,7 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
-const itemSchema = require('../../schemas/item-schema')
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 
 module.exports = {
@@ -9,91 +9,48 @@ module.exports = {
 	description: 'View your inventory or the inventory of a mentioned user',
 	aliases: ['inv'],
 	usage: '`a.inv`, `a.inv @user`',
-  category: 'economy',
+	category: 'economy',
 
 	async execute(message, args) {
-		function chunkArray(myArray, chunk_size) {
-			var index = 0;
-			var arrayLength = myArray.length;
-			var tempArray = [];
 
-			for (index = 0; index < arrayLength; index += chunk_size) {
-				myChunk = myArray.slice(index, index + chunk_size);
-				// Do something if you want with the group
-				tempArray.push(myChunk);
-			}
-
-			return tempArray;
+		var page;
+		if (!parseInt(args[0])) {
+			page = 0
+		} else {
+			page = parseInt(args[0]) - 1
 		}
 
-		if (!message.mentions.users.size) {
 
-			if (!args[0] || isNaN((args[0])) || parseInt(args[0]) === 1) {
-				var page = 1
-			} else {
-				var page = parseInt(args[0])
-			}
+		if (!message.mentions.users.size) {
+			var inventory = []
+			var result = await db.fetch(message.author.id)
+			message.client.items.forEach(item => {
+				if (result[item.name] > 0) inventory.push(
+					`${result[item.name]} - ${item.displayName} ${item.emoji}`
+				)
+			})
+
+			var invPages = functions.chunkArray(inventory, 7)
+			if (!invPages[page]) return embeds.errorEmbed(message, 'This page doesn\'t exist...')
+			return embeds.defaultEmbed(message, "Inventory", invPages[page].join('\n\n'), "blue", `Page ${page + 1} of ${invPages.length}`)
+
 		} else {
 
 
-			if (!args[1] || isNaN((args[1])) || parseInt(args[1]) === 1) {
-				var page = 1
-			} else {
-				var page = parseInt(args[1])
-			}
-		}
-		if (!message.mentions.users.size) {
-
-			const result = await db.fetch(message.author.id)
-			var items = []
-			var allItems = itemSchema.find({}).lean().exec(function (err, docs) {
-				docs.forEach((item, index) => {
-					//   if (result[item.shopid]) {
-					if (parseInt(result[item.shopid]) > 0) {
-						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `);
-						//     }
-					}
-				});
-
-				if (items.length === 0) {
-					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.');
-				} else {
-					if (chunkArray(items, 7)[page - 1]) {
-						return embeds.defaultEmbed(message, 'Inventory', chunkArray(items, 7)[page - 1], `\nPage ${page} out of ${chunkArray(items, 7).length}`);
-					} else {
-						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**');
-					}
-
-				}
+			var inventory = []
+			var result = await db.fetch(message.mentions.members.first().id)
+			message.client.items.forEach(item => {
+				if (result[item.name] > 0) inventory.push(
+					`${result[item.name]} - ${item.displayName} ${item.emoji}`
+				)
 			})
-		} else {
-			var member = message.mentions.members.first();
 
-			const result = await db.fetch(member.id)
-
-			var items = []
-			var allItems = itemSchema.find({}).lean().exec(function (err, docs) {
-				docs.forEach((item, index) => {
-					/// if (result.item) {
-					if (parseInt(result[item.shopid]) > 0) {
-						items.push(`\n${result[item.shopid]} - ${item.itemname}(s)  ${item.emoji} `);
-					}
-					//  }
-				});
+			var invPages = functions.chunkArray(inventory, 7)
+			if (!invPages[page]) return embeds.errorEmbed(message, 'This page doesn\'t exist...')
+			return embeds.defaultEmbed(message, "Inventory", invPages[page].join('\n\n'), "blue", `Page ${page + 1} of ${invPages.length}`)
 
 
-
-				if (items.length === 0) {
-					embeds.defaultEmbed(message, 'Inventory', 'Nothing to see here.');
-				} else {
-					if (chunkArray(items, 7)[page - 1]) {
-						return embeds.defaultEmbed(message, 'Inventory', chunkArray(items, 7)[page - 1], `Page ${page} out of ${chunkArray(items, 7).length}`);
-					} else {
-						return embeds.errorEmbed(message, 'This **page doesn\'t exist...**');
-					}
-
-				}
-			})
 		}
+
 	},
 };
