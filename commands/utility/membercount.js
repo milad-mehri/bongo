@@ -2,6 +2,7 @@
 
 
 const Discord = require('discord.js');
+const embeds = requiembeds.defaultEmbed( message,'../../functions/embeds')
 
 module.exports = {
 	name: 'membercount',
@@ -14,7 +15,7 @@ module.exports = {
 		await message.guild.members.fetch()
 
 		var mc = message.client.guilds.cache.get(message.guild.id).memberCount;
-		re('Server Member count', `All members: ${mc}
+		embeds.defaultEmbed(message,'Server Member count', `All members: ${mc}
 		Members: ${message.guild.members.cache.filter(member => !member.user.bot).size}
 		Bots: ${message.guild.members.cache.filter(member => member.user.bot).size}`);
 

@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Purge 1-99 messages from the chat',
 	usage: '`a.purge <amount>`',
 	aliases: ['prune', 'clean', 'del'],
-  category: 'moderation',
+  category: 'utility',
 
 	async execute(message, args) {
 		const amount = parseInt(args[0]);
@@ -16,7 +16,7 @@ module.exports = {
 
 		if (isNaN(amount)) {
 			return message.channel.send("that doesn't seem to be a valid number.");
-		} else if (amount < 1 || amount > 99) {
+		} else if (amount < 1 || amount > 100) {
 			return message.channel.send(
 				'You need to input a number between **1** and **99**.'
 			);
