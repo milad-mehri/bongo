@@ -9,14 +9,13 @@
     "mongoose": "^5.12.6"
   },
   "devDependencies": {},
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bongo-bot/bongo.git"
   },
   "author": "Milad Mehri",
   "license": "ISC",
-  "bugs": { 
+  "bugs": {
     "url": "https://github.com/bongo-bot/bongo/issues"
   },
   "homepage": "https://github.com/bongo-bot/bongo#readme",
