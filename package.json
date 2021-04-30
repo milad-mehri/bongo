@@ -22,10 +22,10 @@
   "homepage": "https://github.com/bongo-bot/bongo#readme",
   "keywords": [],
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install --only=dev && npm install && node index.js production"
+    "start": "node index.js"
   }
 }
