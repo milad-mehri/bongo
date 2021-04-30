@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-
+const embeds = require('../../functions/embeds')
 
 module.exports = {
 	name: 'type',
@@ -9,27 +9,21 @@ module.exports = {
 	cooldown: 60,
 
 	async execute(message, args) {
-		function re(a, b) {//embed function
-			const embed = new Discord.MessageEmbed()
-				// Set the title of the field
-				.setTitle(a)
-				// Set the color of the embed
-				.setColor('6FA8DC')
-				// Set the main content of the embed
-				.setDescription(b);
-
-			// Send the embed to the same channel as the message
-			message.channel.send(embed);
-		}
 
 		var strings = [
-			""
+			`${message.author.username} is the slowest typer to ever exist!`,
+			`${message.author.username} is the greatest person of all time.`,
+			`I'm a barbie girl, in a barbie world!`,
+			`I am the fatest typer and I will beat you in this typing race.`,
+			`I did not copy and paste this because it's impossible to copy and paste in this game.`,
+			`If I die, I'm a legend if I die, if I die, if I die.`,
+			`Pop Smoke once said, "I'm not moving, I'm rolling"`
 		]
 		var encodedText = ''
 
 		var text = strings[Math.floor(Math.random() * strings.length)]
 		text.split``.forEach(a => encodedText += a + '󠀠')
-		re('Type the following: ', encodedText)
+		embeds.defaultEmbed(message, 'Type the following: ', encodedText)
 		await message.channel.awaitMessages(m => m.content.toLowerCase() === text.toLowerCase(),
 			{ max: 1, time: 60000 }).then(async collected => {
 				return message.channel.send(`<@${collected.first().author.id}> won the typing race!`)
