@@ -21,9 +21,9 @@ module.exports = {
 
 		var medal = result.medal
 		if (parseInt(medal) > 0) {
-			var daily = 3000
+			var daily = 30000
 		} else {
-			var daily = 1000
+			var daily = 10000
 		}
 
 		var newbal = parseInt(result.bal) + daily;
