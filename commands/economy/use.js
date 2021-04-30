@@ -35,7 +35,7 @@ module.exports = {
 				result.itemCooldowns[item.name] = Date.now()
 				await db.set(message.author.id, 'itemCooldowns', result.itemCooldowns)
 			}
-		}
+		} 
 		return item.execute(message, args, result, amount);
 
 

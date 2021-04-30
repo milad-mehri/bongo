@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['medals', 'medales'],
     inshop: false,
     emoji: ':medal:',
-    price: 10000000,
+    price: 1000000,
     description: "Increases your hourly, daily and monthly coins (dont stack).",
 
     async execute(message, args, result) {

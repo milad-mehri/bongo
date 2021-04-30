@@ -16,19 +16,27 @@ module.exports = {
 
 		const result = await db.fetch(message.author.id)
 		if (!parseInt(args[0]) && args[0]) {
-			var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
-			if (!item) return shop(0)
+			var item = message.client.items.get(args[0]) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
+			if (!item) return shop(1)
 			embeds.defaultEmbed(
 				message,
-				item.displayName + ` (${result[name]})`,
+				item.displayName + ` (${result[item.name]})`,
 				`${item.description}
-				Item: ${item.name}
-				Price: ${item.price}`
+
+				**Icon**: ${item.emoji}
+				**Item**: ${item.displayName}
+				**Price**: ${item.price}`
 			)
 		}
 
 		function shop(page) {
 
+			var itemIndexes = (page - 1) * 7
+			var lastItem = itemIndexes + 7;
+
+			(lastItem > message.client.items.length())? lastItem = message.client.items.length():false  
+			
+						
 		}
 
 	},

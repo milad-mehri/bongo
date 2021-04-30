@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['shields', 'shieldes'],
     inshop: false,
     emoji: ':shield:',
-    price: 10000000,
+    price: 12000,
     description: "Protect yourself from any robbers!",
 
     async execute(message, args, result) {
