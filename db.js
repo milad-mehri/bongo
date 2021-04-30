@@ -53,24 +53,6 @@ module.exports.set = async (userID, thingToUpdate, value) => {
 
 
 
-module.exports.fetchitem = async (userID, item) => {
-	return await mongo().then(async mongoose => {
-		const user = {
-			userid: userID,
-			bal: 1000,
-			box: 1
-		}
-		console.log(await userSchema.findOne({ "userid": userID }))
-		const result = cache.get(userID) || userSchema.findOne({ "userid": userID }) || await new userSchema(user).save();
-		if (!cache.has(userID)) cache.set(userID, result);
-
-		return result[item]
-
-	})
-}
-
-
-
 
 
 module.exports.fetchguild = async (userID) => {

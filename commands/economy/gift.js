@@ -75,21 +75,12 @@ module.exports = {
 
 		}
 
-		if (item === 'rarefish') {
-			item = 'rare'
-		}
-
-		if (item === 'commonfish') {
-			item = 'common'
-		}
-		if (item === 'fish') {
-			item = 'common'
-		}
 
 
 
 
-		var result = await db.fetchitem(giver.id, item)
+
+		var result = (await db.fetch(giver.id))[item]
 		var itema = result
 		if (parseInt(number) < 0) {
 			return embeds.errorEmbed(message,'You **can\'t do this**')
@@ -102,7 +93,7 @@ module.exports = {
 		} else {
 			result = await db.fetch(reciever.id)
 			var recieverinv = result[item]
-			var giverinv = await db.fetchitem(giver.id, item)
+			var giverinv = (await db.fetchitem(giver.id))[item]
 
 
 			var newrecieverinv = parseInt(recieverinv) + parseInt(number)
