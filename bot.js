@@ -8,7 +8,7 @@ const fs = require('fs');
 const canvacord = require("canvacord")
 const embeds = require('./functions/embeds')
 
-
+const embeds = require("./functions/embeds")
 const Discord = require('discord.js');
 const client = new Discord.Client
 
@@ -176,6 +176,10 @@ client.on('message', async message => {
 		}
 		//snipes
 		var snipes = client.snipes
+
+		var guildResults = await db.fetchguild(message.guild.id)
+		if(guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
+
 		commandToExecute.execute(message, args, snipes, client);
 	} catch (error) {
 		console.error(error);

@@ -21,6 +21,11 @@ const guildSchema = mongoose.Schema({
 		type: Boolean,
 		required: true
 	},
+	disabled: {
+		type: Object,
+		required: true,
+		default: {}
+	}
 
 
 

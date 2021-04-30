@@ -8,10 +8,7 @@ module.exports = {
 	usage: '`a.snipe`',
 	category: 'utility',
 	async execute(message, args) {
-		var result = await db.fetchguild(message.guild.id)
-		if (!result.snipe) {
-			return message.react('<:lock:835315561650847764>')
-		}
+
 		const msg = message.client.snipes.get(message.channel.id)
 		if (!msg) return message.channel.send('there is nothing to snipe.')
 

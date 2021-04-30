@@ -27,12 +27,6 @@ module.exports = {
 		}
 
 
-		var result = await db.fetchguild(message.guild.id)
-		if (!result.rob) {
-			return message.react('<:lock:835315561650847764>')
-		}
-
-
 		// Otherwise they'll get their daily
 		if (isNaN(message.mentions.users.first())) {
 			return message.reply(':angry: mention who you want to rob.');
