@@ -4,7 +4,7 @@ module.exports = {
     name: 'diamond',
     aliases: ['diamonds', 'diamondes'],
     displayName: "Diamond",
-    inshop: false,
+    inshop: true,
     emoji: ':small_blue_diamond:',
     price: 10000000,
     description: "Flex on the slightly poorer people.",

@@ -8,6 +8,7 @@ module.exports = {
     description: 'You can use rods to fish!',
     emoji: ":fishing_pole_and_fish:",
     price: 15000,
+    inshop: true,
 
     async execute(message, args) {
         message.client.commands.get('fish').execute(message, args);

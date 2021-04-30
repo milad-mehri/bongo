@@ -4,7 +4,7 @@ module.exports = {
     name: 'shield',
     displayName: "Shield",
     aliases: ['shields', 'shieldes'],
-    inshop: false,
+    inshop: true,
     emoji: ':shield:',
     price: 12000,
     description: "Protect yourself from any robbers!",

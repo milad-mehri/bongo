@@ -4,7 +4,7 @@ module.exports = {
     name: 'medal',
     displayName: "Medal",
     aliases: ['medals', 'medales'],
-    inshop: false,
+    inshop: true,
     emoji: ':medal:',
     price: 1000000,
     description: "Increases your hourly, daily and monthly coins (dont stack).",

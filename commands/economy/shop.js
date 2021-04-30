@@ -13,10 +13,9 @@ module.exports = {
 	category: 'economy',
 
 	async execute(message, args) {
-		var items = items
 		const result = await db.fetch(message.author.id)
-		if (!parseInt(args[0]) && args[0]) {
-			var item = items.get(args[0]) || items.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
+		if (!parseInt(args[0])) {
+			var item = message.client.items.get(args[0]) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
 			if (!item) return shop(1)
 			embeds.defaultEmbed(
 				message,
@@ -30,13 +29,20 @@ module.exports = {
 		}
 
 		function shop(page) {
-
-			var itemIndexes = (page - 1) * 7
-			var lastItem = itemIndexes + 7;
-
-			(lastItem > items.length())? lastItem = items.length():false  
-
+			var shop = []
+			message.client.items.forEach( item => {
 			
+				if(item.inshop){
+					console.log(item.name)
+					shop.push(
+						`${item.emoji}  ${item.displayName}  -  $${functions.comma(item.price)}
+						${item.description}`
+					)
+				}
+			})
+			var pages = functions.chunkArray(shop, 6)
+			embeds.defaultEmbed(message, 'Shop', pages[page - 1].join("\n\n") , blue, `Page ${args[0]} of ${pages.length}.` )
+
 						
 		}
 
