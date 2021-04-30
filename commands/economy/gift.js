@@ -23,9 +23,9 @@ module.exports = {
 			return embeds.errorEmbed(message,'You cant gift items to yourself..')
 		}
 
-		var a = args[0]
-		var b = args[1]
-		var c = args[2]
+		var a = args[0].toLowerCase()
+		var b = args[1].toLowerCase()
+		var c = args[2].toLowerCase()
 
 		if (undefined === c || b === undefined || a === undefined) {
 			return embeds.errorEmbed(message, 'You are missing an argument!! Use this command like : ```a.gift (number) (item) (@)```')
