@@ -28,12 +28,12 @@ module.exports = {
 		var c = args[2].toLowerCase()
 
 		if (undefined === c || b === undefined || a === undefined) {
-			return embeds.errorEmbed(message, 'You are missing an argument!! Use this command like : ```a.gift (number) (item) (@)```')
+			return embeds.errorEmbed(message, 'You are missing an argument! Use this command like : ```a.gift (number) (item) (@)```')
 		}
 
 
 		if (isNaN(parseInt(a)) && isNaN(parseInt(b)) && isNaN(parseInt(c))) {
-			return embeds.errorEmbed(message,'You are missing an argument!! Use this command like : `a.gift (number) (item) (@)`')
+			return embeds.errorEmbed(message,'You are missing an argument! Use this command like : `a.gift (number) (item) (@)`')
 		}
 
 

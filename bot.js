@@ -144,7 +144,7 @@ client.on('message', async message => {
 	let cooldown = 500; // overall cool down to prevent running cmds at the same time
 
 	let result = await db.fetch(message.author.id);
-	if (result.banned && message.author.id !== '248692731163967498' && message.author.id !== '730939054388019272') return
+	if (result.banned && message.author.id !== '248692731163967498' && message.author.id !== '823084209999708201') return
 	let overcd = parseInt(result.overallcd + '000')
 	if (overcd !== null && cooldown - (Date.now() - overcd) > 0) {
 		// If user still has a cooldown
