@@ -35,7 +35,7 @@ module.exports = {
 
 
 		item = item.toLowerCase()
-
+		if(!amount) amount = 1
 
 		if (parseInt(amount) < 1) {
 			return embeds.errorEmbed(message, 'You have to sell something.')

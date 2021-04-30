@@ -5,7 +5,7 @@ module.exports = {
     displayName: "Rare Fish",
     inshop: false,
     emoji: ':tropical_fish:',
-    price: 100,
+    price: 10000,
     description: "Rare fishes can only be found by fishing with your rod.\nThe only purpose of it is to collect.",
 
     async execute(message, args, result) {
