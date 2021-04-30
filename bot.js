@@ -71,8 +71,8 @@ client.on('ready', () => {
 		.catch(console.error);
 	
 })
-	.catch(console.error);
-ync('./commands/').forEach(dir => {
+
+fs.readdirSync('./commands/').forEach(dir => {
 	const commands = fs.readdirSync(`./commands/${dir}/`).filter(file => file.endsWith('.js'));
 	for (let file of commands) {
 		let pull = require(`./commands/${dir}/${file}`);
