@@ -6,7 +6,9 @@
   "dependencies": {
     "@top-gg/sdk": "^3.1.1",
     "canvacord": "^5.2.0",
+    "discord.js": "^12.5.3",
     "express": "^4.17.1",
+    "got": "^11.8.2",
     "mongoose": "^5.12.6"
   },
   "devDependencies": {},
@@ -26,6 +28,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install --only=dev && npm install && node index.js production"
+    "start": "node index.js"
   }
 }
