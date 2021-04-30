@@ -193,7 +193,7 @@ client.on('message', async message => {
 const mongoose = require('mongoose')
 const userSchema = require('./schemas/user-schema')
 const mongo = require('./mongo')
-
+/*
 client.on('ready', async () => {
 
 
@@ -314,3 +314,4 @@ client.on('messageDelete', function (message, channel) {
 		image: message.attachments.first() ? message.attachments.first().proxyURL : null
 	})
 });
+*/ //ENABLE

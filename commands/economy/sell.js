@@ -21,7 +21,7 @@ module.exports = {
 
 		var item = args[0]
 		var amount = args[1]
-		if (args[1] === undefined) {
+		if (isNaN(parseInt(args[1]))) {
 
 			amount = 1
 			item = args[0]
@@ -41,7 +41,7 @@ module.exports = {
 		}
 		item = (message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item)) || null)
 		if (!item) return embeds.blankEmbed(message, 'This item isnt in the shop!')
-		if (result[item.name] < amount) return embeds.errorEmbed('You **don\'t have enough** of this item')
+		if (result[item.name] < amount) return embeds.errorEmbed(message,'You **don\'t have enough** of this item')
 
 
 
