@@ -77,6 +77,7 @@ module.exports = {
 
 
 
+ 		item = (message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item))).name
 
 
 
