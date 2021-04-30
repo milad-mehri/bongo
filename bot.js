@@ -12,46 +12,6 @@ const embeds = require('./functions/embeds')
 const Discord = require('discord.js');
 const client = new Discord.Client
 
-const express = require('express');
-const app = express();
-
-
-app.get("/", (req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/html' });
-	res.write('<html><body><p>This is home Page.</p></body></html>');
-	res.end();
-})
-app.post("/votes/top.gg", webhook.middleware(), async (req, res) => {
-	res.status(200).end()
-	const vote = req.vote;
-	client.channels.cache.get('828098780968648734').send(vote.user)
-	let result = await db.fetch(vote.user);
-
-	let boxs = result.box
-
-	if (vote.guild === '781393539451977769') {
-		db.set(vote.user, 'box', (parseInt(boxs) + 1));
-	} else {
-		if (vote.isWeekend) {
-			var newbox = parseInt(boxs) + 2
-		} else {
-			var newbox = parseInt(boxs) + 1
-
-		}
-		db.set(vote.user, 'box', newbox);
-
-
-
-	}
-
-
-})
-
-
-app.listen(5000);
-
-
-
 client.on('ready', () => {
 
 	const promises = [
