@@ -7,6 +7,11 @@
 - Move all items from DB into items folder (?)
 
 # Changelog
+**2021-04-29**
+- Finished making a file for each item
+- Set up item aliases
+- Moved all items from db to item folders.
+***
 **2021-04-28**
 - Improved formatting more
 - Fixed error messages

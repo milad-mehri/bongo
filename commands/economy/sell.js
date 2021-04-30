@@ -1,6 +1,5 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
-const itemSchema = require('../../schemas/item-schema')
 const embeds = require('../../functions/embeds')
 const functions = require('../../functions/functions')
 

@@ -1,6 +1,5 @@
 const mongo = require('./mongo')
 const userSchema = require('./schemas/user-schema')
-const itemSchema = require('./schemas/item-schema')
 
 const guildSchema = require('./schemas/guild-schema')
 const Discord = require('discord.js')
@@ -17,22 +16,7 @@ module.exports.fetch = async (id, client) => {
 	})
 }
 
-module.exports.shop = async (shopid) => {
-	return await mongo().then(async mongoose => {
 
-		const result = cache.get(shopid) || await itemSchema.findOne({ "shopid": shopid })
-		if (!cache.has(shopid)) cache.set(shopid, result);
-		return result;
-	})
-}
-
-module.exports.setsale = async (shopid, thingToUpdate, value) => {
-	result = await itemSchema.findOneAndUpdate({ "shopid": shopid }, { [thingToUpdate]: value })
-
-	result = await itemSchema.findOne({ "shopid": shopid })
-	await cache.set(shopid, result);
-	return result
-}
 
 module.exports.fetchdontmake = async (id) => {
 	return await mongo().then(async mongoose => {
