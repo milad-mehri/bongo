@@ -11,7 +11,10 @@ module.exports = {
 
     async execute(message, args) {
 
+
         var command = message.client.commands.get(args[0]) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
+        if(["disable", "enable"].includes(command.name)) return embeds.errorEmbed(message, "This command cannot be disabled!")
+
         if (!command) return message.channel.send("This is not a valid command.")
 
         if (!message.member.hasPermission('ADMIN')) {
@@ -27,6 +30,7 @@ module.exports = {
         await db.guildset(message.guild.id, "disabled", result.disabled)
 
         console.log(result.disabled)
+        return embeds.successEmbed(message, `${command["name"]} was disabled!`)
 
 
 
