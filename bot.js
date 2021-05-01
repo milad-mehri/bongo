@@ -127,10 +127,11 @@ client.on('message', async message => {
 	if (!commandToExecute) return;
 
 	try {
-		var result = await db.fetch(message.author.id)
-		var guildResults = await db.fetchguild(message.guild.id)
-		if (guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
-
+		if (message.guild) {
+			var result = await db.fetch(message.author.id)
+			var guildResults = await db.fetchguild(message.guild.id)
+			if (guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
+		}
 		//cooldowns
 		if (commandToExecute.cooldown) {
 

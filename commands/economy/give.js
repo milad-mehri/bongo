@@ -46,7 +46,7 @@ module.exports = {
 		await db.set(reciever.id, "bal", recieverResults.bal + amount)
 
 		message.reply(
-			`You gave ${reciever.username} **$${functions.comma(amount)}**, now you have **$${giverResults.bal - amount}** and they have **$${recieverResults.bal + amount}**.`
+			`You gave ${reciever.username} **$${functions.comma(amount)}**, now you have **$${functions.comma(giverResults.bal - amount)}** and they have **$${functions.comma(recieverResults.bal + amount)}**.`
 		)
 
 

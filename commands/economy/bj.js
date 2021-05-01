@@ -29,8 +29,15 @@ module.exports = {
 		var result = await db.fetch(message.author.id)
 		var bal = result.bal
 
-		if (parseInt(bal) > 10000000) {
+		if (amount === 'all' || amount === 'max') {
+			amount = min(parseInt(bal), 500000)
+		}
+		if (amount === 'half') {
+			amount = parseInt(bal) / 2
+		}
 
+
+		if (parseInt(bal) > 10000000) {
 			return message.reply('you are too rich to blackjack, go do something useful!')
 		}
 
@@ -38,27 +45,11 @@ module.exports = {
 		if (!amount) {
 			return message.reply(' You have to say the amount you wanna blackjack');
 		}
-
-		if (amount === 'all' || amount === 'max') {
-			amount = min(parseInt(bal), 500000)
-		}
-
-		if (amount === 'half') {
-			var mowney = parseInt(bal) / 2
-			if (50 > parseInt(mowney)) {
-				return message.channel.send('You cant blackjack less than 50 poor kid.');
-			}
-			if (500000 < parseInt(mowney)) {
-				return message.channel.send('You cant blackjack more than 500k.');
-			}
-
-			amount = mowney
-
-
-		}
 		if (isNaN(parseInt(amount))) {
 			return message.reply('you have to say the amount you wanna blackjack');
 		}
+
+
 
 
 
@@ -142,7 +133,7 @@ module.exports = {
 				return
 			}
 			bustcards += 1
-			console.log(bustcards)
+
 			bongosum = bongocards.reduce((a, b) => {
 				return a + b;
 			});
@@ -150,7 +141,6 @@ module.exports = {
 			playersum = cardvalues.reduce((a, b) => {
 				return a + b;
 			});
-			if (playersum > 21) console.log('fail')
 			if (parseInt(playersum) > 21 && over === false) {
 				mmewsage = 'You lose!'
 				over = true
@@ -340,7 +330,6 @@ module.exports = {
 							} else if (collected.first().content.toLowerCase() == 's' || collected.first().content.toLowerCase() == 'stand') {
 
 								if (over === false) {
-									console.log('here')
 								}
 								do {
 									stand()
