@@ -23,13 +23,13 @@ module.exports = {
 
 
         var result = await db.fetchguild(message.guild.id)
-        if (!result.enabled[command.name]) return message.channel.send("This command is already enabled.")
+        if (!result.disabled[command.name]) return message.channel.send("This command is already enabled.")
 
         
-        result.enabled[command.name] = false
-        await db.guildset(message.guild.id, "enabled", result.enabled)
+        result.disabled[command.name] = false
+        await db.guildset(message.guild.id, "enabled", result.disabled)
 
-        console.log(result.enabled)
+        console.log(result.disabled)
         return embeds.successEmbed(message, `${command["name"]} was enabled!`)
 
 
