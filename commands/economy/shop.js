@@ -22,7 +22,7 @@ module.exports = {
 			if (!item) return shop(1)
 			embeds.defaultEmbed(
 				message,
-				item.displayName + ` (${result[item.name]})`,
+				item.displayName + ` (${result.items[item.name]})`,
 				`${item.description}
 
 				**Icon**: ${item.emoji}

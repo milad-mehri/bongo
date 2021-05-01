@@ -10,7 +10,7 @@ module.exports = {
     description: "Increases your hourly, daily and monthly coins (dont stack).",
 
     async execute(message, args, result) {
-        if(!result.medal) return message.channel.send('You have no medals. :laughing:')
+        if(!result.items.medal) return message.channel.send('You have no medals. :laughing:')
         message.channel.send('Medals are always being used.')
     }
 } 

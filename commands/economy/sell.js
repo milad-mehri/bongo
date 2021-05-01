@@ -41,7 +41,7 @@ module.exports = {
 		}
 		item = (message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item)) || null)
 		if (!item) return embeds.blankEmbed(message, 'This item isnt in the shop!')
-		if (result[item.name] < amount) return embeds.errorEmbed(message,'You **don\'t have enough** of this item')
+		if (result.items[item.name] < amount) return embeds.errorEmbed(message,'You **don\'t have enough** of this item')
 
 
 
@@ -51,8 +51,11 @@ module.exports = {
 
 
 		await db.set(message.author.id, 'bal', bal + price * 0.10)
-		await db.set(message.author.id, [item], result[item] - parseInt(amount))
-		embeds.defaultEmbed(message ,'Package returned', `You sold **${functions.comma(amount)} ${item.displayName}'s** for **$${functions.comma(price * 0.10)}** and you now have **${functions.comma(parseInt(result[item.name]) - parseInt(amount))} ${item.displayName}'s** and **$${functions.comma(bal + (price * 0.10))} coins**.`)
+
+		result.items[item] = result.items[item] - parseInt(amount)
+
+		await db.set(message.author.id, 'items', result.items)
+		embeds.defaultEmbed(message ,'Package returned', `You sold **${functions.comma(amount)} ${item.displayName}'s** for **$${functions.comma(price * 0.10)}** and you now have **${functions.comma(parseInt(result.items[item.name]))} ${item.displayName}'s** and **$${functions.comma(bal + (price * 0.10))} coins**.`)
 
 
 	},

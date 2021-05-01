@@ -10,7 +10,7 @@ module.exports = {
     description: "Flex on the slightly poorer people.",
 
     async execute(message, args, result) {
-        if(!result.diamond) return message.channel.send('You have no diamonds. :laughing:')
+        if(!result.items.diamond) return message.channel.send('You have no diamonds. :laughing:')
         message.channel.send('You can\'t use diamonds.')
     }
 } 

@@ -13,14 +13,15 @@ module.exports = {
     price: 10000,
     description: "Risk up to 80% of your money to gain up to 50%?",
 
-    async execute(message, args, result) {
+    async execute(message, args, result, amount) {
         let bal = result.bal
 
-
-        var bleachs = result.bleach
+        if(amount > 1) return embeds.errorEmbed(message, "You can only use 1 bleach at a time.")
+        var bleachs = result.items.bleach
         if (bleachs === null || bleachs < 1) return embeds.errorEmbed(message, 'You have no bleach to drink.')
 
-        result = await db.set(message.author.id, 'bleach', (bleachs) - 1)
+        result.items.bleach = bleachs - 1
+        await db.set(message.author.id, 'items', result.items)
 
 
         message.reply('You drank bleach and...')

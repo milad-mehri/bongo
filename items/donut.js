@@ -16,16 +16,16 @@ module.exports = {
     async execute(message, args, result,amount) {
         
         let bal = result.bal
-        let donuts = result.donut
+        let donuts = result.items.donut
         if (donuts === null || donuts < 1) return embeds.errorEmbed(message,'You have no donuts to eat.')
         if (amount > donuts) return embeds.errorEmbed(message,'You dont have that many donuts!')
         
 
         
 
+        result.items.donut = donuts - amount
 
-
-        result = await db.set(message.author.id, 'donut', donuts-amount);
+        result = await db.set(message.author.id, 'items', result.items);
         var random = Math.floor(Math.random() * (115 - 25 + 1) + 25);
 
       

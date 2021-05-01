@@ -14,12 +14,12 @@ module.exports = {
     description: 'Get 1-500 coins everytime you use your balls.',
 
     async execute(message, args, result) {
-        let balls = result.ball
+        let balls = result.items.ball
 
         if (balls === null || balls < 1) return embeds.errorEmbed(message, 'You have no balls to bounce.')
 
         bal = result.bal
-        balls = result.ball
+        balls = result.items.ball
 
         var random;
 
@@ -31,10 +31,12 @@ module.exports = {
 
         }
 
-        var result = await db.set(message.author.id, 'bal', parseInt(bal) + parseInt(totalMoney))
+
+        await db.set(message.author.id, 'bal', parseInt(bal) + parseInt(totalMoney))
         var whattosend = ['you bounced your ' + balls + ' ball(s) and made $' + totalMoney + ' coins :person_bouncing_ball: ']
         if (Math.floor(Math.random() * (100) + 1) < Math.floor(balls / 10)) {
-            await db.set(message.author.id, 'ball', balls - 1)
+            result.items.ball  = balls - 1
+            await db.set(message.author.id, 'items', result.items)
             whattosend.push(('\n:anguished: One of your balls rolled down the street and you now have ' + (balls - 1).toString()))
 
         }
