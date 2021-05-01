@@ -302,6 +302,8 @@ client.on('guildMemberAdd', async member => {
 	}
 	//member.send('Welcome  Welcome to Big Bag of Potatoes\nHope you have a good time in our server. Please make sure to read the rules in <#807356813606518804>, and then head over to <#807356856704040990> for your own custom roles!')
 })
+
+*/
 client.snipes = new Map()
 client.on('messageDelete', function (message, channel) {
 	client.snipes.set(message.channel.id, {
@@ -310,4 +312,3 @@ client.on('messageDelete', function (message, channel) {
 		image: message.attachments.first() ? message.attachments.first().proxyURL : null
 	})
 });
-*/
