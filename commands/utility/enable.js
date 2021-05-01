@@ -27,7 +27,7 @@ module.exports = {
         if (!result.disabled[command.name]) return message.channel.send("This command is already enabled.")
 
         
-        result.disabled[command.name] = false
+        delete result.disabled[command.name]
         await db.guildset(message.guild.id, "disabled", result.disabled)
 
         console.log(result.disabled)
