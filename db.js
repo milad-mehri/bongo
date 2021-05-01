@@ -46,7 +46,9 @@ module.exports.fetchguild = async (userID) => {
 
 		const user = {
 			guildid: userID,
-			rob: true,
+			diabled: {
+				rob: true
+			},
 			premium: false
 		}
 		const result = cache.get(userID) || await guildSchema.findOne({ "guildid": userID }) || await new guildSchema(user).save();

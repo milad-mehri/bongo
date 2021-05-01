@@ -27,7 +27,7 @@ module.exports = {
 
         
         result.disabled[command.name] = false
-        await db.guildset(message.guild.id, "enabled", result.disabled)
+        await db.guildset(message.guild.id, "disabled", result.disabled)
 
         console.log(result.disabled)
         return embeds.successEmbed(message, `${command["name"]} was enabled!`)
