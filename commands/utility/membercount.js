@@ -2,7 +2,7 @@
 
 
 const Discord = require('discord.js');
-const embeds = requiembeds.defaultEmbed( message,'../../functions/embeds')
+const embeds = require('../../functions/embeds')
 
 module.exports = {
 	name: 'membercount',
