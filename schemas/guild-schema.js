@@ -5,17 +5,6 @@ const guildSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	rob: {
-		default: true,
-		type: Boolean,
-		required: true
-	},
-	snipe: {
-		default: true,
-		type: Boolean,
-		required: true
-	},
-
 	premium: {
 		default: false,
 		type: Boolean,

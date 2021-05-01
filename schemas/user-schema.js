@@ -97,15 +97,8 @@ const userSchema = mongoose.Schema({
 		default: 0,
 	},
 
-	infight: {
-		type: Boolean,
-	},
-	clovercooldown: {
-		type: Number,
-	},
-	clovercd: {
-		type: Number,
-	},
+
+
 
 	cooldowns: {
 		type: Object,

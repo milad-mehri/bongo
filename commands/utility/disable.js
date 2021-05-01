@@ -11,8 +11,10 @@ module.exports = {
 
     async execute(message, args) {
 
+        if(!args[0]) return embeds.errorEmbed(message, "Invalid arguments.")
 
-        var command = message.client.commands.get(args[0]) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
+
+        var command = message.client.commands.get(args[0].toLowerCase()) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0].toLowerCase()));
         if(["disable", "enable"].includes(command.name)) return embeds.errorEmbed(message, "This command cannot be disabled!")
 
         if (!command) return message.channel.send("This is not a valid command.")

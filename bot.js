@@ -68,7 +68,7 @@ client.on('ready', () => {
 			return console.log('fetched member count')
 		})
 		.catch(console.error);
-	
+
 })
 
 client.login(token)
@@ -162,6 +162,8 @@ client.on('message', async message => {
 	if (!commandToExecute) return;
 
 	try {
+		var guildResults = await db.fetchguild(message.guild.id)
+		if (guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
 
 		//cooldowns
 		if (commandToExecute.cooldown) {
@@ -176,8 +178,6 @@ client.on('message', async message => {
 		//snipes
 		var snipes = client.snipes
 
-		var guildResults = await db.fetchguild(message.guild.id)
-		if(guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
 
 		commandToExecute.execute(message, args, snipes, client);
 	} catch (error) {

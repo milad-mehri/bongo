@@ -14,7 +14,7 @@ module.exports = {
 		let avatarb = message.author.displayAvatarURL({ dynamic: false, format: 'png' });
 
 		let avatar = member.displayAvatarURL({ dynamic: false, format: 'png' });
-		let image = await canvacord.Canvas.slap(avatar, avatarb);
+		let image = await canvacord.Canvas.slap(avatarb, avatar);
 		let attachment = new Discord.MessageAttachment(image, "slaped.png");
 		return message.channel.send(attachment);
 	},
