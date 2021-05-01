@@ -26,8 +26,8 @@ module.exports = {
 			var inventory = []
 			var result = await db.fetch(message.author.id)
 			message.client.items.forEach(item => {
-				if (result[item.name] > 0) inventory.push(
-					`${result[item.name]} - ${item.displayName} ${item.emoji}`
+				if (result.items[item.name] > 0) inventory.push(
+					`${result.items[item.name]} - ${item.displayName} ${item.emoji}`
 				)
 			})
 
@@ -45,8 +45,8 @@ module.exports = {
 			var inventory = []
 			var result = await db.fetch(message.mentions.members.first().id)
 			message.client.items.forEach(item => {
-				if (result[item.name] > 0) inventory.push(
-					`${result[item.name]} - ${item.displayName} ${item.emoji}`
+				if (result.items[item.name] > 0) inventory.push(
+					`${result.items[item.name]} - ${item.displayName} ${item.emoji}`
 				)
 			})
 

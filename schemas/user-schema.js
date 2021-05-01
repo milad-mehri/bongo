@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+
 const userSchema = mongoose.Schema({
 	userid: {
 		type: String,
@@ -12,6 +13,8 @@ const userSchema = mongoose.Schema({
 	busstock: {
 		type: Number,
 		required: false,
+	},
+	busbal: {
 		default: 0,
 	},
 	busbal: {
@@ -75,9 +78,15 @@ const userSchema = mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
-	autolottery: {
+	_autolottery: {
 		type: Boolean,
 		default: false,
+	},
+	get autolottery() {
+		return this._autolottery
+	},
+	set autolottery(value) {
+		this._autolottery = value
 	},
 	banned: {
 		type: Boolean,
@@ -109,7 +118,63 @@ const userSchema = mongoose.Schema({
 		type: Object,
 		required: true,
 		default: {}
-	}
+	},
+	businessObject: {
+		bal: Number,
+		stock: {
+			type: Number,
+		},
+		name: {
+			type: String,
+		}
+	},
+	items: {
+		type: Object,
+		required: true,
+		default: {
+			ball: {
+				type: Number,
+				default: 0
+			},
+			box: {
+				type: Number,
+				default: 0
+			},
+			clover: {
+				type: Number,
+				default: 0
+			},
+			common: {
+				type: Number,
+				default: 0
+			},
+			diamond: {
+				type: Number,
+				default: 0
+			},
+			donut: {
+				type: Number,
+				default: 0
+			},
+			medal: {
+				type: Number,
+				default: 0
+			},
+			rare: {
+				type: Number,
+				default: 0
+			},
+			rod: {
+				type: Number,
+				default: 0
+			},
+			shield: {
+				type: Number,
+				default: 0
+			}
+		}
+	},
+
 
 })
 
