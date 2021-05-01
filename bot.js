@@ -105,19 +105,9 @@ for (let file of items) {
 client.on('message', async message => {
 	if (message.webhookID) return;
 
-	if (message.content.replace(/ /gi, '').replace(/!/gi, '') === '<@780943575394942987>') return re(':wave: Hi, Im bongo!', 'My prefix is `a.`!. Type `a.help` to get started!')
+	if (message.content.replace(/ /gi, '').replace(/!/gi, '') === '<@780943575394942987>') return embeds.defaultEmbed(message, ':wave: Hi, Im bongo!', 'My prefix is `a.`!. Type `a.help` to get started!')
 
-	function re(a, b) {//embed function
-		const embed = new Discord.MessageEmbed()
-			.setTitle(a)
-			// Set the color of the embed
-			.setColor('6FA8DC')
-			// Set the main content of the embed
-			.setDescription(b);
 
-		// Send the embed to the same channel as the message
-		message.channel.send(embed);
-	}
 	const args = message.content
 		.slice(prefix.length)
 		.trim()
@@ -130,31 +120,6 @@ client.on('message', async message => {
 
 	if (!b.startsWith(prefix) || message.author.bot || (message.guild === null && command !== 'help')) return;
 
-
-	//get arguments
-
-
-
-	let cooldown = 500; // overall cool down to prevent running cmds at the same time
-
-	let result = await db.fetch(message.author.id);
-	if (result.banned && message.author.id !== '248692731163967498' && message.author.id !== '823084209999708201') return
-	let overcd = parseInt(result.overallcd + '000')
-	if (overcd !== null && cooldown - (Date.now() - overcd) > 0) {
-		// If user still has a cooldown
-		let timeObj = cooldown - (Date.now() - overcd);
-		re(
-			'Woah slow down',
-			`You have to wait` + '`' + timeObj / 1000 + '`s before running any command again.'
-		);
-		return;
-	} else {
-		var time = Date.now().toString().slice(0, -3)
-
-		db.set(message.author.id, 'overallcd', time);
-
-
-	}
 
 
 	var commandToExecute = client.commands.get(command) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command));
