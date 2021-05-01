@@ -28,9 +28,14 @@ module.exports = {
 
 		var result = await db.fetch(message.author.id)
 		var bal = result.bal
+		var amount = args[0]
 
 		if (amount === 'all' || amount === 'max') {
-			amount = min(parseInt(bal), 500000)
+			if (parseInt(bal) > 500000) {
+				amount =  500000
+			}else{
+				amount = parseInt(bal)
+			}
 		}
 		if (amount === 'half') {
 			amount = parseInt(bal) / 2
@@ -41,7 +46,6 @@ module.exports = {
 			return message.reply('you are too rich to blackjack, go do something useful!')
 		}
 
-		var amount = args[0]
 		if (!amount) {
 			return message.reply(' You have to say the amount you wanna blackjack');
 		}

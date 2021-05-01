@@ -129,49 +129,64 @@ const userSchema = mongoose.Schema({
 		}
 	},
 	items: {
-		type: Object,
-		required: true,
-		default: {
-			ball: {
-				type: Number,
-				default: 0
-			},
-			box: {
-				type: Number,
-				default: 0
-			},
-			clover: {
-				type: Number,
-				default: 0
-			},
-			common: {
-				type: Number,
-				default: 0
-			},
-			diamond: {
-				type: Number,
-				default: 0
-			},
-			donut: {
-				type: Number,
-				default: 0
-			},
-			medal: {
-				type: Number,
-				default: 0
-			},
-			rare: {
-				type: Number,
-				default: 0
-			},
-			rod: {
-				type: Number,
-				default: 0
-			},
-			shield: {
-				type: Number,
-				default: 0
-			}
+
+
+		ball: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		box: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		clover: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		common: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		diamond: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		donut: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		medal: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		rare: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		rod: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		shield: {
+			type: Number,
+			default: 0,
+			required: true
+
+		},
+		bleach: {
+			type: Number,
+			default: 0,
+			required: true
+
 		}
 	},
 

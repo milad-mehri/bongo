@@ -22,14 +22,14 @@ module.exports = {
 
 
 			if (args[1].toLowerCase() === 'fish') {
-				if (result.common < 10) return embeds.errorEmbed(message, 'You **don\'t have enough **fish')
+				if (result.items.common < 10) return embeds.errorEmbed(message, 'You **don\'t have enough **fish')
 				result.businessObject.name = 'Fish Shop'
 				result.businessObject.bal = 100
 				result.businessObject.stock = 10
 
-				//result.common = result.common - 10
+				result.items.common = result.items.common - 10
 
-				await db.set(message.author.id, 'common', result.common - 10)
+				await db.set(message.author.id, 'items', result.items)
 				await db.set(message.author.id, 'businessObject', result.businessObject)
 				embeds.successEmbed(message, 'business **created!** Do **a.business** to view your business')
 
@@ -66,12 +66,12 @@ module.exports = {
 
 					result.businessObject.stock = newa
 
-					//result.common = result.common - input
+					result.common = result.common - input
 
 					embeds.successEmbed(message, 'Your stock is now **filled **' + newa + '/10' + '**')
 
 					await db.set(message.author.id, 'businessObject', result.businessObject)
-					await db.set(message.author.id, 'common', result.common - input)
+					await db.set(message.author.id, 'items', result.items)
 
 				}
 

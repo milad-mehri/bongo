@@ -78,10 +78,10 @@ module.exports = {
 
 
  		item = (message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item))).name
+		if(!item) return embeds.errorEmbed(message, "This is not a valid item!")
 
 
-
-		var result = (await db.fetch(giver.id))[item]
+		var result = (await db.fetch(giver.id)).items[item]
 		var itema = result
 		if (parseInt(number) < 0) {
 			return embeds.errorEmbed(message,'You **can\'t do this**')
@@ -92,30 +92,30 @@ module.exports = {
 		} else if (parseInt(itema) < parseInt(number)) {
 			return embeds.errorEmbed(message,`You **don\'t have enough** ${item}s!`)
 		} else {
-			result = await db.fetch(reciever.id)
-			var recieverinv = result[item]
-			var giverinv = (await db.fetch(giver.id))[item]
+			
+			
 
+			var giverInv = await db.fetch(giver.id)
+			var recieverInv = await db.fetch(reciever.id)
 
-			var newrecieverinv = parseInt(recieverinv) + parseInt(number)
-			var newgiverinv = parseInt(giverinv) - parseInt(number)
+			if(giverInv.items[item] <  parseInt(number)) return embeds.errorEmbed(message, "You don\'t have enough of this item.")
+
+			
+			giverInv.items[item] = giverInv.items[item] - parseInt(number)
+			recieverInv.items[item] = recieverInv.items[item] + parseInt(number)
+		
+			
+			
 
 			if (item === 'ball' && newrecieverinv > 50) {
 				return embeds.errorEmbed(message,'They already** maxed out** this item!')
 			}
 
-			db.set(reciever.id, item, newrecieverinv);
+			await db.set(reciever.id, 'items', recieverInv.items);
+			await db.set(giver.id, 'items', giverInv.items);
 
-			db.set(giver.id, item, newgiverinv);
-
-			return embeds.defaultEmbed(message,'Package shipped!', 'You gave `' + number + ' ' + item + '` to ' + reciever.username + `\nNow you have : ${newgiverinv} and they have : ${newrecieverinv}`)
-
+			return embeds.defaultEmbed(message,'Package shipped!', 'You gave `' + parseInt(number) + ' ' + item + '` to ' + reciever.username + `\nNow you have : ${giverInv.items[item] } and they have : ${recieverInv.items[item] }`)
 
 		}
-
-
-
-
-	},
-};
-
+	}
+}

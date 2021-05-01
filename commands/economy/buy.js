@@ -54,16 +54,18 @@ module.exports = {
 
 
 		if (item.name === 'ball') {
-			if (result[item.name] + amount > 50) {
+			if (result.item[item.name] + amount > 50) {
 				return embeds.errorEmbed(message, 'You cant have more than 50 balls!')
 			}
 		}
 
 		if (price > bal) return embeds.errorEmbed(message, 'You are to broke to buy this, try begging.');
 
+		result.items[item.name] = result.items[item.name] + parseInt(amount)
+
 		await db.set(message.author.id, 'bal', bal - price)
-		await db.set(message.author.id, [item.name], result[item.name] + parseInt(amount))
-		embeds.defaultEmbed(message, 'Order purchased', `You bought **${functions.comma(amount)} ${item.displayName}'s** for **${functions.comma(price)}** and you now have **${functions.comma(parseInt(result[item.name]) + parseInt(amount))} ${item.displayName}'s** and **$${functions.comma(bal - price)}** coins.`)
+		await db.set(message.author.id, "items", result.items)
+		embeds.defaultEmbed(message, 'Order purchased', `You bought **${functions.comma(amount)} ${item.displayName}'s** for **${functions.comma(price)}** and you now have **${functions.comma(parseInt(result.items[item.name]))} ${item.displayName}'s** and **$${functions.comma(bal - price)}** coins.`)
 
 
 	},
