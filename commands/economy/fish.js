@@ -21,7 +21,7 @@ module.exports = {
 
 
 		message.channel.send(emojis.fishing + ' fishing...').then(msg => {
-			setTimeout(function () {
+			setTimeout(async function () {
 
 				if ([1].includes(random)) {
 					await db.set(message.author.id, 'rod', result.rod - 1)

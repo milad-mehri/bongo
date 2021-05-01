@@ -1,36 +1,84 @@
+
+
 const db = require('../../db.js');
 const Discord = require('discord.js');
-const embeds = require('../../functions/embeds')
-const colors = require('../../design/colors.json');
 
 
 module.exports = {
-	name: 'blackjack',
-	description: 'kick command',
-	aliases: ['bj'],
+	name: 'bj',
+	description: 'Blackjack for a chance to double your money!',
+	aliases: ['blackjack'],
 	usage: 'a.blackjack <amount>',
 	category: 'economy',
 	cooldown: 5,
 
 	async execute(message, args) {
+		function re(a, b) {//embed function
+			const embed = new Discord.MessageEmbed()
+				// Set the title of the field
+				.setTitle(a)
+				// Set the color of the embed
+				.setColor('6FA8DC')
+				// Set the main content of the embed
+				.setDescription(b);
 
+			// Send the embed to the same channel as the message
+			message.channel.send(embed);
+		}
 
 		var result = await db.fetch(message.author.id)
 		var bal = result.bal
-		var amount = parseInt(args[0])
-		if (amount === 'all' || amount === 'max') {
-			(bal > 500000) ? amount = 500000 : amount = bal
+
+		if (parseInt(bal) > 10000000) {
+
+			return message.reply('you are too rich to blackjack, go do something useful!')
 		}
-		if (amount === 'half') amount = bal / 2
+
+		var amount = args[0]
+		if (!amount) {
+			return message.reply(' You have to say the amount you wanna blackjack');
+		}
+
+		if (amount === 'all' || amount === 'max') {
+			amount = min(parseInt(bal), 500000)
+		}
+
+		if (amount === 'half') {
+			var mowney = parseInt(bal) / 2
+			if (50 > parseInt(mowney)) {
+				return message.channel.send('You cant blackjack less than 50 poor kid.');
+			}
+			if (500000 < parseInt(mowney)) {
+				return message.channel.send('You cant blackjack more than 500k.');
+			}
+
+			amount = mowney
+
+
+		}
+		if (isNaN(parseInt(amount))) {
+			return message.reply('you have to say the amount you wanna blackjack');
+		}
 
 
 
-		//errors
-		if (bal > 10000000) return embeds.errorEmbed(message, 'You are** too rich **to blackjack, go do something **useful!**')
-		if (!amount) return embeds.errorEmbed(message, 'You have to **say the amount** you wanna blackjack');
-		if (amount > 500000) return embeds.errorEmbed(message, 'You **can\'t blackjack** more than **500k**.');
-		if (amount < 50) return embeds.errorEmbed(message, 'You **can\'t blackjack less than 50 **poor kid.');
-		if (bal < amount) return embeds.errorEmbed(message, 'You **only have ' + bal + ' coins**, dont try and **lie** to me bro.');
+
+
+
+
+		if (50 > parseInt(amount)) {
+			return message.channel.send('You cant blackjack less than 50 poor kid.');
+		}
+		if (500000 < parseInt(amount)) {
+			return message.channel.send('You cant blackjack more than 500k.');
+
+		}
+
+		if (parseInt(bal) < parseInt(amount)) {
+			return message.channel.send(
+				'You only have ' + bal + ' coins, dont try and lie to me bro.'
+			);
+		}
 
 		var over = false
 
@@ -53,23 +101,48 @@ module.exports = {
 		var bongocards = []
 		var bongodisplaycards = []
 
+		function drawcarda() {
+			var randomcard = Math.floor(Math.random() * 9);
+			var randomsuit = Math.floor(Math.random() * 3);
 
+			bongodisplaycards.push('`' + suits[randomsuit] + ' ' + options[randomcard] + '` ')
+			bongocards.push(options[randomcard])
+		}
 		//	do{
 
-		drawcard(); drawcard(); drawcard();
+		drawcard()
+		drawcard()
+		drawcarda()
 		amount = parseInt(amount)
 
-		var userAvatar = message.author.displayAvatarURL({ format: "png" })
+		var av = message.author.displayAvatarURL
+		/*
+						const embed = new MessageEmbed()
+							.setDescription(`**${message.author.username}‏‏‎** \bB‎‎‎‎‎**Bongo**\nCards - ‎‎‎‎‎${displaycards}\b\bCards - ${bongodisplaycards}`)
+		
+							
+							.setAuthor(message.author.username +`s Blackjack Game	`, av)
+							.setColor(`GREY`)
+						message.channel.send(embed)
+		*/
+		var bustcards = 0;
+		var bongosum = bongocards.reduce((a, b) => {
+			return a + b;
+		});
 
-		var bongosum = bongocards.reduce((a, b) => { return a + b });
-		var playersum = cardvalues.reduce((a, b) => { return a + b });
+		var playersum = cardvalues.reduce((a, b) => {
+			return a + b;
+		});
 
-		var embedTitle;
-		var embedColor;
-		var embedMessage;
+		var broski;
+		var colora;
+		var mmewsage;
 		async function bjreturn() {
-			if (over === true) return
-
+			if (over === true) {
+				return
+			}
+			bustcards += 1
+			console.log(bustcards)
 			bongosum = bongocards.reduce((a, b) => {
 				return a + b;
 			});
@@ -79,27 +152,37 @@ module.exports = {
 			});
 			if (playersum > 21) console.log('fail')
 			if (parseInt(playersum) > 21 && over === false) {
-				embedMessage = 'You lose!'
+				mmewsage = 'You lose!'
 				over = true
 				var monkey = await db.fetch(message.author.id)
 				bal = monkey.bal
 				var newbal = parseInt(bal) - amount
 				await db.set(message.author.id, 'bal', Math.floor(newbal))
-				embedColor = colors.red
-				embedTitle = ('You lose! You have ' + playersum + ', Dealer has ' + bongosum + '. You lost ' + amount + ' coins. You now have ' + newbal + '.')
+				colora = 'RED'
+				broski = ('You lose! You have ' + playersum + ', Dealer has ' + bongosum + '. You lost ' + amount + ' coins. You now have ' + newbal + '.')
 
 			} else if (parseInt(playersum) === 21) {
-				embedMessage = 'You win!'
-				embedColor = colors.green
+				mmewsage = 'You win!'
+				colora = 'GREEN'
 				var monkey = await db.fetch(message.author.id)
 				bal = monkey.bal
 				var newbal = parseInt(bal) + amount
 				await db.set(message.author.id, 'bal', Math.floor(newbal))
 				over = true
-				embedTitle = 'You win!\nYou won ' + amount + '. Now you have ' + newbal + '.'
+				broski = 'You win!\nYou won ' + amount + '. Now you have ' + newbal + '.'
+
+			} else if (bustcards > 4) {
+				mmewsage = 'You win!'
+				colora = 'GREEN'
+				var monkey = await db.fetch(message.author.id)
+				bal = monkey.bal
+				var newbal = parseInt(bal) + amount
+				await db.set(message.author.id, 'bal', Math.floor(newbal))
+				over = true
+				broski = ('You win $' + amount + '! You took 5 cards without going over 21. You now have ' + newbal + '.')
 
 			} else {
-				embedTitle = message.author.username + `'s Blackjack Game`
+				broski = message.author.username + `'s Blackjack Game`
 
 			}
 
@@ -108,14 +191,15 @@ module.exports = {
 			message.channel.send({
 				content: '',
 				embed: {
-					color: embedColor,
+					color: colora,
 					author: {
-						name: embedTitle,
+						name: broski,
 						icon_url: av
 					},
 					description: '',
 					footer: {
-						text: embedMessage
+						icon_url: 'https://cdn.discordapp.com/avatars/780943575394942987/b079e07a200264fc1e721bed6f74cc32.png?size=128',
+						text: mmewsage
 					},
 					fields: [
 						{
@@ -146,27 +230,27 @@ module.exports = {
 		async function checkwinner() {
 			if (bongosum > 21) {
 				over = true
-				embedMessage = 'You win!'
-				embedColor = colors.green
+				mmewsage = 'You win!'
+				colora = 'GREEN'
 				var monkey = await db.fetch(message.author.id)
 				bal = monkey.bal
 				var newbal = parseInt(bal) + amount
 				await db.set(message.author.id, 'bal', Math.floor(newbal))
 
 				await bjreturn()
-				embedTitle = ('Bongo busted and you won! You now have ' + newbal + '.')
+				broski = ('Bongo busted and you won! You now have ' + newbal + '.')
 
 			}
 			if (bongosum < 22 && bongosum > playersum) {
 				over = true
-				embedMessage = 'You lose!'
-				embedColor = colors.red
+				mmewsage = 'You lose!'
+				colora = 'RED'
 				var monkey = await db.fetch(message.author.id)
 				bal = monkey.bal
 				var newbal = parseInt(bal) - amount
 				await db.set(message.author.id, 'bal', Math.floor(newbal))
 				await bjreturn()
-				embedTitle = ('You lost! You now have ' + newbal + '.')
+				broski = ('You lost! You now have ' + newbal + '.')
 			}
 
 
@@ -176,14 +260,15 @@ module.exports = {
 			message.channel.send({
 				content: '',
 				embed: {
-					color: embedColor,
+					color: colora,
 					author: {
-						name: embedTitle,
+						name: broski,
 						icon_url: av
 					},
 					description: '',
 					footer: {
-						text: embedMessage
+						icon_url: 'https://cdn.discordapp.com/avatars/780943575394942987/b079e07a200264fc1e721bed6f74cc32.png?size=128',
+						text: mmewsage
 					},
 					fields: [
 						{
@@ -214,7 +299,7 @@ module.exports = {
 
 		function stand() {
 
-			drawcard()
+			drawcarda()
 			bongosum = bongocards.reduce((a, b) => {
 				return a + b;
 			});
@@ -229,7 +314,7 @@ module.exports = {
 			var newbal = parseInt(bal) - (amount / 2)
 			db.set(message.author.id, 'bal', Math.floor(newbal))
 			over = true
-			return message.channel.send('Invalid input! You lost **half** your bet!')
+			return message.channel.send('invalid input! You lost **half **your bet!')
 
 		}
 
@@ -282,6 +367,11 @@ module.exports = {
 					});
 			}
 		} while (over === false)
+		//ENd
+
+
+
+
 
 
 	},
