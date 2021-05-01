@@ -26,10 +26,11 @@ app.post("/votes/top.gg", webhook.middleware(), async (req, res) => {
 	client.channels.cache.get('828098780968648734').send(vote.user)
 	let result = await db.fetch(vote.user);
 
-	let boxs = result.box
+	let boxs = result.items.box
 
 	if (vote.guild === '781393539451977769') {
-		db.set(vote.user, 'box', (parseInt(boxs) + 1));
+		result.items.box  = parseInt(boxs)  + 1
+		db.set(vote.user, 'items', result.items);
 	} else {
 		if (vote.isWeekend) {
 			var newbox = parseInt(boxs) + 2
@@ -37,7 +38,8 @@ app.post("/votes/top.gg", webhook.middleware(), async (req, res) => {
 			var newbox = parseInt(boxs) + 1
 
 		}
-		db.set(vote.user, 'box', newbox);
+		result.items.box  = parseInt(newbox)
+		db.set(vote.user, 'items', result.items);
 
 
 
