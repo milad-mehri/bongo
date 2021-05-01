@@ -9,7 +9,7 @@ module.exports = (client) => { }
 const cache = new Discord.Collection();
 module.exports.fetch = async (id, client) => {
 	return await mongo().then(async mongoose => {
-		const user = { userid: id, bal: 1000, items:{box:1} }
+		const user = { userid: id, bal: 1000, items: { box: 1, donut: 1 } }
 		const result = cache.get(id) || await userSchema.findOne({ "userid": id }) || await new userSchema(user).save();
 		if (!cache.has(id)) cache.set(id, result);
 		return result;
