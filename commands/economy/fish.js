@@ -16,49 +16,29 @@ module.exports = {
 
 
 		if (result.rod < 1) return embeds.errorEmbed(message, 'You **don\'t have a rod **:rolling_eyes:')
-		var random = Math.floor(Math.random() * 90) + 1
+		var random = Math.floor(Math.random() * 10) + 1
 		var common = Math.floor(Math.random() * 3) + 1
-		if (random < 11) {
-			await db.set(message.author.id, 'rod', result.rod - 1)
-			message.channel.send(emojis.fishing + ' fishing...').then(msg => {
-				setTimeout(function () {
 
+
+		message.channel.send(emojis.fishing + ' fishing...').then(msg => {
+			setTimeout(function () {
+
+				if ([1].includes(random)) {
+					await db.set(message.author.id, 'rod', result.rod - 1)
 					return msg.edit(':fishing_pole_and_fish: You went fishing and **hit a rock**\nNow you lost your rod :sob: ')
-
-				}, 2000);
-			})
-
-		} else if (random > 10 && random < 41) {
-			message.channel.send(emojis.fishing + ' fishing...').then(msg => {
-				setTimeout(function () {
-
+				} else if ([2, 3, 4].includes(random)) {
 					return msg.edit(':fishing_pole_and_fish: You went fishing and came back with nothing')
-				}, 2000);
-			})
-		} else if (random > 40 && random < 80) {
-			message.channel.send(emojis.fishing + ' fishing...').then(msg => {
-				setTimeout(function () {
-
+				} else if ([5, 6, 7,].includes(random)) {
 					db.set(message.author.id, 'common', result.common + common)
 					return msg.edit(':fishing_pole_and_fish: You went fishing and came back with **' + common + ' common fish **:fish: ')
-				}, 2000);
-			})
-		} else {
-			message.channel.send(emojis.fishing + ' fishing...').then(msg => {
-				setTimeout(function () {
+				} else {
 
 					db.set(message.author.id, 'rare', result.rare + 1)
 					return msg.edit(':fishing_pole_and_fish: You went fishing and came back with **' + 1 + ' rare fish **:tropical_fish:  ')
 
-				}, 2000);
-			})
+				}
+			}, 2000);
+		})
 
-		}
-
-
-
-
-
-	},
-};
-
+	}
+}
