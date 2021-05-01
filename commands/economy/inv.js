@@ -14,14 +14,15 @@ module.exports = {
 	async execute(message, args) {
 
 		var page;
-		if (!parseInt(args[0])) {
-			page = 0
-		} else {
-			page = parseInt(args[0]) - 1
-		}
+
 
 
 		if (!message.mentions.users.size) {
+			if (!parseInt(args[0])) {
+				page = 0
+			} else {
+				page = parseInt(args[0]) - 1
+			}
 			var inventory = []
 			var result = await db.fetch(message.author.id)
 			message.client.items.forEach(item => {
@@ -35,7 +36,11 @@ module.exports = {
 			return embeds.defaultEmbed(message, "Inventory", invPages[page].join('\n\n'), "blue", `Page ${page + 1} of ${invPages.length}`)
 
 		} else {
-
+			if (!parseInt(args[1])) {
+				page = 0
+			} else {
+				page = parseInt(args[1]) - 1
+			}
 
 			var inventory = []
 			var result = await db.fetch(message.mentions.members.first().id)

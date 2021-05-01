@@ -52,7 +52,7 @@ module.exports = {
 			} else {
 				var a = Math.floor(input)
 				if (stock + a > 10) {
-					return embeds.errorEmbed(message, 'this is **too many** fish for your stock, the most you can put is **' + ((10 - stock)) + '**.')
+					return embeds.errorEmbed(message, 'this is **too many** fish for your stock, the most you can put is **' + ((10 - stock)) + '.')
 				} else {
 					var newa = stock + a
 					embeds.successEmbed(message, 'Your stock is now **filled **' + newa + '/10' + '**')
