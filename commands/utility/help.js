@@ -1,5 +1,5 @@
-const Discord = requiembeds.defaultEmbed( message,'discord.js');
-const embeds = requiembeds.defaultEmbed( message,'../../functions/embeds')
+const Discord = require('discord.js');
+const embeds = require('../../functions/embeds')
 
 
 
