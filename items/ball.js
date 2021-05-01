@@ -31,8 +31,7 @@ module.exports = {
 
         }
 
-        var newbal = parseInt(bal) + parseInt(totalMoney);
-        var result = await db.set(message.author.id, 'bal', newbal)
+        var result = await db.set(message.author.id, 'bal', parseInt(bal) + parseInt(totalMoney))
         var whattosend = ['you bounced your ' + balls + ' ball(s) and made $' + totalMoney + ' coins :person_bouncing_ball: ']
         if (Math.floor(Math.random() * (100) + 1) < Math.floor(balls / 10)) {
             await db.set(message.author.id, 'ball', balls - 1)
