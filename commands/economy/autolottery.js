@@ -11,21 +11,27 @@ module.exports = {
 	async execute(message) {
 
 		//Check if user has autolottery on or off
-		var autolottery = (await db.fetch(message.author.id)).autolottery
+		var result = await db.fetch(message.author.id)
 
 
-		if (autolottery) {
+		if (result.lottery.autolottery) {
 			//Turn autolottery off if it was on
 			embeds.successEmbed(message, 'Turned autolottery **off**');
-			await db.set(message.author.id, 'autolottery', false)
+			result.lottery.autolottery = false
+
 
 		} else {
 
 			//Turn autolottery on if it was off
-			await db.set(message.author.id, 'autolottery', true)
+
+			result.lottery.autolottery = true
+
 			embeds.successEmbed(message, 'Turned autolottery **on**');
 
 		}
+
+
+		await db.set(message.author.id, 'lottery', result.lottery)
 
 	},
 };
