@@ -15,7 +15,7 @@ module.exports = {
 
 
 
-		if (result.rod < 1) return embeds.errorEmbed(message, 'You **don\'t have a rod **:rolling_eyes:')
+		if (result.items.rod < 1) return embeds.errorEmbed(message, 'You **don\'t have a rod **:rolling_eyes:')
 		var random = Math.floor(Math.random() * 10) + 1
 		var common = Math.floor(Math.random() * 3) + 1
 

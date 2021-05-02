@@ -21,9 +21,11 @@ module.exports = {
 
 		return await db.set(personRobbingObject.id, "rob", personRobbingObject.rob)
 		*/
-
+		if(message.mentions.users.first() === message.author){
+            return message.channel.send("You can't rob yourself lmao.")
+        }
 		if (!message.mentions.users.first()) return embeds.errorEmbed(message, 'You have to **mention** someone.');
-
+		if(message.mentions.users.first().bot) return embeds.errorEmbed(message, "You can't rob bots!")
 		var personRobbing = message.author;
 		var personGettingRobbed = message.mentions.users.first();
 

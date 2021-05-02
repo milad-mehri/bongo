@@ -25,6 +25,11 @@ module.exports = {
 			amount = args[0]
 
 		}
+
+		if(isNaN(parseInt(args[1])) && isNaN(parseInt(args[0]))){
+			amount = 1
+			item = args[0]
+		}
 		var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
 		if(!item) return embeds.errorEmbed(message, 'Item not found!')
 		if (item.cooldown) {

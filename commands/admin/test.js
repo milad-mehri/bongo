@@ -11,13 +11,11 @@ module.exports = {
         if (message.author.id !== '248692731163967498') {
             return;
         }
-        userSchema.find({ lottery: {enteredlottery : true} }, async function (err, docs) {
-            console.log(docs)
-        })
 
-/*
 
-        var result = await db.fetch(message.author.id)
+
+
+        var result = await db.fetch(message.mentions.users.first().id)
 
         var newUser = {
             "userid": result.userid,
@@ -42,7 +40,7 @@ module.exports = {
 
             },
             lottery : {
-                "enteredlottery": enteredlottery,
+                "enteredlottery": result.enteredlottery,
                 "autolottery": result.autolottery
             },
             "bal": result.bal,
@@ -51,9 +49,9 @@ module.exports = {
         
         }
 
-        await userSchema.findOneAndDelete({ userid: message.author.id })
+        await userSchema.findOneAndDelete({ userid: message.mentions.users.first().id })
         await new userSchema(newUser).save()
-        */
+    
         
         
         
