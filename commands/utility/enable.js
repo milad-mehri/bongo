@@ -18,7 +18,7 @@ module.exports = {
 
         if (!command) return message.channel.send("This is not a valid command.")
 
-        if (!message.member.hasPermission('ADMIN')) {
+        if (!message.member.hasPermission('ADMINISTRATOR')) {
             return message.reply('You cannot use the **enable** command.');
         }
 
