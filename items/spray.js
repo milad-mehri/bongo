@@ -1,13 +1,13 @@
 const db = require("../db")
-const emojis = require('../../design/emojis.json')
+const emojis = require('../design/emojis.json')
 const Discord = require('discord.js');
-const functions = require("../../functions/functions")
+const functions = require("..//functions/functions")
 
 module.exports = {
     name: 'spray',
     displayName: "Peper Spray",
     inshop: true,
-    emoji: emojis.spray,
+    emoji: "<:spray:838296374801203250>",
     price: 5000,
     description: "Blind your opponent so they can't rob anyone for a while!",
 
