@@ -6,80 +6,13 @@ const userSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	business: {
-		type: String,
-		required: false
-	},
-	busstock: {
-		type: Number,
-		required: false,
-	},
-	busbal: {
-		type: Number,
-	},
-	busbal: {
-		type: Number,
-		required: false,
-	},
+
 	bal: {
 		default: 1000,
 		type: Number,
 		required: true
 	},
-	ball: {
-		type: Number,
-	},
-	shield: {
-		type: Number,
-	},
-	medal: {
-		type: Number,
-	},
-	common: {
-		type: Number,
-	},
-	rare: {
-		type: Number,
-	},
-	diamond: {
-		type: Number,
-	},
-	bleach: {
-		type: Number,
-	},
-	clover: {
-		type: Number,
-	},
-	box: {
-		type: Number,
 
-	},
-	donut: {
-		type: Number,
-
-	},
-	rod: {
-		type: Number,
-
-	},
-	enteredlottery: {
-		type: Boolean,
-		default: false,
-	},
-	autolottery: {
-		type: Boolean,
-		default: false,
-	},
-	lottery: {
-		enteredlottery: {
-			type: Boolean,
-			default: false
-		},
-		autolottery: {
-			type: Boolean,
-			default: false
-		}
-	},
 	banned: {
 		type: Boolean,
 		default: false,

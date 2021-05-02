@@ -13,8 +13,14 @@ const guildSchema = mongoose.Schema({
 	disabled: {
 		type: Object,
 		required: true,
-		default: {}
-	}
+		default: {
+			rob: true
+		}
+	}, rob: {
+		default: true,
+		type: Boolean,
+		required: true
+	},
 
 
 
