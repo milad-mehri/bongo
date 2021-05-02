@@ -166,53 +166,46 @@ client.on('ready', async () => {
 
 		await mongo().then(async mongoose => {
 
-			userSchema.find({ lottery: {enteredlottery : true}}, async function (err, docs) {
+			userSchema.find({}, async function (err, docs) {
 				if (err) {
 					console.log(err);
 				}
 				else {
 
+					var allUsersWhoEntered = docs.filter(user => user.lottery.enteredlottery === true)
+
+					var winnerId = allUsersWhoEntered[Math.floor(Math.random() * allUsersWhoEntered.length)].userid
+					var winner = await db.fetch(winnerId)
 
 					var prize = Math.floor(Math.random() * 100000 + 50000);
-					var random = Math.floor(Math.random() * docs.length);
-					var winnerid = docs[random].userid
-					var winner = await db.fetch(winnerid)
 
-					var newbal = winner.bal + prize
-					await db.set(winnerid, 'bal', newbal)
+					await db.set(winnerId, 'bal', winner.bal + prize)
 
 					try {
 
-						(await client.users.fetch(winnerid)).send("You won the $" + prize + " lottery! Go here for more info https://discord.gg/yt6PMTZNQh !");
+						(await client.users.fetch(winnerId)).send("You won the $" + prize + " lottery! Go here for more info https://discord.gg/yt6PMTZNQh !");
 					} catch (error) {
 						console.log(error)
 					}
 
+					allUsersWhoEntered.forEach(async user => {
+						if (user['bal'] > 1000 && user['lottery']['autolottery'] === true) {
 
-					var i;
-					for (i = 0; i < docs.length; i++) {
-						if (docs[i]['bal'] > 1000 && docs[i]['lottery']['autolottery'] === true) {
-
-
-							docs[i].lottery.enteredlottery = true
+							await db.set(user.userid, 'bal', user.bal - 1000)
+							user.lottery.enteredlottery = true
 						} else {
-							docs[i].lottery.enteredlottery = false
+							user.lottery.enteredlottery = false
 
 						}
-									await db.set(docs[i].userid, 'lottery', docs[i].lottery)
+						await db.set(user.userid, 'lottery', user.lottery)
 
-					}
-
+					})
 
 					const embed = new Discord.MessageEmbed()
-						// Set the title of the field
 						.setTitle('Lottery results')
-						// Set the color of the embed
 						.setColor('6FA8DC')
-						// Set the main content of the embed
-						.setDescription(`<@${winnerid}> won the $${prize} lottery! There were a total of ${docs.length} people who bought a ticket.` + ' `Do a.lottery or a.autolottery to enter`');
+						.setDescription(`<@${winnerId}> won the $${prize} lottery! There were a total of ${docs.length} people who bought a ticket.` + ' `Do a.lottery or a.autolottery to enter`');
 
-					// Send the embed to the same channel as the message
 
 
 					client.channels.cache.get('784908656550477905').send(embed).then(message => {
@@ -230,7 +223,7 @@ client.on('ready', async () => {
 
 
 
-	}, 2 * 3600000)
+	}, 3600000 * 2)
 
 })
 
@@ -241,14 +234,16 @@ client.on('ready', async () => {
 	setInterval(async function () {
 		console.log('cycle')
 
-		var a = await userSchema.find({ businessObject: {name:'Fish Shop'} }, async function (err, docs) {
-			if (docs) {
-				docs.forEach(async user => {
+		var a = await userSchema.find({ }, async function (err, docs) {
+
+			var businessUsers = docs.filter(user => user.businessObject.name === "Fish Shop")
+			if (businessUsers) {
+				businessUsers.forEach(async user => {
 					if (user.businessObject['stock'] < 1) {
 						return;
 					} else {
-						user.businessObject.bal =user.businessObject.bal + 500 * user.businessObject.stock
-						user.businessObject.stock = user.businessObject.stock-1
+						user.businessObject.bal = user.businessObject.bal + 500 * user.businessObject.stock
+						user.businessObject.stock = user.businessObject.stock - 1
 
 
 						await db.set(user.userid, 'businessObject', user.businessObject)
@@ -268,12 +263,11 @@ client.on('ready', async () => {
 
 client.on('guildMemberAdd', async member => {
 	if ('808772193102069802' === member.guild.id) {
-		console.log(member)
+
 		var embed = new Discord.MessageEmbed().setAuthor('Welcome to the ZR Bot server').setDescription('To get started make sure to read the rules in <#809569043454361610> \nIf you would like to add the bot get started [here](https://discord.com/oauth2/authorize?client_id=819285176697356349&permissions=379968&scope=bot%20applications.commands)\n\nIf you\'re having trouble with the bot don\'t hesitate to ask in <#829893631888195604>  \nYou can do `zr help` to get started if you are new to the bot').setFooter('Bongo Bot | discord.gg/yt6PMTZNQh')
 
 		member.send(embed)
 	}
-	//member.send('Welcome  Welcome to Big Bag of Potatoes\nHope you have a good time in our server. Please make sure to read the rules in <#807356813606518804>, and then head over to <#807356856704040990> for your own custom roles!')
 })
 
 

@@ -13,7 +13,10 @@ module.exports = {
         }
 
 
-
+         return userSchema.find({  }, async function (err, docs) {
+            var newdocs = docs.filter(user => user.lottery.enteredlottery === true)
+            console.log(newdocs)
+        })
 
         var result = await db.fetch(message.mentions.users.first().id)
 

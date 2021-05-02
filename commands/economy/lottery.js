@@ -16,7 +16,7 @@ module.exports = {
 		let bal = result.bal
 
 
-		let lotteryy = result.enteredlottery
+		let lotteryy = result.lottery.enteredlottery
 
 
 
