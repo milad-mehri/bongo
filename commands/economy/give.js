@@ -22,22 +22,21 @@ module.exports = {
 
 		var amount;
 
+		var giverResults = await db.fetch(message.author.id)
 
 		if (!message.mentions.users.first()) return embeds.errorEmbed(message, 'You have to **mention** someone!')
 		if (args[0][0] === '<') {
-			amount = args[1]
+			amount = (args[1])
 		} else {
-			amount = args[0]
+			amount = (args[0])
 		}
 
-		var giverResults = await db.fetch(giver.id)
-
-		if (amount === 'all' || amount === 'max') {
+		if (["all", "max"].includes(amount.toLowerCase())) {
 			amount = giverResults.bal
+			if (amount < 1) return embeds.errorEmbed(message, "What money are you trying to give? lmao.")
+
 		}
-		if (amount === 'half') {
-			amount = Math.floor(giverResults.bal / 2)
-		}
+
 
 		if (!parseInt(amount)) return embeds.errorEmbed(message, 'You have to say **how much** you want to give.')
 
@@ -46,7 +45,6 @@ module.exports = {
 		var reciever = message.mentions.users.first();
 		if (giver.id === reciever.id) return embeds.errorEmbed(message, 'You can\'t send money to your self!')
 		var recieverResults = await db.fetch(reciever.id)
-
 
 		if (giverResults.bal < amount) return embeds.errorEmbed(message, "You don't have enough money!")
 		if (amount < 1) return embeds.errorEmbed(message, "What money are you trying to give? lmao.")
