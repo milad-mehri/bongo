@@ -24,7 +24,7 @@ module.exports = {
 
 
 		if (!message.mentions.users.first()) return embeds.errorEmbed(message, 'You have to **mention** someone!')
-		if (args[0] === '<') {
+		if (args[0][0] === '<') {
 			amount = args[1]
 		} else {
 			amount = args[0]
