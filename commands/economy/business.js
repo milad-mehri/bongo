@@ -1,7 +1,7 @@
 const db = require('../../db.js');
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
-const functions = require('../../functions/functions')
+const functions = require('../../functions/functions');
 
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
 		var stock = result.businessObject.stock || 0
 		var busbal = result.businessObject.bal || 0
 		if (args[0] === 'list') {
-			return embeds.defaultEmbed(message, 'Buisnesses', ' :convenience_store:  Fish shop-  Sell fish for some money\nStartup price - :fish: 10 fish', blue, 'Do a.business open (type)')
+			return embeds.defaultEmbed(message, 'Buisnesses', ':convenience_store:  Fish shop-  Sell **fish **for some money\nStartup price - :fish: 10 fish\n\n:department_store:  Rare Fish shop-  Sell **rare fish **for **more **money\nStartup price - :tropical_fish: 10 rare fish', 'blue', 'Do a.business open (type)')
 		} else if (args[0] === 'open') {
 			if (result.businessObject.name) return embeds.errorEmbed(message, 'You **already have** a business!')
 			if (!args[1]) return embeds.errorEmbed(message, 'You have to say** what kind of business you want** to open, **do** `a.business list`')
@@ -104,6 +104,14 @@ module.exports = {
 
 
 
+		} else if (args[0] === "delete") {
+			delete result.businessObject.name 
+			delete result.businessObject.bal
+	//		delete result.businessObject.stock
+
+			embeds.blankEmbed(message, 'Your business was **deleted**.')
+
+			await db.set(message.author.id, 'businessObject', {})
 		} else {
 			console.log(result.businessObject.name)
 			if (!result.businessObject.name) return message.reply('You **don\'t have a business**, do `a.business list` to get one')
