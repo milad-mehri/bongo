@@ -40,7 +40,9 @@ module.exports = {
 
 					var newbal = parseInt(bal) - 1000;
 					db.set(message.author.id, 'bal', newbal);
-					db.set(message.author.id, 'enteredlottery', true)
+
+					result.lottery.enteredlottery = true
+					db.set(message.author.id, 'lottery', result.lottery)
 
 					embeds.successEmbed(message, 'Ticket purchased! Lottery ticket was purchased for $1,000')
 				}
