@@ -179,8 +179,15 @@ const userSchema = mongoose.Schema({
 			default: 0,
 			required: true
 
-		}
+		},
+
 	},
+	rob: {
+		invincibleCooldown: Number,
+		invincibleStart: Number,
+		robBanTime: Number,
+		robBanStart: Number
+	}
 
 
 })
