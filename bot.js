@@ -234,14 +234,17 @@ client.on('ready', async () => {
 	setInterval(async function () {
 		console.log('cycle')
 
-		var a = await userSchema.find({ }, async function (err, docs) {
+		await userSchema.find({}, async function (err, docs) {
 
-			var businessUsers = docs.filter(user => user.businessObject.name === "Fish Shop")
+			var businessUsers = docs.filter(user => ['Fish Shop', "Rare Fish Shop"].includes(user.businessObject.name))
 			if (businessUsers) {
 				businessUsers.forEach(async user => {
 					if (user.businessObject['stock'] < 1) {
 						return;
 					} else {
+						if (user.businessObject.name === "Rare Fish Shop") {
+							user.businessObject.bal = user.businessObject.bal + 500 * user.businessObject.stock
+						}
 						user.businessObject.bal = user.businessObject.bal + 500 * user.businessObject.stock
 						user.businessObject.stock = user.businessObject.stock - 1
 
@@ -255,7 +258,7 @@ client.on('ready', async () => {
 
 
 		})
-	}, 1200000)//1200000
+	}, 5000)//1200000
 
 })
 

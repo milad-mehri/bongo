@@ -15,7 +15,7 @@ module.exports = {
 		var stock = result.businessObject.stock || 0
 		var busbal = result.businessObject.bal || 0
 		if (args[0] === 'list') {
-			return embeds.defaultEmbed(message, 'Buisnesses', ' :convenience_store:  Fish shop-  Sell fish for some money\nStartup price - :fish: 10 fish', 'Do a.business open (type)')
+			return embeds.defaultEmbed(message, 'Buisnesses', ' :convenience_store:  Fish shop-  Sell fish for some money\nStartup price - :fish: 10 fish', blue, 'Do a.business open (type)')
 		} else if (args[0] === 'open') {
 			if (result.businessObject.name) return embeds.errorEmbed(message, 'You **already have** a business!')
 			if (!args[1]) return embeds.errorEmbed(message, 'You have to say** what kind of business you want** to open, **do** `a.business list`')
@@ -28,6 +28,23 @@ module.exports = {
 				result.businessObject.stock = 10
 
 				result.items.common = result.items.common - 10
+
+				await db.set(message.author.id, 'items', result.items)
+				await db.set(message.author.id, 'businessObject', result.businessObject)
+				embeds.successEmbed(message, 'business **created!** Do **a.business** to view your business')
+
+
+
+			}
+
+
+			if (args[1].toLowerCase() === 'rare') {
+				if (result.items.rare < 10) return embeds.errorEmbed(message, 'You **don\'t have enough **fish')
+				result.businessObject.name = 'Rare Fish Shop'
+				result.businessObject.bal = 100
+				result.businessObject.stock = 10
+
+				result.items.rare = result.items.rare - 10
 
 				await db.set(message.author.id, 'items', result.items)
 				await db.set(message.author.id, 'businessObject', result.businessObject)
@@ -48,13 +65,19 @@ module.exports = {
 
 
 		} else if (args[0] === 'restock' || args[0] === 'refill' || args[0] === 'fill') {
+
 			if (!result.businessObject.name) return embeds.errorEmbed(message, 'You** don\'t have a business**, do `a.business list` to get one')
+			if (result.businessObject.name === "Rare Fish Shop") {
+				var type = 'rare'
+			} else if (result.businessObject.name === "Fish Shop") {
+				var type = 'common'
+			}
 			var input = parseInt(args[1])
 			if (stock === 10) {
 				return embeds.errorEmbed(message, 'You already **have full stock**')
 			} else if (isNaN(input) || !input) {
 				return embeds.errorEmbed(message, 'Please **input how many** fish you want to stock.')
-			} else if (result.common < input || input < 1) {
+			} else if (result.items[type] < input || input < 1) {
 				return embeds.errorEmbed(message, 'You **don\'t have enough** fish!')
 
 			} else {
@@ -66,7 +89,7 @@ module.exports = {
 
 					result.businessObject.stock = newa
 
-					result.common = result.common - input
+					result.items[type] = result.items[type] - input
 
 					embeds.successEmbed(message, 'Your stock is now **filled **' + newa + '/10' + '**')
 
@@ -85,8 +108,8 @@ module.exports = {
 			console.log(result.businessObject.name)
 			if (!result.businessObject.name) return message.reply('You **don\'t have a business**, do `a.business list` to get one')
 			var a = '■'.repeat(stock) + '□'.repeat(10 - stock)
-			embeds.defaultEmbed(message, message.author.username + '\'s ' + result.businessObject.name, `:convenience_store:  Fish shop\n\nStock: [${a}](https://top.gg/bot/780943575394942987)\nBusiness Balance: $${functions.comma(busbal)}`, 'a.business refill | a.business claim')
-			
+			embeds.defaultEmbed(message, message.author.username + '\'s ' + result.businessObject.name, `:convenience_store:  ${result.businessObject.name}\n\nStock: [${a}](https://top.gg/bot/780943575394942987)\nBusiness Balance: $${functions.comma(busbal)}`, 'a.business refill | a.business claim')
+
 		}
 	}
 }
@@ -179,7 +202,7 @@ module.exports = {
 			if (!result.businessObject.name) return message.reply('You **don\'t have a business**, do `a.business list` to get one')
 			var a = '■'.repeat(stock) + '□'.repeat(10 - stock)
 			embeds.defaultEmbed(message, message.author.username + '\'s ' + result.businessObject.name, `:convenience_store:  Fish shop\n\nStock: [${a}](https://top.gg/bot/780943575394942987)\nBusiness Balance: $${functions.comma(busbal)}`, 'a.business refill | a.business claim')
-			
+
 		}
 	}
 }*/
