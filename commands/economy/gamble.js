@@ -18,12 +18,13 @@ module.exports = {
 		var result = await db.fetch(message.author.id)
 		let bal = result.bal
 
-		var amount = parseInt(args[0])
+		var amount = args[0]
 		if (amount === 'all' || amount === 'max') {
 			(bal > 500000) ? amount = 500000 : amount = bal
 		}
 		if (amount === 'half') amount = bal / 2
 
+		amount = parseInt(amount)
 
 
 		//errors
