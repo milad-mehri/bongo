@@ -25,9 +25,9 @@ module.exports = {
 
 		if (!message.mentions.users.first()) return embeds.errorEmbed(message, 'You have to **mention** someone!')
 		if (args[0][0] === '<') {
-			amount = parseInt(args[1])
+			amount = args[1]
 		} else {
-			amount = parseInt(args[0])
+			amount = args[0]
 		}
 
 		var giverResults = await db.fetch(giver.id)
