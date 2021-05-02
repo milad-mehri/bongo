@@ -18,7 +18,6 @@ module.exports = {
 
         if (["enable", "disable"].includes(command.name)) return embeds.errorEmbed(message, "This command cannot be enabled!")
 
-
         if (!message.member.hasPermission('ADMINISTRATOR')) {
             return message.reply('You cannot use the **enable** command.');
         }

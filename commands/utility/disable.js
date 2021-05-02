@@ -24,7 +24,6 @@ module.exports = {
             return message.reply('You cannot use the **disable** command.');
         }
 
-
         var result = await db.fetchguild(message.guild.id)
         if (result.disabled[command.name]) return message.channel.send("This command is already disabled.")
 
