@@ -12,9 +12,6 @@ module.exports = {
 
 	execute(message, args) {
 
-
-
-
 		if (args[0] === 'util' || args[0] === 'utility' || args[0] === '4') {
 			var commands = message.client.commands.filter(cmd => cmd.category === 'utility')
 			var commandNames = []
