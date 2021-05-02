@@ -180,6 +180,11 @@ const userSchema = mongoose.Schema({
 			required: true
 
 		},
+		spray: {
+			type: Number,
+			default: 0,
+			required: true
+		}
 
 	},
 	rob: {
