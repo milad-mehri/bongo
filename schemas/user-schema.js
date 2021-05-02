@@ -183,10 +183,30 @@ const userSchema = mongoose.Schema({
 
 	},
 	rob: {
-		invincibleCooldown: Number,
-		invincibleStart: Number,
-		robBanTime: Number,
-		robBanStart: Number
+		"invinciblityTime": {
+			type: Number,
+			default: 0,
+			required: true
+
+		},
+		"invincibleStart": {
+			type: Number,
+			default: 0,
+			required: true
+
+		},
+		"banTime": {
+			type: Number,
+			default: 0,
+			required: true
+
+		},
+		"banStart": {
+			type: Number,
+			default: 0,
+			required: true
+
+		}
 	}
 
 
