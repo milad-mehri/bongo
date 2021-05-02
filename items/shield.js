@@ -14,6 +14,7 @@ module.exports = {
 
     async execute(message, args, result) {
         var result = await db.fetch(message.author.id)
+        result.items.donut = result.items.donut - 1
 
         if ((result.rob.invincibleStart + result.rob.invinciblityTime) > Date.now() && args[0].toLowerCase() !== "y") {
             var time = functions.msToString((result.rob.invincibleStart + result.rob.invinciblityTime - Date.now()))
@@ -25,6 +26,7 @@ module.exports = {
         result.rob.invinciblityTime = 43200 * 1000
 
         result.rob.invincibleStart = Date.now()
+        await db.set(message.author.id, "items", result.items)
 
         await db.set(message.author.id, "rob", result.rob)
         return embeds.successEmbed(message, "Shield was used, you are now safe for **12 hours**!")
