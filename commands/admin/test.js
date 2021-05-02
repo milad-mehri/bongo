@@ -13,7 +13,7 @@ module.exports = {
         }
 
 
-
+/*
 
         var result = await db.fetch(message.author.id)
 
@@ -51,7 +51,7 @@ module.exports = {
 
         await userSchema.findOneAndDelete({ userid: message.author.id })
         await new userSchema(newUser).save()
-        console.log("DONE")
+        console.log("DONE")*/
     },
 };
 
