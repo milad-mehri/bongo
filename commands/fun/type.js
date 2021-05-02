@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const embeds = require('../../functions/embeds')
+const functions = require('../../functions/functions')
 
 module.exports = {
 	name: 'type',
@@ -15,18 +16,20 @@ module.exports = {
 			`${message.author.username} is the greatest person of all time.`,
 			`I'm a barbie girl, in a barbie world!`,
 			`I am the fatest typer and I will beat you in this typing race.`,
-			`I did not copy and paste this because it's impossible to copy and paste in this game.`,
-			`If I die, I'm a legend if I die, if I die, if I die.`,
-			`Pop Smoke once said, "I'm not moving, I'm rolling"`
 		]
 		var encodedText = ''
+
+		var startTime = Date.now()
 
 		var text = strings[Math.floor(Math.random() * strings.length)]
 		text.split``.forEach(a => encodedText += a + '󠀠')
 		embeds.defaultEmbed(message, 'Type the following: ', encodedText)
 		await message.channel.awaitMessages(m => m.content.toLowerCase() === text.toLowerCase(),
 			{ max: 1, time: 60000 }).then(async collected => {
-				return message.channel.send(`<@${collected.first().author.id}> won the typing race!`)
+				var wpm = Math.floor((60 / ((Date.now() - startTime) / 1000)) * text.split(" ").length)
+
+				
+				return message.channel.send(`<@${collected.first().author.id}> won the typing race! (WPM: ${wpm})`)
 			}).catch(() => {
 				message.reply('No one won the typing race :(')
 			})
