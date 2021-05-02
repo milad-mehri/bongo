@@ -29,7 +29,7 @@ app.post("/votes/top.gg", webhook.middleware(), async (req, res) => {
 	let boxs = result.items.box
 
 	if (vote.guild === '781393539451977769') {
-		result.items.box  = parseInt(boxs)  + 1
+		result.items.box = parseInt(boxs) + 1
 		db.set(vote.user, 'items', result.items);
 	} else {
 		if (vote.isWeekend) {
@@ -38,7 +38,7 @@ app.post("/votes/top.gg", webhook.middleware(), async (req, res) => {
 			var newbox = parseInt(boxs) + 1
 
 		}
-		result.items.box  = parseInt(newbox)
+		result.items.box = parseInt(newbox)
 		db.set(vote.user, 'items', result.items);
 
 
@@ -166,7 +166,7 @@ client.on('ready, async () => {
 
 		await mongo().then(async mongoose => {
 
-			userSchema.find({ enteredlottery: true }, async function (err, docs) {
+			userSchema.find({ lottery: {enteredlottery : true}}, async function (err, docs) {
 				if (err) {
 					console.log(err);
 				}
@@ -191,15 +191,16 @@ client.on('ready, async () => {
 
 					var i;
 					for (i = 0; i < docs.length; i++) {
-						if (docs[i]['bal'] > 1000 && docs[i]['autolottery'] === true) {
+						if (docs[i]['bal'] > 1000 && docs[i]['lottery']['autolottery'] === true) {
 
 
-
-							await db.set(docs[i].userid, 'enteredlottery', true)
+							docs[i].lottery.enteredlottery = true
 						} else {
-							await db.set(docs[i].userid, 'enteredlottery', false)
+							docs[i].lottery.enteredlottery = false
 
 						}
+									await db.set(docs[i].userid, 'lottery', docs[i].lottery)
+
 					}
 
 
@@ -240,14 +241,17 @@ client.on('ready', async () => {
 	setInterval(async function () {
 		console.log('cycle')
 
-		var a = await userSchema.find({ business: 'Fish Shop' }, async function (err, docs) {
+		var a = await userSchema.find({ businessObject: {name:'Fish Shop'} }, async function (err, docs) {
 			if (docs) {
 				docs.forEach(async user => {
-					if (user['busstock'] < 1) {
+					if (user.businessObject['stock'] < 1) {
 						return;
 					} else {
-						await db.set(user.userid, 'busbal', user.busbal + 500 * user.busstock)
-						await db.set(user.userid, 'busstock', user.busstock - 1)
+						user.businessObject.bal =user.businessObject.bal + 500 * user.businessObject.stock
+						user.businessObject.stock = user.businessObject.stock-1
+
+
+						await db.set(user.userid, 'businessObject', user.businessObject)
 					}
 
 
