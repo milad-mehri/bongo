@@ -58,6 +58,7 @@ module.exports = {
 					footer: { text: 'discord.gg/yt6PMTZNQh' },
 					fields: [
 						{
+							name: "Leaderboad",
 							value: names,
 							inline: true,
 						},
