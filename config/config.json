@@ -1,8 +1,6 @@
 {
-	"botAdmins": [
-		"248692731163967498"
-	],
+	"botAdmins": ["248692731163967498"],
 	"mongoPath": "mongodb+srv://tutorial:ZAtm0TCQaBaAmnwo@mongodb-tutorial.vbfpr.mongodb.net/test-db?retryWrites=true&w=majority",
 	"prefix": "a.",
-	"token": "Nzk0OTY5MjUwNjUyODgwOTI3.X_Cizw.BZg2zx0xiHyPDObm2j33TBew7Ww"
+	"token": "NzgwOTQzNTc1Mzk0OTQyOTg3.X72cYQ.nvnAwLQT5Mgq5OL-MaTvSHN9n4A"
 }
