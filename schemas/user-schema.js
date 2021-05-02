@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
 		required: false,
 	},
 	busbal: {
-		type:Number,
+		type: Number,
 	},
 	busbal: {
 		type: Number,
@@ -69,6 +69,16 @@ const userSchema = mongoose.Schema({
 	autolottery: {
 		type: Boolean,
 		default: false,
+	},
+	lottery: {
+		enteredlottery: {
+			type: Boolean,
+			default: false
+		},
+		autolottery: {
+			type: Boolean,
+			default: false
+		}
 	},
 	banned: {
 		type: Boolean,

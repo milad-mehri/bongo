@@ -39,11 +39,14 @@ module.exports = {
                 "name": result.business
 
             },
+            lottery : {
+                "enteredlottery": enteredlottery,
+                "autolottery": result.autolottery
+            },
             "bal": result.bal,
             "win": result.win,
             "loss": result.loss,
-            "autolottery": result.autolottery,
-            "enteredlottery": result.enteredlottery,
+        
         }
 
         await userSchema.findOneAndDelete({ userid: message.author.id })
