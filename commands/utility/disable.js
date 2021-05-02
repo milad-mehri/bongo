@@ -15,9 +15,10 @@ module.exports = {
 
 
         var command = message.client.commands.get(args[0].toLowerCase()) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0].toLowerCase()));
+        if (!command) return message.channel.send("This is not a valid command.")
+
         if (["disable", "enable"].includes(command.name)) return embeds.errorEmbed(message, "This command cannot be disabled!")
 
-        if (!command) return message.channel.send("This is not a valid command.")
 
         if (!message.member.hasPermission('ADMINISTRATOR')) {
             return message.reply('You cannot use the **disable** command.');
