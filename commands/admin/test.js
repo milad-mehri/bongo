@@ -11,7 +11,9 @@ module.exports = {
         if (message.author.id !== '248692731163967498') {
             return;
         }
-
+        userSchema.find({ lottery: {enteredlottery : true} }, async function (err, docs) {
+            console.log(docs)
+        })
 
 /*
 
@@ -51,7 +53,11 @@ module.exports = {
 
         await userSchema.findOneAndDelete({ userid: message.author.id })
         await new userSchema(newUser).save()
-        console.log("DONE")*/
+        */
+        
+        
+        
+        console.log("DONE")
     },
 };
 
