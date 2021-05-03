@@ -14,7 +14,8 @@ module.exports = {
 
     async execute(message, args, result) {
         var result = await db.fetch(message.author.id)
-        result.items.donut = result.items.donut - 1
+        if(result.items.shield < 1) return message.channel.send("You don't have any shields...")
+        result.items.shield = result.items.shield - 1
 
         if ((result.rob.invincibleStart + result.rob.invinciblityTime) > Date.now() && args[0].toLowerCase() !== "y") {
             var time = functions.msToString((result.rob.invincibleStart + result.rob.invinciblityTime - Date.now()))
