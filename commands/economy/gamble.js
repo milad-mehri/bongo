@@ -66,7 +66,7 @@ module.exports = {
 				`**You** rolled ${'`' + user + '`'}
 				 **Bongo** rolled: ${'`' + bot + '`'}\n
 				 You won: $${functions.comma(amount)}
-				 You now have: $${functions.comma(parseInt(bal) - parseInt(amount))}`,
+				 You now have: $${functions.comma(parseInt(bal) + parseInt(amount))}`,
 				'green',
 				'discord.gg/yt6PMTZNQh'
 			)
@@ -78,7 +78,7 @@ module.exports = {
 				'You tied...',
 				`**You** rolled ${'`' + user + '`'}
 				 **Bongo** rolled: ${'`' + bot + '`'}\n\n\n
-				 You now have: $${functions.comma(parseInt(bal) - parseInt(amount))}`,
+				 You now have: $${functions.comma(parseInt(bal))}`,
 				'grey',
 				'discord.gg/yt6PMTZNQh'
 			)
