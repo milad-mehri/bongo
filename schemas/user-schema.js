@@ -145,6 +145,11 @@ const userSchema = mongoose.Schema({
 			required: true
 
 		}
+	},
+	lottery:{
+		enteredlottery : Boolean,
+		autolottery : Boolean,
+		
 	}
 
 
