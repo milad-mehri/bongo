@@ -39,7 +39,7 @@ module.exports = {
 
 
 		if (!parseInt(amount)) return embeds.errorEmbed(message, 'You have to say **how much** you want to give.')
-
+		amount = parseInt(amount)
 
 		var giver = message.author;
 		var reciever = message.mentions.users.first();

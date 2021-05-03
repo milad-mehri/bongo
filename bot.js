@@ -131,6 +131,7 @@ client.on('message', async message => {
 	try {
 		if (message.guild) {
 			var result = await db.fetch(message.author.id)
+			if(result.banned) return;
 			var guildResults = await db.fetchguild(message.guild.id)
 			if (guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
 		}
