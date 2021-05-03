@@ -22,17 +22,30 @@ const userSchema = mongoose.Schema({
 		default: false,
 
 	},
-	win: {
-		type: Number,
-		default: 0,
+	gamble: {
+		win: {
+			type: Number,
+			default: 0,
+		},
+		loss: {
+			type: Number,
+			default: 0,
+		},
+		multiplier: {
+			amount: {
+				type: Number,
+				default: 0,
+			},
+			startTime: {
+				type: Number,
+				default: 0,
+			},
+			time: {
+				type: Number,
+				default: 0,
+			}
+		}
 	},
-	loss: {
-		type: Number,
-		default: 0,
-	},
-
-
-
 
 	cooldowns: {
 		type: Object,
@@ -146,11 +159,7 @@ const userSchema = mongoose.Schema({
 
 		}
 	},
-	lottery:{
-		enteredlottery : Boolean,
-		autolottery : Boolean,
-		
-	}
+	lottery: { enteredlottery: Boolean, autolottery: Boolean }
 
 
 })

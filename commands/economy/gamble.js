@@ -34,12 +34,19 @@ module.exports = {
 		if (amount < 50) return embeds.errorEmbed(message, 'You **can\'t gamble less than 50 **poor kid.');
 		if (bal < amount) return embeds.errorEmbed(message, 'You **only have ' + bal + ' coins**, dont try and **lie** to me bro.');
 
-		var bot = Math.floor(Math.random() * 8 + 1);
-		var user = Math.floor(Math.random() * 10 + 1);
+		if (result.gamble.multiplier.startTime + result.gamble.multiplier.time > Date.now() && result.gamble.multiplier.amount > 0) {
+			var multi = result.gamble.multiplier.amount
+		} else {
+			var multi = 0
+		}
+		var bot = Math.floor(Math.random() * (100 - multi ) + 1);
+		var user = Math.floor(Math.random() * 100 + 1);
 
 		if (bot > user) {
 
-			await db.set(message.author.id, 'loss', result.loss + 1)
+			result.gamble.loss = result.gamble.loss + 1
+
+			await db.set(message.author.id, 'gamble', result.gamble)
 			await db.set(message.author.id, 'bal', parseInt(bal) - parseInt(amount))
 
 			return embeds.defaultEmbed(
@@ -47,6 +54,7 @@ module.exports = {
 				'You lost',
 				`**You** rolled ${'`' + user + '`'}
 				 **Bongo** rolled: ${'`' + bot + '`'}\n
+				 **Multiplier**: ${'`' + multi + '%`'}\n
 				 You lost: $${functions.comma(amount)}
 				 You now have: $${functions.comma(parseInt(bal) - parseInt(amount))}`,
 				'red',
@@ -55,8 +63,9 @@ module.exports = {
 
 		} else if (bot < user) {
 
+			result.gamble.win = result.gamble.win + 1
 
-			await db.set(message.author.id, 'win', result.win + 1)
+			await db.set(message.author.id, 'gamble', result.gamble)
 			await db.set(message.author.id, 'bal', parseInt(bal) + parseInt(amount))
 
 
@@ -65,6 +74,7 @@ module.exports = {
 				'You won!',
 				`**You** rolled ${'`' + user + '`'}
 				 **Bongo** rolled: ${'`' + bot + '`'}\n
+				 **Multiplier**: ${'`' + multi + '%`'}\n
 				 You won: $${functions.comma(amount)}
 				 You now have: $${functions.comma(parseInt(bal) + parseInt(amount))}`,
 				'green',
@@ -77,7 +87,8 @@ module.exports = {
 				message,
 				'You tied...',
 				`**You** rolled ${'`' + user + '`'}
-				 **Bongo** rolled: ${'`' + bot + '`'}\n\n\n
+				 **Bongo** rolled: ${'`' + bot + '`'}\n\n
+				 **Multiplier**: ${'`' + multi + '%`'}\n
 				 You now have: $${functions.comma(parseInt(bal))}`,
 				'grey',
 				'discord.gg/yt6PMTZNQh'

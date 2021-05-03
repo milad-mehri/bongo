@@ -17,8 +17,8 @@ module.exports = {
 		if (!message.mentions.users.size) {
 
 			let result = await db.fetch(message.author.id);
-			let win = result.win
-			let loss = result.loss
+			let win = result.gamble.win
+			let loss = result.gamble.loss
 
 
 
@@ -37,9 +37,9 @@ module.exports = {
 		} else {
 			var member = message.mentions.users.first();
 			let result = await db.fetch(member.id);
-			let win = result.win
-			let loss = result.loss
-
+			let win = result.gamble.win
+			let loss = result.gamble.loss
+ 
 
 
 			var total = parseInt(loss) + parseInt(win)
