@@ -5,8 +5,9 @@ const functions = require("..//functions/functions");
 
 module.exports = {
     name: 'spray',
-    displayName: "Peper Spray",
+    displayName: "Pepper Spray",
     inshop: true,
+    aliases: ['pepper', 'sprays', 'peper', 'peppers'],
     emoji: emojis.spray,
     price: 5000,
     description: "Blind your opponent so they can't rob anyone for a while!",
