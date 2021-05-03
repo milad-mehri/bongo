@@ -9,7 +9,7 @@ module.exports = {
     inshop: true,
     emoji: ':four_leaf_clover:',
     price: 7000,
-    description: "Increase your luck while gambling!",
+    description: "Increase your luck while gambling by upto 10%!",
 
     async execute(message, args, result) {
         if (result.gamble.multiplier.startTime + result.gamble.multiplier.time > Date.now() && result.gamble.multiplier.amount > 0) {
