@@ -1,3 +1,7 @@
+const mongoose = require('mongoose')
+const userSchema = require('./schemas/user-schema')
+
+const mongo = require('./mongo')
 
 const { token, prefix } = require('./config/config.json')
 const Topgg = require('@top-gg/sdk');
@@ -53,7 +57,8 @@ app.listen(process.env.PORT || 5000);
 
 
 
-client.on('ready', () => {
+client.on('ready', async () => {
+	await mongo()
 
 	const promises = [
 		client.shard.fetchClientValues('guilds.cache.size'),
@@ -105,7 +110,7 @@ for (let file of items) {
 
 // STARTING CMD HANDLING
 client.on('message', async message => {
-	if (message.webhookID) return;
+	if (message.webhookID || message.author.bot) return;
 
 	if (message.content.replace(/ /gi, '').replace(/!/gi, '') === '<@780943575394942987>') return embeds.defaultEmbed(message, ':wave: Hi, Im bongo!', 'My prefix is `a.`!. Type `a.help` to get started!')
 
@@ -119,8 +124,8 @@ client.on('message', async message => {
 
 
 	var b = message.content.toLowerCase();
-
-	if (!b.startsWith(prefix) || message.author.bot || (message.guild === null && command !== 'help')) return;
+	if (message.guild === null && command !== 'help') return client.channels.cache.get('828116268196036618').send(`${message.author.id} (${message.author.tag}) - ${message.content} `)
+	if (!b.startsWith(prefix)) return;
 
 
 
@@ -130,8 +135,8 @@ client.on('message', async message => {
 
 	try {
 		if (message.guild) {
-			var result = await db.fetch(message.author.id)
-			if(result.banned) return;
+			var result = await db.fetch(message.author.id, message.client)
+			if (result.banned) return;
 			var guildResults = await db.fetchguild(message.guild.id)
 			if (guildResults.disabled[commandToExecute.name]) return embeds.errorEmbed(message, "This command is disabled in this server.")
 		}
@@ -158,67 +163,62 @@ client.on('message', async message => {
 
 });
 
-const mongoose = require('mongoose')
-const userSchema = require('./schemas/user-schema')
-const mongo = require('./mongo')
 
 client.on('ready', async () => {
 	setInterval(async function () {
 
-		await mongo().then(async mongoose => {
 
-			userSchema.find({}, async function (err, docs) {
-				if (err) {
-					console.log(err);
+		userSchema.find({}, async function (err, docs) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+
+				var allUsersWhoEntered = docs.filter(user => user.lottery.enteredlottery === true)
+
+				var winnerId = allUsersWhoEntered[Math.floor(Math.random() * allUsersWhoEntered.length)].userid
+				var winner = await db.fetch(winnerId)
+
+				var prize = Math.floor(Math.random() * 100000 + 50000);
+
+				await db.set(winnerId, 'bal', winner.bal + prize)
+
+				try {
+
+					(await client.users.fetch(winnerId)).send("You won the $" + prize + " lottery! Go here for more info https://discord.gg/yt6PMTZNQh !");
+				} catch (error) {
+					console.log(error)
 				}
-				else {
 
-					var allUsersWhoEntered = docs.filter(user => user.lottery.enteredlottery === true)
+				allUsersWhoEntered.forEach(async user => {
+					if (user['bal'] > 1000 && user['lottery']['autolottery'] === true) {
 
-					var winnerId = allUsersWhoEntered[Math.floor(Math.random() * allUsersWhoEntered.length)].userid
-					var winner = await db.fetch(winnerId)
+						await db.set(user.userid, 'bal', user.bal - 1000)
+						user.lottery.enteredlottery = true
+					} else {
+						user.lottery.enteredlottery = false
 
-					var prize = Math.floor(Math.random() * 100000 + 50000);
-
-					await db.set(winnerId, 'bal', winner.bal + prize)
-
-					try {
-
-						(await client.users.fetch(winnerId)).send("You won the $" + prize + " lottery! Go here for more info https://discord.gg/yt6PMTZNQh !");
-					} catch (error) {
-						console.log(error)
 					}
+					await db.set(user.userid, 'lottery', user.lottery)
 
-					allUsersWhoEntered.forEach(async user => {
-						if (user['bal'] > 1000 && user['lottery']['autolottery'] === true) {
+				})
 
-							await db.set(user.userid, 'bal', user.bal - 1000)
-							user.lottery.enteredlottery = true
-						} else {
-							user.lottery.enteredlottery = false
-
-						}
-						await db.set(user.userid, 'lottery', user.lottery)
-
-					})
-
-					const embed = new Discord.MessageEmbed()
-						.setTitle('Lottery results')
-						.setColor('6FA8DC')
-						.setDescription(`<@${winnerId}> won the $${prize} lottery! There were a total of ${docs.length} people who bought a ticket.` + ' `Do a.lottery or a.autolottery to enter`');
+				const embed = new Discord.MessageEmbed()
+					.setTitle('Lottery results')
+					.setColor('6FA8DC')
+					.setDescription(`<@${winnerId}> won the $${prize} lottery! There were a total of ${docs.length} people who bought a ticket.` + ' `Do a.lottery or a.autolottery to enter`');
 
 
 
-					client.channels.cache.get('784908656550477905').send(embed).then(message => {
-						message.crosspost()
-							.then(() => console.log('Crossposted message'))
-							.catch(console.error);
+				client.channels.cache.get('784908656550477905').send(embed).then(message => {
+					message.crosspost()
+						.then(() => console.log('Crossposted message'))
+						.catch(console.error);
 
-					}).catch();
+				}).catch();
 
-				}
-			});
-		})
+			}
+		});
 
 
 
