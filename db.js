@@ -1,6 +1,4 @@
-const mongo = require('./mongo')
 const userSchema = require('./schemas/user-schema')
-
 const guildSchema = require('./schemas/guild-schema')
 
 const Discord = require("discord.js")
