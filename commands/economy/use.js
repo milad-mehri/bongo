@@ -8,7 +8,6 @@ module.exports = {
 	description: 'Use an item from your inventory',
 	usage: '`a.use <item>`',
 	category: 'economy',
-	cooldown: 5,
 
 	async execute(message, args) {
 		var result = await db.fetch(message.author.id)
