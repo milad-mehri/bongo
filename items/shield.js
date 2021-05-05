@@ -17,7 +17,7 @@ module.exports = {
         if(result.items.shield < 1) return message.channel.send("You don't have any shields...")
         result.items.shield = result.items.shield - 1
 
-        if ((result.rob.invincibleStart + result.rob.invinciblityTime) > Date.now() && args[0].toLowerCase() !== "y") {
+        if ((result.rob.invincibleStart + result.rob.invinciblityTime) > Date.now() && args[0].toLowerCase() !== "f") {
             var time = functions.msToString((result.rob.invincibleStart + result.rob.invinciblityTime - Date.now()))
             var sendMessage = "`a.use shield f`"
             return message.channel.send(`You are already safe for **${time}**.\nBut you can do ${sendMessage} to use your shield!`)

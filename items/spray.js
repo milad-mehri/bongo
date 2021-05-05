@@ -1,7 +1,7 @@
 const db = require("../db")
 const emojis = require('../design/emojis.json')
 const Discord = require('discord.js');
-const functions = require("..//functions/functions");
+const functions = require("../functions/functions");
 
 module.exports = {
     name: 'spray',
@@ -20,6 +20,8 @@ module.exports = {
             return message.channel.send("You can't spray yourself lmao.")
         }
         var result = await db.fetch(message.author.id)
+
+        if(result.items.spray < 1) return message.channel.send("You don't have any pepper spray...") 
 
         result.items.spray = result.items.spray - 1
         await db.set(message.author.id, "items", result.items)
