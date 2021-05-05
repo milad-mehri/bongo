@@ -54,7 +54,7 @@ module.exports = {
 
 
 		if (item.name === 'ball') {
-			if (result.item[item.name] + amount > 50) {
+			if (result.items[item.name] + amount > 50) {
 				return embeds.errorEmbed(message, 'You cant have more than 50 balls!')
 			}
 		}
