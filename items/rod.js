@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'rod',
-    displayName:"Fishing Rod",
+    displayName: "Fishing Rod",
     aliases: ['fishing_rod', 'fishing', 'fishing-rod', 'pole', 'rods', 'poles'],
     cooldown: 10,
     description: 'You can use rods to fish!',
