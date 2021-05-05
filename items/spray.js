@@ -13,15 +13,16 @@ module.exports = {
     description: "Blind your opponent so they can't rob anyone for a while!",
 
     async execute(message, args) {
+        var result = await db.fetch(message.author.id)
+
+        if (result.items.spray < 1) return message.channel.send("You don't have any pepper spray...")
         var target = message.mentions.users.first();
         if (!target) return message.channel.send("You need to **mention** someone.")
 
         if (target === message.author) {
             return message.channel.send("You can't spray yourself lmao.")
         }
-        var result = await db.fetch(message.author.id)
 
-        if (result.items.spray < 1) return message.channel.send("You don't have any pepper spray...")
 
         result.items.spray = result.items.spray - 1
         await db.set(message.author.id, "items", result.items)
