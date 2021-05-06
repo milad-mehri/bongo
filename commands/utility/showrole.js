@@ -1,4 +1,4 @@
-
+const embeds = require('../../functions/embeds')
 const Discord = require('discord.js');
 module.exports = {
     name: 'showrole',
@@ -10,13 +10,13 @@ module.exports = {
     async execute(message, args) {
 
         if (!message.member.hasPermission('MANAGE_MESSAGES') && message.channel.id !== '765580193771028520') {
-            return message.reply('You cannot use the **prune** command.');
+            return message.reply('You cannot use the **show role** command.');
         }
 
-
+        await message.guild.members.fetch()
         let role = message.guild.roles.cache.find(role => role.name === args.join` `);
 
-        if (!role) return message.reply("INVALID ROLE")
+        if (!role) return embeds.errorEmbed(message, "Invalid role!")
         var text = role.members.map(m => m.id + ' - ' + m.user.tag + '\n');
         var string = "";
         var i;
