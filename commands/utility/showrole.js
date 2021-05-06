@@ -8,12 +8,10 @@ module.exports = {
     cooldown: 30,
 
     async execute(message, args) {
-        
-        if(message.author.id !== '248692731163967498') return
 
-        if (!message.member.hasPermission('MANAGE_MESSAGES') && message.channel.id !== '765580193771028520') {
-            return message.reply('You cannot use the **show role** command.');
-        }
+        if (message.author.id !== '248692731163967498') return
+
+
 
         await message.guild.members.fetch()
         let role = message.guild.roles.cache.find(role => role.name === args.join` `);
