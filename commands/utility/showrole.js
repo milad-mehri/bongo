@@ -5,7 +5,7 @@ module.exports = {
     description: 'Purge 1-99 messages from the chat',
     usage: '`a.show <role name>`',
     category: '',
-    cooldown: 30,
+
 
     async execute(message, args) {
 
