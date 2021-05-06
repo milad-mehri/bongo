@@ -4,8 +4,8 @@ module.exports = {
     name: 'showrole',
     description: 'Purge 1-99 messages from the chat',
     usage: '`a.show <role name>`',
-    aliases: ['show', 'role', 'roleinfo'],
     category: 'utility',
+    cooldown: 30,
 
     async execute(message, args) {
 

@@ -5,11 +5,12 @@ module.exports = {
 	description: 'Purge 1-99 messages from the chat',
 	usage: '`a.purge <amount>`',
 	aliases: ['prune', 'clean', 'del'],
-  category: 'utility',
+	category: 'utility',
+
 
 	async execute(message, args) {
 
-		if(['max', 'all'].includes(args[0].toLowerCase())) args[0] = 99
+		if (['max', 'all'].includes(args[0].toLowerCase())) args[0] = 99
 		const amount = parseInt(args[0]);
 
 		if (!message.member.hasPermission('MANAGE_MESSAGES')) {
