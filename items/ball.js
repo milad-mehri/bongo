@@ -11,6 +11,7 @@ module.exports = {
     inshop: true,
     emoji: ':crystal_ball:',
     price: 100000,
+    cooldown: 10,
     description: 'Get 1-500 coins everytime you use your balls.',
 
     async execute(message, args, result) {
