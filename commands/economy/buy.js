@@ -50,11 +50,13 @@ module.exports = {
 
 
 		let bal = result.bal
-		var price = item.price * amount
+		var price = parseInt(item.price * amount)
+
 
 
 		if (item.name === 'ball') {
-			if (result.items[item.name] + amount > 50) {
+			if (result.items[item.name] + parseInt(amount) > 50) {
+				console.log(result.items[item.name] + parseInt(amount))
 				return embeds.errorEmbed(message, 'You cant have more than 50 balls!')
 			}
 		}
