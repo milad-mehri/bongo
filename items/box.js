@@ -25,7 +25,7 @@ module.exports = {
         var donutAmount = Math.floor(Math.random() * (10) + 1) * (amount)
 
         result.items.donut = result.items.donut + donutAmount
-        result.items.box = boxs - 1
+        result.items.box = boxs - parseInt(amount)
 
         await db.set(message.author.id, 'items', result.items)
 
