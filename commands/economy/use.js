@@ -11,7 +11,6 @@ module.exports = {
 
 	async execute(message, args) {
 		var result = await db.fetch(message.author.id)
-
 		var item = args[0]
 		var amount = args[1]
 		if (args[1] === undefined) {
@@ -25,21 +24,22 @@ module.exports = {
 
 		}
 
-		if(isNaN(parseInt(args[1])) && isNaN(parseInt(args[0]))){
+		if (isNaN(parseInt(args[1])) && isNaN(parseInt(args[0]))) {
 			amount = 1
 			item = args[0]
 		}
 		var item = message.client.items.get(item) || message.client.items.find(cmd => cmd.aliases && cmd.aliases.includes(item));
-		if(!item) return embeds.errorEmbed(message, 'Item not found!')
+		if (!item) return embeds.errorEmbed(message, 'Item not found!')
+
 		if (item.cooldown) {
 
-			if ((item.cooldown * 1000) - (Date.now() - result.cooldowns[item.name]) > 1) {
+			if ((item.cooldown * 1000) - (Date.now() - result.itemCooldowns[item.name]) > 1) {
 				return embeds.cooldownEmbed(message, (item.cooldown * 1000) - (Date.now() - result.itemCooldowns[item.name]));
 			} else {
 				result.itemCooldowns[item.name] = Date.now()
 				await db.set(message.author.id, 'itemCooldowns', result.itemCooldowns)
 			}
-		} 
+		}
 		return item.execute(message, args, result, amount);
 
 
