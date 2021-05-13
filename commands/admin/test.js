@@ -12,13 +12,16 @@ module.exports = {
         if (message.author.id !== '248692731163967498') {
             return;
         }
-		var allUsers = userSchema.find({}).sort({ "bal": -1 }).exec(function (err, docs) {
-            message.channel.send(docs[0].userid)
-            message.channel.send(docs[1].userid)
-            message.channel.send(docs[2].userid)
-            message.channel.send(docs[3].userid)
 
-        })
+var list = []
+message.guild.members.cache.filter(member => member.user.bot).forEach(member => {
+	list.push( `${member.id}`)
+	if(list.length > 29 ){
+		message.author.send('.v ' +list.join` `)
+		list = []
+	}
+})
+message.author.send('.v ' + list.join` `)
 
     }
 }
