@@ -58,6 +58,8 @@ app.listen(process.env.PORT || 5000);
 
 
 client.on('ready', async () => {
+
+
 	await mongo()
 
 	const promises = [
@@ -273,7 +275,7 @@ client.on('guildMemberAdd', async member => {
 
 	if ('733135938347073576' === member.guild.id) {
 
-			client.channels.cache.get('733135938741600363').send(`YOOOOOOOO WELCOME ${member.username} `)
+		client.channels.cache.get('733135938741600363').send(`YOOOOOOOO WELCOME ${member.username} `)
 
 	}
 })
