@@ -1,3 +1,5 @@
+[![Discord Bots](https://top.gg/api/widget/780943575394942987.svg)](https://top.gg/bot/780943575394942987)
+
 # Overview
 Bongo is a popular discord bot used by thousands of people.
 Some of the most popular features include:
