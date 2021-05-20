@@ -13,22 +13,22 @@ module.exports = {
     price: 100,
     description: 'Get 1-150 coins per donut!',
 
-    async execute(message, args, result,amount) {
-        
+    async execute(message, args, result, amount) {
+
         let bal = result.bal
         let donuts = result.items.donut
-        if (donuts === null || donuts < 1) return embeds.errorEmbed(message,'You have no donuts to eat.')
-        if (amount > donuts) return embeds.errorEmbed(message,'You dont have that many donuts!')
-        
+        if (donuts === null || donuts < 1) return embeds.errorEmbed(message, 'You have no donuts to eat.')
+        if (amount > donuts) return embeds.errorEmbed(message, 'You dont have that many donuts!')
 
-        
+
+
 
         result.items.donut = donuts - amount
 
         result = await db.set(message.author.id, 'items', result.items);
         var random = Math.floor(Math.random() * (115 - 25 + 1) + 25);
 
-      
+
         var v = 0;
         for (let i = 0; i < amount; i++) {
             random = Math.floor(Math.random() * (115 - 25 + 1) + 25);
