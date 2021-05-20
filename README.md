@@ -1,3 +1,12 @@
+# Overview
+***
+Bongo is a popular discord bot used by thousands of people.
+Some of the most popular features include:
+- Economy commands (businesses, gambling, robbing, etc)
+- Fun commands (typing race, meme, 8 ball, etc)
+- Image manipulation commands (facepalm, trigger, etc) 
+
+
 # Changelog
 **2021-05-01**
 - Fixed all glitches
