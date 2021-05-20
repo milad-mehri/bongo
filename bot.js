@@ -3,7 +3,7 @@ const userSchema = require('./schemas/user-schema')
 
 const mongo = require('./mongo')
 
-const { token, prefix } = require('./config/config.json')
+const {  prefix } = require('./config/config.json')
 const Topgg = require('@top-gg/sdk');
 const webhook = new Topgg.Webhook('test');
 
@@ -80,7 +80,7 @@ client.on('ready', async () => {
 
 })
 
-client.login(token)
+client.login(process.env.token)
 
 client.commands = new Discord.Collection();
 
