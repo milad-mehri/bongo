@@ -34,7 +34,7 @@ module.exports = {
 
 
 
-		embeds.successEmbed(message, ' Successfully **claimed $' + functions.comma(hourly) + '** coins!\n\n You can get **more rewards** by voting for the bot [here.](https://top.gg/bot/780943575394942987/vote)\nor you can vote for the [support server](https://discord.gg/yt6PMTZNQh) [here](https://top.gg/servers/781393539451977769/vote)\n\nYou can do your next hourly in **12 hours**.');
+		embeds.successEmbed(message, ' Successfully **claimed $' + functions.comma(hourly) + '** coins!\n\n You can get **more rewards** by voting for the bot [here.](https://top.gg/bot/780943575394942987/vote)\nor you can vote for the [support server](https://discord.gg/yt6PMTZNQh) [here](https://top.gg/servers/781393539451977769/vote)\n\nYou can do your next hourly in **60 minutes**.');
 
 
 

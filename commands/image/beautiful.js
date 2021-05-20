@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const canvacord = require("canvacord")
 
 
-
 module.exports = {
 	name: 'beautiful',
 	usage: '`a.beautiful (mention)`',

@@ -58,6 +58,8 @@ app.listen(process.env.PORT || 5000);
 
 
 client.on('ready', async () => {
+
+
 	await mongo()
 
 	const promises = [
@@ -165,10 +167,10 @@ client.on('message', async message => {
 
 
 client.on('ready', async () => {
-	setInterval(async function () {
+	setInterval(async function() {
 
 
-		userSchema.find({}, async function (err, docs) {
+		userSchema.find({}, async function(err, docs) {
 			if (err) {
 				console.log(err);
 			}
@@ -232,10 +234,10 @@ client.on('ready', async () => {
 client.on('ready', async () => {
 
 
-	setInterval(async function () {
+	setInterval(async function() {
 		console.log('cycle')
 
-		await userSchema.find({}, async function (err, docs) {
+		await userSchema.find({}, async function(err, docs) {
 
 			var businessUsers = docs.filter(user => ['Fish Shop', "Rare Fish Shop"].includes(user.businessObject.name))
 			if (businessUsers) {
@@ -267,16 +269,20 @@ client.on('ready', async () => {
 
 client.on('guildMemberAdd', async member => {
 	if ('808772193102069802' === member.guild.id) {
-
 		var embed = new Discord.MessageEmbed().setAuthor('Welcome to the ZR Bot server').setDescription('To get started make sure to read the rules in <#809569043454361610> \nIf you would like to add the bot get started [here](https://discord.com/oauth2/authorize?client_id=819285176697356349&permissions=379968&scope=bot%20applications.commands)\n\nIf you\'re having trouble with the bot don\'t hesitate to ask in <#829893631888195604>  \nYou can do `zr help` to get started if you are new to the bot').setFooter('Bongo Bot | discord.gg/yt6PMTZNQh')
-
 		member.send(embed)
+	}
+
+	if ('733135938347073576' === member.guild.id) {
+
+		client.channels.cache.get('733135938741600363').send(`YOOOOOOOO WELCOME ${member.username} `)
+
 	}
 })
 
 
 client.snipes = new Map()
-client.on('messageDelete', function (message, channel) {
+client.on('messageDelete', function(message, channel) {
 	client.snipes.set(message.channel.id, {
 		content: message.content,
 		author: message.author,
