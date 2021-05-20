@@ -5,7 +5,7 @@ Some of the most popular features include:
 - Fun commands (typing race, meme, 8 ball, etc)
 - Image manipulation commands (facepalm, trigger, etc) 
 
-[Add the bot!](https://ptb.discord.com/api/oauth2/authorize?client_id=780943575394942987&permissions=1074129990&scope=bot) 
+[Add the bot!](https://ptb.discord.com/api/oauth2/authorize?client_id=780943575394942987&permissions=1074129990&scope=bot) \n
 [Join the support server](https://discord.gg/yt6PMTZNQh)
 
 # Changelog
