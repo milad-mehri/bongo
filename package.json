@@ -9,7 +9,8 @@
     "discord.js": "^12.5.3",
     "express": "^4.17.1",
     "got": "^11.8.2",
-    "mongoose": "^5.12.7"
+    "mongoose": "^5.12.7",
+    "statcord.js": "^3.2.0"
   },
   "devDependencies": {},
   "repository": {

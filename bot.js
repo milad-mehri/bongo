@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const userSchema = require('./schemas/user-schema')
+const Statcord = require("statcord.js");
 
 const mongo = require('./mongo')
 
-const {  prefix } = require('./config/config.json')
+const { prefix } = require('./config/config.json')
 const Topgg = require('@top-gg/sdk');
 const webhook = new Topgg.Webhook('test');
 
@@ -18,6 +19,13 @@ const client = new Discord.Client
 const express = require('express');
 const app = express();
 
+const statcord = new Statcord.Client({
+	client,
+	key: process.env.statcord,
+	postCpuStatistics: false, /* Whether to post memory statistics or not, defaults to true */
+	postMemStatistics: false, /* Whether to post memory statistics or not, defaults to true */
+	postNetworkStatistics: false, /* Whether to post memory statistics or not, defaults to true */
+});
 
 app.get("/", (req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -59,7 +67,7 @@ app.listen(process.env.PORT || 5000);
 
 client.on('ready', async () => {
 
-
+	statcord.autopost();
 	await mongo()
 
 	const promises = [
@@ -155,6 +163,7 @@ client.on('message', async message => {
 		//snipes
 		var snipes = client.snipes
 
+		statcord.postCommand(command, message.author.id);
 
 		commandToExecute.execute(message, args, snipes, client);
 	} catch (error) {
@@ -167,10 +176,10 @@ client.on('message', async message => {
 
 
 client.on('ready', async () => {
-	setInterval(async function() {
+	setInterval(async function () {
 
 
-		userSchema.find({}, async function(err, docs) {
+		userSchema.find({}, async function (err, docs) {
 			if (err) {
 				console.log(err);
 			}
@@ -234,10 +243,10 @@ client.on('ready', async () => {
 client.on('ready', async () => {
 
 
-	setInterval(async function() {
+	setInterval(async function () {
 		console.log('cycle')
 
-		await userSchema.find({}, async function(err, docs) {
+		await userSchema.find({}, async function (err, docs) {
 
 			var businessUsers = docs.filter(user => ['Fish Shop', "Rare Fish Shop"].includes(user.businessObject.name))
 			if (businessUsers) {
@@ -282,10 +291,22 @@ client.on('guildMemberAdd', async member => {
 
 
 client.snipes = new Map()
-client.on('messageDelete', function(message, channel) {
+client.on('messageDelete', function (message, channel) {
 	client.snipes.set(message.channel.id, {
 		content: message.content,
 		author: message.author,
 		image: message.attachments.first() ? message.attachments.first().proxyURL : null
 	})
+});
+
+statcord.on("autopost-start", () => {
+	// Emitted when statcord autopost starts
+	console.log("Started autopost");
+});
+
+statcord.on("post", status => {
+	// status = false if the post was successful
+	// status = "Error message" or status = Error if there was an error
+	if (!status) console.log("Successful post");
+	else console.error(status);
 });
