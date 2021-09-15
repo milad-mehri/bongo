@@ -1,5 +1,4 @@
 const { inspect } = require('util');
-const db = require('../../db.js');
 
 const Discord = require('discord.js');
 
@@ -30,7 +29,7 @@ module.exports = {
 
 
 
-		let evaled;
+		var evaled;
 		try {
 			evaled = await eval(args.join(' '));
 			// message.channel.send(inspect(evaled));
